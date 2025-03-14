@@ -1,0 +1,18 @@
+{
+    "name": "calorie_tracker",
+    "description": "Project to work with node/express and also to help my future diet-related efforts",
+    "version": "1.0.0",
+    "author": "Jayden Briffa",
+    "scripts": {
+        "start": "node server.js",
+        "resetdb": "node migration.js && node seed.js",
+        "restart": "node migration.js && node seed.js && node server.js"
+    },
+
+    "dependencies": {
+        "express": "",
+        "cors": "",
+        "morgan": "",
+        "sqlite3": ""
+    }
+}
