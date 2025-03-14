@@ -1,3 +1,25 @@
-.App {
-  text-align: center;
+:root{
+  /* COLORS */
+  --PINK: #B6174B;
+  --BLUE: #9EE0FF;
+  --BRIGHT-BLUE: #49FFFF;
+
+  /* Backgrounds */
+  --COLOR-HEADER-FOOTER: var(--PINK);
+
+  /* Text */
+  --COLOR-TEXT-HIGHLIGHT: var(--BRIGHT-BLUE);
+  --COLOR-TEXT-LIGHT: whitesmoke;
+  --COLOR-TEXT-DARK: black;
+}
+
+/* UTILITY CLASSES */
+.bg-pink{
+  background-color: var(--PINK);
+  color: var(--COLOR-TEXT-LIGHT);
+}
+
+/* GENERAL CLASSES */
+.page{
+  height: 88vh;
 }

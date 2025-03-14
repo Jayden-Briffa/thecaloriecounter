@@ -1,0 +1,8 @@
+.header{
+    height: 7vh;
+}
+
+.active{
+    color: var(--BRIGHT-BLUE);
+    font-weight: bold;
+}
