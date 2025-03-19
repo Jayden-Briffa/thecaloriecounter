@@ -1,6 +1,4 @@
-//import logo from '../logo.svg';
 import React from 'react';
-import '../styles/Footer.css'
 
 function Footer() {
   return (

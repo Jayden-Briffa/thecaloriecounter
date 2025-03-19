@@ -37,7 +37,7 @@ foodRouter.get('/:foodId', (req, res, next) => {
 
 foodRouter.post('/', (req, res, next) => {
     const food = req.body
-    db.run(`INSERT INTO Foods (name, amount, units, kcal) VALUES(?, ?, ?, ?)`, [food.name, food.amount, food.units, food.kcal], function (err){
+    db.run(`INSERT INTO Foods (name, quantity, units, added_by, kcal) VALUES(?, ?, ?, ?, ?)`, [food.name, food.quantity, food.units, 'user', food.kcal], function (err){
         if (err){
             return next(err);
         }
@@ -47,16 +47,16 @@ foodRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json(row);
+            return res.status(201).json({Food: row});
         })
     })
 })
 
 foodRouter.put('/:foodId', (req, res, next) => {
     const food = req.body
-    db.run(`UPDATE Foods SET name = ?, amount = ?, units = ?, kcal = ? WHERE id = ?`, [
+    db.run(`UPDATE Foods SET name = ?, quantity = ?, units = ?, kcal = ? WHERE id = ?`, [
         food.name, 
-        food.amount, 
+        food.quantity, 
         food.units, 
         food.kcal, 
         req.params.foodId
@@ -71,7 +71,7 @@ foodRouter.put('/:foodId', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json(row);
+            return res.status(201).json({Food: row});
         })
     })
 })

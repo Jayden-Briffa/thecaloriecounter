@@ -1,7 +1,5 @@
-//import logo from '../logo.svg';
 import React from 'react';
 import '../styles/DashboardPage.css'
-//import { Link } from 'react-router-dom';
 
 function Home() {
   return (

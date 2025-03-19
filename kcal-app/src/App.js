@@ -4,11 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import DashboardPage from "./components/DashboardPage";
-import MyfoodsPage from "./components/MyfoodsPage";
-import TodayPage from "./components/TodayPage";
-import Footer from './components/Footer';
+import Header from "./containers/Header";
+import DashboardPage from "./containers/DashboardPage";
+import MyfoodsPage from "./containers/MyfoodsPage";
+import TodayPage from "./containers/TodayPage";
+import Footer from './containers/Footer';
 
 function App() {
   return (

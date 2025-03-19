@@ -3,6 +3,8 @@
 ## General information
 This is the backend to my calorie counting application. It has been made with node, Express, and sqlite to facilitate CRUD operations related to foods and foods consumed by users
 
+A 'public' folder is included to test the API's basic functionality with simple forms
+
 ---
 ## Functionality
 + Be able to store information about items consumed

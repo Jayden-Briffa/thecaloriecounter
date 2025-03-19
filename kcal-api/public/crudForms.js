@@ -26,7 +26,7 @@ postForm.addEventListener('submit', async event => {
     event.preventDefault();
     const endpoint = document.getElementById('post-endpoint').value;
     const name = document.getElementById('post-name').value;
-    const amount = document.getElementById('post-amount').value;
+    const quantity = document.getElementById('post-quantity').value;
     const units = document.getElementById('post-units').value;
     const kcal = document.getElementById('post-kcal').value;
     const foodId = document.getElementById('post-food-id').value;
@@ -39,11 +39,11 @@ postForm.addEventListener('submit', async event => {
         },
         body: JSON.stringify({
             name: name,
-            amount: amount, 
+            quantity: quantity, 
             units: units,
             kcal: kcal,
             foodId: foodId,
-            dateConsumed: dateConsumed
+            dateConsumed: date_consumed
         })
     });
 
@@ -62,7 +62,7 @@ putForm.addEventListener('submit', async event => {
     event.preventDefault();
     const endpoint = document.getElementById('put-endpoint').value;
     const name = document.getElementById('put-name').value;
-    const amount = document.getElementById('put-amount').value;
+    const quantity = document.getElementById('put-quantity').value;
     const units = document.getElementById('put-units').value;
     const kcal = document.getElementById('put-kcal').value;
     const foodId = document.getElementById('put-food-id').value;
@@ -75,7 +75,7 @@ putForm.addEventListener('submit', async event => {
         },
         body: JSON.stringify({
             name: name,
-            amount: amount, 
+            quantity: quantity, 
             units: units,
             kcal: kcal,
             foodId: foodId,

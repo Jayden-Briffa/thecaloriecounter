@@ -38,9 +38,9 @@ consumedRouter.get('/:consumedId', (req, res, next) => {
 consumedRouter.post('/', (req, res, next) => {
     const food = req.body
     console.log(food);
-    db.run(`INSERT INTO Consumed_Foods (food_id, amount, date_consumed) VALUES(?, ?, ?)`, [
+    db.run(`INSERT INTO Consumed_Foods (food_id, quantity, date_consumed) VALUES(?, ?, ?)`, [
         food.foodId, 
-        food.amount, 
+        food.quantity, 
         food.dateConsumed
     ], 
     
@@ -62,9 +62,9 @@ consumedRouter.post('/', (req, res, next) => {
 consumedRouter.put('/:consumedId', (req, res, next) => {
     const food = req.body
     console.log(food);
-    db.run(`UPDATE Consumed_Foods SET food_id = ?, amount = ?, date_consumed = ? WHERE id = ?`, [
+    db.run(`UPDATE Consumed_Foods SET food_id = ?, quantity = ?, date_consumed = ? WHERE id = ?`, [
         food.foodId, 
-        food.amount,
+        food.quantity,
         food.dateConsumed, 
         req.params.consumedId
     ], 

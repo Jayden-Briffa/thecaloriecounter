@@ -8,9 +8,10 @@ db.serialize(() => {
     db.run(`CREATE TABLE Foods (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name TEXT NOT NULL,
-        amount FLOAT NOT NULL,
+        quantity FLOAT NOT NULL,
         units TEXT NOT NULL,
         kcal TEXT NOT NULL,
+        added_by TEXT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 
@@ -18,7 +19,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE Consumed_Foods (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         food_id INT NOT NULL,
-        amount FLOAT NOT NULL,
+        quantity FLOAT NOT NULL,
         date_consumed TEXT NOT NULL,
         FOREIGN KEY (food_id) REFERENCES Foods(id)
     )`);
