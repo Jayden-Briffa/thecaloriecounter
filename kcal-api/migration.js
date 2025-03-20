@@ -25,8 +25,8 @@ db.serialize(() => {
         FOREIGN KEY (food_id) REFERENCES Foods(id)
     )`);
 
-    db.run("DROP TABLE IF EXISTS Daily_Kcal");
-    db.run(`CREATE TABLE Daily_Kcal (
+    db.run("DROP TABLE IF EXISTS Kcal_Logs");
+    db.run(`CREATE TABLE Kcal_Logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         kcal INT NOT NULL,
         date TEXT NOT NULL
