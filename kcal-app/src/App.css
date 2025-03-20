@@ -61,6 +61,7 @@
   padding: var(--PADDING-PAGE);
 }
 
-input.form-control{
+input.form-control,
+select.form-control {
   border-color: var(--PINK)
 }

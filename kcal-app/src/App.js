@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./containers/Header";
 import DashboardPage from "./containers/DashboardPage";
 import MyFoodsPage from "./containers/MyFoodsPage";
-import TodayPage from "./containers/TodayPage";
+import TodaysFoodsPage from "./containers/TodaysFoodsPage";
 import Footer from './containers/Footer';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Routes>
             <Route exact path="/dashboard" element={<DashboardPage />} />
             <Route path="/myfoods" element={<MyFoodsPage />} />
-            <Route path="/today" element={<TodayPage />} />
+            <Route path="/today" element={<TodaysFoodsPage />} />
         </Routes>
 
         <Footer />

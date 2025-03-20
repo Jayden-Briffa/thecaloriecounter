@@ -20,7 +20,15 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         food_id INT NOT NULL,
         quantity FLOAT NOT NULL,
+        kcal INT NOT NULL,
         date_consumed TEXT NOT NULL,
         FOREIGN KEY (food_id) REFERENCES Foods(id)
+    )`);
+
+    db.run("DROP TABLE IF EXISTS Daily_Kcal");
+    db.run(`CREATE TABLE Daily_Kcal (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        kcal INT NOT NULL,
+        date TEXT NOT NULL
     )`);
 })

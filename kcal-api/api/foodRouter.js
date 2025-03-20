@@ -47,7 +47,7 @@ foodRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Food: row});
+            return res.status(201).json({Foods: row});
         })
     })
 })
@@ -71,7 +71,7 @@ foodRouter.put('/:foodId', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Food: row});
+            return res.status(201).json({Foods: row});
         })
     })
 })

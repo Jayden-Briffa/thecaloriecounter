@@ -3,6 +3,7 @@ import '../styles/MyFoodsTable.css';
 import MyFoodsTableHeaders from '../components/MyFoodsTableHeaders';
 import MyFoodsTableForm from '../components/MyFoodsTableForm';
 import MyFoodsTableRows from './MyFoodsTableRows';
+import postFoods from '../services/postFoods';
 
 function MyFoodTable(props) {
 
@@ -11,6 +12,7 @@ function MyFoodTable(props) {
   async function submitHandler(event){
     event.preventDefault();
 
+    // All data entered by the user
     const formData = {
       name: document.getElementById("InputNewFoodName").value,
       quantity: document.getElementById("InputNewFoodQuantity").value,
@@ -19,23 +21,7 @@ function MyFoodTable(props) {
     };
     
     // Sets and returns the new Foods record
-    const response = await fetch('http://localhost:4001/api/foods', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      // Send each part of the form as the body
-      body: JSON.stringify({
-        name: formData['name'],
-        quantity: formData['quantity'], 
-        units: formData['units'],
-        kcal: formData['kcal'],
-      })
-    });
-
-    const jsonResponse = await response.json();
-    const newFood = jsonResponse['Food'];
+    const newFood = await postFoods(formData);
 
     setUserFoods(prev => [...prev, newFood]);
   }

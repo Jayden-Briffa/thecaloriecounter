@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MyFoodsTable from './MyFoodsTable'
+import getFoods from '../services/getFoods';
 
 function MyFoodsTableOutput() {
 
@@ -7,27 +8,18 @@ function MyFoodsTableOutput() {
   const [isLoading, setIsLoading] = useState(true);
   const [userFoods, setUserFoods] = useState(null);
 
-  // Execute only when the component is 
+  // Get initial data only when the component is mounted
   useEffect(() => {
-    async function getFoods(){
-      try {
-        // Get a response from the API and translate to JSON
-        const response = await fetch(`http://localhost:4001/api/foods`);
-        const jsonResponse = await response.json();
+    async function fetchFoods(){
 
-        // Set userFoods state
-        setUserFoods(jsonResponse['Foods']);
-        setIsLoading(false)
-        console.log(jsonResponse)
-      }
-      
-      catch (error){
-        console.log("MyFoodsTableOutput ERROR: ", error)
-      } 
+      // Set initial userFoods state then set loading to false
+      const newUserFoods = await getFoods()
+      setUserFoods(newUserFoods['Foods']);
+      setIsLoading(false)
     
     }
 
-    getFoods();
+    fetchFoods();
   }, []);
 
 

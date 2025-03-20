@@ -38,9 +38,10 @@ consumedRouter.get('/:consumedId', (req, res, next) => {
 consumedRouter.post('/', (req, res, next) => {
     const food = req.body
     console.log(food);
-    db.run(`INSERT INTO Consumed_Foods (food_id, quantity, date_consumed) VALUES(?, ?, ?)`, [
+    db.run(`INSERT INTO Consumed_Foods (food_id, quantity, kcal, date_consumed) VALUES(?, ?, ?, ?)`, [
         food.foodId, 
         food.quantity, 
+        food.kcal,
         food.dateConsumed
     ], 
     
@@ -54,17 +55,18 @@ consumedRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json(row);
+            return res.status(201).json({Foods: row});
         })
     })
 })
 
 consumedRouter.put('/:consumedId', (req, res, next) => {
     const food = req.body
-    console.log(food);
-    db.run(`UPDATE Consumed_Foods SET food_id = ?, quantity = ?, date_consumed = ? WHERE id = ?`, [
+
+    db.run(`UPDATE Consumed_Foods SET food_id = ?, quantity = ?, kcal = ? date_consumed = ? WHERE id = ?`, [
         food.foodId, 
         food.quantity,
+        food.kcal,
         food.dateConsumed, 
         req.params.consumedId
     ], 
