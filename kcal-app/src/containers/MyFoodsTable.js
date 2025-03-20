@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import '../styles/MyFoodsTable.css';
 import MyFoodsTableHeaders from '../components/MyFoodsTableHeaders';
 import MyFoodsTableForm from '../components/MyFoodsTableForm';
 import MyFoodsTableRows from './MyFoodsTableRows';
@@ -37,14 +38,13 @@ function MyFoodTable(props) {
     const newFood = jsonResponse['Food'];
 
     setUserFoods(prev => [...prev, newFood]);
-    console.log(userFoods);
   }
 
   return (
-    <section id="my-foods-table">
+    <section className="d-flex flex-column text-center border-pink rounded rounded-5 lh-sm" id="my-foods-table">
       <MyFoodsTableHeaders />
       <MyFoodsTableForm submitHandler={submitHandler} />
-      <MyFoodsTableRows userFoods={userFoods} />
+      <MyFoodsTableRows userFoods={userFoods} setUserFoods={setUserFoods} />
     </section >
   );
 }

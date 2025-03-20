@@ -1,24 +1,47 @@
 import React from 'react';
 
 function MyFoodTableHeaders() {
+  const firstCellClass = 'col-4 border-top-0 border-start-0 py-2';
+  const lastCellClass = 'col-2 border-top-0 border-end-0 py-2';
+
   return (
-    <div className="row">
-      <div className="col">
-        Name
+    <>
+      <div className="row g-0 fs-4 d-none d-md-flex">
+        <div className={firstCellClass}>
+          Name
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Quantity
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Units
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Kcal
+        </div>
+        <div className={lastCellClass}>
+          Options
+        </div>
       </div>
-      <div className="col">
-        Quantity
+
+      {/* Show only on mobile */}
+      <div className="row g-0 fs-4 d-md-none">
+        <div className={firstCellClass}>
+          Name
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Qty
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Units
+        </div>
+        <div className="col-2 border-top-0 py-2">
+          Kcal
+        </div>
+        <div className={lastCellClass}>
+        </div>
       </div>
-      <div className="col">
-        Units
-      </div>
-      <div className="col">
-        Kcal
-      </div>
-      <div className="col">
-        Options
-      </div>
-    </div>
+    </>
   );
 }
 

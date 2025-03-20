@@ -1,0 +1,18 @@
+/* Every cell */
+#my-foods-table div div {
+    border: 1px solid var(--PINK);
+}
+
+#my-foods-table div div:first-child,
+#my-foods-table form div:first-child {
+    border-left: none;
+}
+
+#my-foods-table div div:last-child,
+#my-foods-table form div:last-child {
+    border-right: none;
+}
+
+#my-foods-table:last-child div{
+    border-bottom: none;
+}

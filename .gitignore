@@ -20,4 +20,4 @@ yarn-error.log*
 Thumbs.db
 
 # Other
-.sqlite
+kcal-api/database.sqlite

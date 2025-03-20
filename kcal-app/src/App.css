@@ -11,6 +11,37 @@
   --COLOR-TEXT-HIGHLIGHT: var(--BRIGHT-BLUE);
   --COLOR-TEXT-LIGHT: whitesmoke;
   --COLOR-TEXT-DARK: black;
+
+  /* SPACING */
+  --PADDING-PAGE-TOPBOTTOM: 5vh;
+  --PADDING-PAGE-LEFTRIGHT: 20vw;
+
+  --PADDING-PAGE:  var(--PADDING-PAGE-TOPBOTTOM) var(--PADDING-PAGE-LEFTRIGHT);
+  
+}
+
+/* FOR MOBILE DEVICES */
+@media only screen and (max-width: 767px){
+
+}
+
+/* FOR MOBILE AND TABLET DEVICES */
+@media only screen and (max-width: 1024px){
+    :root{
+        --PADDING-PAGE-LEFTRIGHT: 5vw;
+    }
+}
+
+/* FOR TABLET DEVICES */
+@media only screen and (min-width: 768px) and (max-width: 1023px){
+
+}
+
+/* FOR DESKTOP DEVICES */
+@media only screen and (min-width: 1024px){
+    :root{
+        --PADDING-NAV: 0 5vw;
+    }
 }
 
 /* UTILITY CLASSES */
@@ -19,7 +50,17 @@
   color: var(--COLOR-TEXT-LIGHT);
 }
 
-/* GENERAL CLASSES */
+.border-pink{
+  border: 4px solid var(--PINK);
+}
+
+/* GENERAL SELECTORS */
 .page{
   height: 88vh;
+  text-align: center;
+  padding: var(--PADDING-PAGE);
+}
+
+input.form-control{
+  border-color: var(--PINK)
 }

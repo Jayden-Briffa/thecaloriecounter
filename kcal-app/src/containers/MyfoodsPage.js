@@ -1,15 +1,15 @@
 import React from 'react';
 import MyFoodsOutput from './MyFoodsOutput';
 
-function Home() {
+function MyFoodsPage() {
 
   return (
     <section className="page">
-      <h1>This is the My foods page!</h1>
+      <h1 className="mb-5">My Foods</h1>
 
       <MyFoodsOutput />
     </section>
   );
 }
 
-export default Home;
+export default MyFoodsPage;
