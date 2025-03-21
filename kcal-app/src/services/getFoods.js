@@ -2,7 +2,7 @@
 export default async function getFoods(foodId = null){
 
     try{
-        let url = `http://localhost:4001/api/foods`;
+        let url = `http://localhost:4001/api/foods?orderedBy=name`;
     
         if (foodId){
             url += `/${foodId}`;
@@ -12,7 +12,7 @@ export default async function getFoods(foodId = null){
         const response = await fetch(url);
         const jsonResponse = await response.json();
 
-        //console.log(jsonResponse)
+        console.log("FOODS: ", jsonResponse)
         return jsonResponse;
 
     } catch (error){

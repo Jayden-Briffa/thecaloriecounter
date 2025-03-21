@@ -7,6 +7,7 @@ const db = new sqlite3.Database(path.join(__dirname, '..', 'database.sqlite'));
 
 
 kcalRouter.get('/', (req, res, next) => {
+
     // Get the kcal log associated with the given date
     if (req.query.date){
         return db.get(`SELECT * FROM Kcal_Logs WHERE date = ?`, [req.query.date], (err, row) => {
@@ -17,9 +18,20 @@ kcalRouter.get('/', (req, res, next) => {
             return res.status(200).json({Logs: row})
         })
 
+        // Get average kcal between the given dates
+    } else if (req.query.getAvg){
+        return db.get(`SELECT avg(kcal) as average_kcal FROM Kcal_Logs WHERE date BETWEEN ? AND ?`, [req.query.start, req.query.end], (err, row) => {
+            if (err){ 
+                return next(err);
+            }
+
+            return res.status(200).json({Kcal: row})
+        })
+
         // Get all kcal logs between the given dates 
     } else if (req.query.start && req.query.end){
-        return db.all(`SELECT * FROM Kcal_Logs WHERE date BETWEEN ? AND ?`, [req.query.start, req.query.end], (err, rows) => {
+
+        return db.all(`SELECT * FROM Kcal_Logs WHERE date BETWEEN ? AND ? ORDER BY date`, [req.query.start, req.query.end], (err, rows) => {
             if (err){
                 return next(err);
             };

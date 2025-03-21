@@ -23,18 +23,17 @@ function TodaysFoodsTable(props) {
     const foodData = props.allFoods.find((food) => food.id === Number(selectedFoodId));
     setSelectedFoodData(foodData)
 
-  }, [selectedFoodId])
+  }, [selectedFoodId, props.allFoods])
 
   // Recalculate kcal whenever the quantity or selected food changes
   useEffect(() => {
     
     if (quantityVal && selectedFoodId && selectedFoodData){
-      console.log(selectedFoodData);
       const newKcal = selectedFoodData.kcal / selectedFoodData.quantity * quantityVal
       setKcalVal(Math.floor(newKcal));
     }
     
-  }, [quantityVal, selectedFoodId]);
+  }, [quantityVal, selectedFoodId, selectedFoodData]);
 
   // Recalculate totalKcal whenever consumedFoods is updated
   useEffect(() => {

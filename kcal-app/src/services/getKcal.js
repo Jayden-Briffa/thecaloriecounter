@@ -7,6 +7,9 @@ export default async function getKcal({date = null, start=null, end=null}){
 
         if (date){
             query = `?date=${date}`
+
+        } else if (start && end){
+            query = `?start=${start}&end=${end}`
         }
 
         // Get a response from the API and translate to JSON

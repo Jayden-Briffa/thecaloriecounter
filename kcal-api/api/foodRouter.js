@@ -5,8 +5,20 @@ const path = require('path');
 const foodRouter = express.Router();
 const db = new sqlite3.Database(path.join(__dirname, '..', 'database.sqlite'));
 
+// Get all foods
 foodRouter.get('/', (req, res, next) => {
-    db.all(`SELECT * FROM Foods`, (err, rows) => {
+    const validFields = ['id', 'name', 'quantity', 'units', 'kcal', 'created_at'];
+    let orderedBy = 'id';
+
+    if (validFields.includes(req.query.orderedBy)){
+        orderedBy = req.query.orderedBy;
+
+        // If orderedBy was given but is invalid
+    } else if (req.query.orderedBy){
+        return next(new Error(`Cannot order by field ${req.query.orderedBy}`))
+    }
+    
+    db.all(`SELECT * FROM Foods ORDER BY ${orderedBy}`, (err, rows) => {
         if (err){
             return next(err);
         };
