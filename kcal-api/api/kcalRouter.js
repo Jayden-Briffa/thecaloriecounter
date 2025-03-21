@@ -5,31 +5,42 @@ const path = require('path');
 const kcalRouter = express.Router();
 const db = new sqlite3.Database(path.join(__dirname, '..', 'database.sqlite'));
 
-// Get all kcal logs
+
 kcalRouter.get('/', (req, res, next) => {
-    db.all(`SELECT * FROM Kcal_Logs`, (err, rows) => {
+    // Get the kcal log associated with the given date
+    if (req.query.date){
+        return db.get(`SELECT * FROM Kcal_Logs WHERE date = ?`, [req.query.date], (err, row) => {
+            if (err){
+                return next(err);
+            }
+
+            return res.status(200).json({Logs: row})
+        })
+
+        // Get all kcal logs between the given dates 
+    } else if (req.query.start && req.query.end){
+        return db.all(`SELECT * FROM Kcal_Logs WHERE date BETWEEN ? AND ?`, [req.query.start, req.query.end], (err, rows) => {
+            if (err){
+                return next(err);
+            };
+
+            return res.status(200).json({Logs : rows})
+        });
+    }
+
+    // Get all kcal logs
+    return db.all(`SELECT * FROM Kcal_Logs`, (err, rows) => {
         if (err){
             return next(err);
         };
 
-        return res.status(200).json({Kcals : rows})
-    });
+        return res.status(200).json({Logs : rows})
+});
+
 })
 
-// Get all kcal logs between the specified dates 
-kcalRouter.get('/', (req, res, next) => {
-    
-    db.all(`SELECT * FROM Kcal_Logs WHERE date BETWEEN ? AND ?`, [req.query.start, req.query.end], (err, rows) => {
-        if (err){
-            return next(err);
-        };
-
-        return res.status(200).json({Kcals : rows})
-    });
-})
-
-kcalRouter.param('kcalId', (req, res, next) => {
-    const id = req.params.kcalId
+kcalRouter.param('logId', (req, res, next) => {
+    const id = req.params.logId
     db.get(`SELECT * FROM Kcal_Logs WHERE id = ?`, [id], (err, row) => {
         if (err){
             return next(err);
@@ -44,7 +55,7 @@ kcalRouter.param('kcalId', (req, res, next) => {
     });
 })
 
-kcalRouter.get('/:kcalId', (req, res, next) => {
+kcalRouter.get('/:logId', (req, res, next) => {
     return res.status(200).json(req.foodItem);
 })
 
@@ -60,35 +71,34 @@ kcalRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Kcals: row});
+            return res.status(201).json({Logs: row});
         })
     })
 })
 
-kcalRouter.put('/:kcalId', (req, res, next) => {
+kcalRouter.put('/:logId', (req, res, next) => {
     const log = req.body
-    db.run(`UPDATE Kcal_Logs SET kcal = ?, date = ?`, [
+    db.run(`UPDATE Kcal_Logs SET kcal = ? WHERE id = ?`, [
         log.kcal, 
-        log.date, 
-        req.params.kcalId
+        req.params.logId
     ], 
         function (err){
         if (err){
             return next(err);
         }
 
-        db.get(`SELECT * FROM Kcal_Logs WHERE id = ?`, [req.params.kcalId], (err, row) => {
+        db.get(`SELECT * FROM Kcal_Logs WHERE id = ?`, [req.params.logId], (err, row) => {
             if (err){
                 return next(err);
             }
 
-            return res.status(201).json({Kcals: row});
+            return res.status(201).json({Logs: row});
         })
     })
 })
 
-kcalRouter.delete('/:kcalId', (req, res, next) => {
-    db.run(`DELETE FROM Kcal_Logs WHERE id = ?`, [req.params.kcalId], (err) => {
+kcalRouter.delete('/:logId', (req, res, next) => {
+    db.run(`DELETE FROM Kcal_Logs WHERE id = ?`, [req.params.logId], (err) => {
         if (err){
             return next(err);
         }

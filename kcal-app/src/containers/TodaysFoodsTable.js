@@ -3,7 +3,10 @@ import '../styles/TodaysFoodsTable.css';
 import TodaysFoodsTableHeaders from '../components/TodaysFoodsTableHeaders';
 import TodaysFoodsTableForm from '../components/TodaysFoodsTableForm';
 import TodaysFoodsTableRows from './TodaysFoodsTableRows';
+import TotalKcalForm from '../components/TotalKcalForm';
 import postConsumed from '../services/postConsumed';
+import extractDate from '../utils/extractDate';
+import submitKcal from '../services/submitKcal';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -13,6 +16,7 @@ function TodaysFoodsTable(props) {
   const [selectedFoodId, setSelectedFoodId] = useState(null);
   const [selectedFoodData, setSelectedFoodData] = useState(null);
   const [totalKcal, setTotalKcal] = useState(0);
+  const [logDate, setLogDate] = useState(extractDate(new Date()));
 
   // Set selectedFoodData only when the selectedFoodId changes
   useEffect(() => {
@@ -54,13 +58,17 @@ function TodaysFoodsTable(props) {
     setQuantityVal(event.target.value)
   }
 
+  function dateChangeHandler(event){
+    setLogDate(event.target.value)
+  }
+
   // Send a POST request to /consumed on submit
-  async function submitHandler(event){
+  async function submitFoodHandler(event){
     event.preventDefault();
 
     // Get the current date/time, turn into JSON, and...
     //... remove everything but the date
-    const currDate = new Date().toJSON().slice(0, 10)
+    const currDate = extractDate(new Date())
 
     // Store all entered data to pass as request body
     const bodyData = {
@@ -76,15 +84,24 @@ function TodaysFoodsTable(props) {
     props.setConsumedFoods(prev => [...prev, newConsumedFood]);
   };
 
+  async function submitKcalHandler(event){
+    event.preventDefault();
+
+    const newLog = await submitKcal({date: logDate, kcal: totalKcal});
+    console.log(newLog)
+  }
+  
   return (
     <>
       <section className="d-flex flex-column text-center border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders />
-        <TodaysFoodsTableForm submitHandler={submitHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} />
+        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
       </section>
 
-      <p className='mt-3 fs-3'>You have eaten <span className='fs-2'>{totalKcal}</span> calories today</p>
+      <section>
+        <TotalKcalForm totalKcal={totalKcal} logDate={logDate} dateChangeHandler={dateChangeHandler} submitHandler={submitKcalHandler} />
+      </section>
     </>
   );
 }
