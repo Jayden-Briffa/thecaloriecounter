@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import '../styles/MyFoodsTable.css';
 import MyFoodsTableHeaders from '../components/MyFoodsTableHeaders';
 import MyFoodsTableForm from '../components/MyFoodsTableForm';
 import MyFoodsTableRows from './MyFoodsTableRows';
 import postFoods from '../services/postFoods';
+import { usingMobile } from '../utils/checkScreenSize';
 
 function MyFoodTable(props) {
 
@@ -26,9 +26,13 @@ function MyFoodTable(props) {
     setUserFoods(prev => [...prev, newFood]);
   }
 
+  const isUsingMobile = usingMobile();
+  const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
+  const headersOptionsLabel = isUsingMobile ? "": "Options";
+
   return (
-    <section className="d-flex flex-column text-center border-pink rounded rounded-5 lh-sm" id="my-foods-table">
-      <MyFoodsTableHeaders />
+    <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="my-foods-table">
+      <MyFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
       <MyFoodsTableForm submitHandler={submitHandler} />
       <MyFoodsTableRows userFoods={userFoods} setUserFoods={setUserFoods} />
     </section >

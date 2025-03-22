@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import '../styles/TodaysFoodsTable.css';
 import TodaysFoodsTableHeaders from '../components/TodaysFoodsTableHeaders';
 import TodaysFoodsTableForm from '../components/TodaysFoodsTableForm';
 import TodaysFoodsTableRows from './TodaysFoodsTableRows';
@@ -7,6 +6,7 @@ import TotalKcalForm from '../components/TotalKcalForm';
 import postConsumed from '../services/postConsumed';
 import extractDate from '../utils/extractDate';
 import submitKcal from '../services/submitKcal';
+import { usingMobile } from '../utils/checkScreenSize';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -37,11 +37,8 @@ function TodaysFoodsTable(props) {
 
   // Recalculate totalKcal whenever consumedFoods is updated
   useEffect(() => {
-    let total = 0;
-
-    props.consumedFoods.map((food) => {
-      total += food.kcal
-    })
+    // Get the sum of every kcal value in consumedFoods
+    const total = props.consumedFoods.reduce((total, food) => total + food.kcal, 0)
 
     setTotalKcal(total);
 
@@ -86,14 +83,17 @@ function TodaysFoodsTable(props) {
   async function submitKcalHandler(event){
     event.preventDefault();
 
-    const newLog = await submitKcal({date: logDate, kcal: totalKcal});
-    console.log(newLog)
+    await submitKcal({date: logDate, kcal: totalKcal});
   }
+  
+  const isUsingMobile = usingMobile();
+  const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
+  const headersOptionsLabel = isUsingMobile ? "": "Options";
   
   return (
     <>
-      <section className="d-flex flex-column text-center border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
-        <TodaysFoodsTableHeaders />
+      <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
+        <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
       </section>
