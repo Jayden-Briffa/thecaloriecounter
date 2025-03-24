@@ -13,12 +13,12 @@ export default async function getFoods(foodId = null){
         const response = await fetch(url + query);
         const jsonResponse = await response.json();
 
-        console.log("FOODS: ", jsonResponse)
+        //console.log("FOODS: ", jsonResponse)
         return jsonResponse;
 
     } catch (error){
         console.error("Error getting Foods data: ", error)
 
-        return new Error(error)
+        return error
     }
 }

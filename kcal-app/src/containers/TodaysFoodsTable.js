@@ -1,10 +1,14 @@
 import React, {useState, useEffect} from 'react';
+import { useFeedback } from '../context/FeedbackContext';
+import { useProcesses } from '../context/LoadingProcessesContext';
+import Feedback from '../components/Feedback';
 import TodaysFoodsTableHeaders from '../components/TodaysFoodsTableHeaders';
 import TodaysFoodsTableForm from '../components/TodaysFoodsTableForm';
 import TodaysFoodsTableRows from './TodaysFoodsTableRows';
 import TotalKcalForm from '../components/TotalKcalForm';
 import postConsumed from '../services/postConsumed';
 import extractDate from '../utils/extractDate';
+import formatDate from '../utils/formatDate';
 import submitKcal from '../services/submitKcal';
 import { usingMobile } from '../utils/checkScreenSize';
 
@@ -17,6 +21,8 @@ function TodaysFoodsTable(props) {
   const [selectedFoodData, setSelectedFoodData] = useState(null);
   const [totalKcal, setTotalKcal] = useState(0);
   const [logDate, setLogDate] = useState(extractDate(new Date()));
+  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { processes, addProcess, removeProcess } = useProcesses();
 
   // Set selectedFoodData only when the selectedFoodId changes
   useEffect(() => {
@@ -61,6 +67,9 @@ function TodaysFoodsTable(props) {
   // Send a POST request to /consumed on submit
   async function submitFoodHandler(event){
     event.preventDefault();
+    const processName = "newConsumedFood";
+
+    addProcess(processName);
 
     // Get the current date/time, turn into JSON, and...
     //... remove everything but the date
@@ -77,28 +86,55 @@ function TodaysFoodsTable(props) {
     // Create new consumed food record
     const newConsumedFood = await postConsumed(bodyData);
 
+    removeProcess(processName);
+
+    // If there was an error, show negative feedback and stop here
+    if (newConsumedFood instanceof Error){
+      updateFeedbackData({message: "Oh no! It looks like we couldn't log that food", type: "danger", source: processName})
+      return;
+    }
+
+    updateFeedbackData({message: `Your new ${newConsumedFood.kcal} kcal food was succesfully added!`, type: "success", source: processName})
     props.setConsumedFoods(prev => [...prev, newConsumedFood]);
   };
 
   async function submitKcalHandler(event){
     event.preventDefault();
+    const processName = "newLog";
 
-    await submitKcal({date: logDate, kcal: totalKcal});
+    addProcess(processName);
+
+    const newLog = await submitKcal({date: logDate, kcal: totalKcal});
+    
+    removeProcess(processName);
+
+    if (newLog instanceof Error){
+      updateFeedbackData({message: "Sorry, we couldn't add your new calorie log", type: "danger", source: processName})
+      return;
+    }
+
+    updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: "newLog"})
   }
   
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
   
+  const displayTopFeedback = feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:");
+  const displayFormLoading = processes.includes("newConsumedFood");
+
   return (
     <>
+      {displayTopFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top" />) : (null)}
+
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
-        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} />
-        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
+        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
+        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} updateFeedbackData={updateFeedbackData} />
       </section>
 
-      <section>
+      <section className="row mx-4">
+        {feedbackData.source === "newLog" ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="mt-4 mb-0" />) : (null)}
         <TotalKcalForm totalKcal={totalKcal} logDate={logDate} dateChangeHandler={dateChangeHandler} submitHandler={submitKcalHandler} />
       </section>
     </>

@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useFeedback } from '../context/FeedbackContext';
+import { useProcesses } from '../context/LoadingProcessesContext';
+import Loading from '../components/Loading';
+import Feedback from '../components/Feedback';
 import TodaysFoodsTable from './TodaysFoodsTable'
 import getFoods from '../services/getFoods';
 import getConsumed from '../services/getConsumed';
@@ -9,15 +13,23 @@ function TodaysFoodsTableOutput() {
   const [isLoading, setIsLoading] = useState(true);
   const [allFoods, setAllFoods] = useState(null);
   const [consumedFoods, setConsumedFoods] = useState(null);
-  const [foodData, setFoodData] = useState([]); // Holds data to be shown
+  const [foodData, setFoodData] = useState([]);
+  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { processes, addProcess, removeProcess } = useProcesses();
 
   // Execute only when the component is 
   useEffect(() => {
     async function fetchFoods(){
 
+      const processName = "TodaysFoodsOutput";
+
       // Get foods then set loading to false
       const newAllFoods = await getFoods();
       const newConsumedFoods = await getConsumed();
+
+      if (newAllFoods instanceof Error || newConsumedFoods instanceof Error){
+        updateFeedbackData({message: "Sorry, it looks like we couldn't get the data we're looking for", type: "danger", source: processName})
+      }
 
       setAllFoods(newAllFoods['Foods']);
       setConsumedFoods(newConsumedFoods['Consumed_Foods']);
@@ -46,9 +58,7 @@ function TodaysFoodsTableOutput() {
         newTableData['quantity'] = food.quantity;
         newTableData['units'] = newFoodData.units;
         newTableData['kcal'] = food.kcal;
-    
-        console.log("Food data: ", food)
-        console.log("Table data", newTableData);
+
         tableData.push(newTableData)
       }
     
@@ -60,10 +70,14 @@ function TodaysFoodsTableOutput() {
     }
     
   }, [consumedFoods]);
-
+  
+  if (feedbackData.source === "TodaysFoodsOutput"){
+    return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
+  }
+  
   // If the content is still loading, output a loading placeholder
   if (isLoading){
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods}/>

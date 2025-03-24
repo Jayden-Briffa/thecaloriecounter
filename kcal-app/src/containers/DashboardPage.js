@@ -1,14 +1,18 @@
 import React from 'react';
 import DashboardOutput from './DashboardOutput';
-import { usingTablet } from '../utils/checkScreenSize';
-function DashboardPage() {
-  console.log(usingTablet())
-  return (
-    <section className="page">
-      <h1 className="mb-5">Dashboard</h1>
+import { ProcessesProvider } from '../context/LoadingProcessesContext';
 
-      <DashboardOutput />
-    </section>
+function DashboardPage() {
+
+  return (
+    <ProcessesProvider>
+
+      <section className="page">
+        <h1 className="mb-5">Dashboard</h1>
+        <DashboardOutput />
+      </section>
+      
+    </ProcessesProvider>
   );
 }
 

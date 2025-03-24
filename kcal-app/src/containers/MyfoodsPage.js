@@ -1,14 +1,18 @@
 import React from 'react';
 import MyFoodsOutput from './MyFoodsOutput';
+import { ProcessesProvider } from '../context/LoadingProcessesContext';
 
 function MyFoodsPage() {
 
   return (
-    <section className="page">
-      <h1 className="mb-5">My Foods</h1>
+    <ProcessesProvider >
 
-      <MyFoodsOutput />
-    </section>
+      <section className="page">
+        <h1 className="mb-5">My Foods</h1>
+        <MyFoodsOutput />
+      </section>
+      
+    </ProcessesProvider>
   );
 }
 

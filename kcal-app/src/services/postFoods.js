@@ -20,6 +20,6 @@ export default async function postConsumed(body){
     } catch (error){
         console.error("Error getting Foods data: ", error)
 
-        return new Error(error)
+        return error
     }
 }

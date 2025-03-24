@@ -1,22 +1,23 @@
 import React from 'react';
+import Loading from './Loading';
 
 function MyFoodsTableRow(props) {
   return (
     <div className="row g-0">
-      <div className="col-4">
-        {props.name}
+      <div className="col-4 position-relative">
+        {props.foodName}
       </div>
       <div className="col-2">
-        {props.quantity}
+        {props.foodQuantity}
       </div>
       <div className="col-2">
-        {props.units}
+        {props.foodUnits}
       </div>
       <div className="col-2">
-        {props.kcal}
+        {props.foodKcal}
       </div>
-      <div className="col-2">
-        <form onSubmit={props.submitHandler}>
+      <div className="col-2 position-relative">
+        <form onSubmit={props.submitHandler} data-foodname={props.foodName} data-foodid={props.foodId}>
           <input type="hidden" />
           <button type="submit" className="btn p-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
@@ -24,6 +25,9 @@ function MyFoodsTableRow(props) {
             </svg>
           </button>
         </form>
+
+        {props.displayLoading ? <Loading extraClasses={`row-loader ${props.loadingDisplayClass}`} /> : null}
+      
       </div>
     </div>
   );
