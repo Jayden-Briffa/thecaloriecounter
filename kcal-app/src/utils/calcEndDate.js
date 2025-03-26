@@ -3,7 +3,8 @@
 import extractDate from "./extractDate";
 
 export default function calcEndDate(start, numDays){ // Date, int
-    const startUnix = start.getTime();
+    let startUnix = (start instanceof Date) ? start.getTime() : start;
+    
     const endUnix = startUnix + (numDays * (8.64e+7))
 
     const startDate = extractDate(new Date(startUnix));

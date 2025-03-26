@@ -47,8 +47,9 @@ function DashboardOutput() {
 
   async function updateAvgKcal(){
 
-    const {startDate, endDate} = calcEndDate(new Date(), -selectedDays)
-
+    // Exclude today's date to ensure that the data isn't skewed
+    const {startDate, endDate} = calcEndDate(new Date().getTime() - (8.64e+7), -selectedDays + 1)
+    
     // Reverse the start and end dates because end will be before start
     const res = await getKcalAvg(endDate, startDate);
 
@@ -65,7 +66,8 @@ function DashboardOutput() {
 
   async function updateKcalVals(){
 
-    const {startDate, endDate} = calcEndDate(new Date(), -selectedDays)
+    // Exclude today's date to ensure that the data isn't skewed
+    const {startDate, endDate} = calcEndDate(new Date().getTime() - (8.64e+7), -selectedDays + 1)
 
     // Reverse the start and end dates because end will be before start
     const res = await getKcal({start: endDate, end: startDate});
