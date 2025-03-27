@@ -25,13 +25,13 @@ function MyFoodsTableRows(props) {
 
     // If there was an error, stop here
     if (deletedFood instanceof Error){
-      props.updateFeedbackData({message: `Sorry, it looks like we couldn't delete your food: ${foodName}`, type: "danger"})
+      props.updateFeedbackData({message: `Sorry, it looks like we couldn't delete your food: ${foodName}`, type: "danger", source: processName})
       return;
     }
 
     // Remove old item from userFoods
     props.setUserFoods(prev => prev.filter(oldFood => oldFood.id !== foodId))
-    props.updateFeedbackData({message: `Hooray! Your food (${foodName}) was deleted!`, type: "success"})
+    props.updateFeedbackData({message: `Hooray! Your food (${foodName}) was deleted!`, type: "success", source: processName})
   }
 
   // Return an instance of MyFoodsTableRow for each food in userFoods

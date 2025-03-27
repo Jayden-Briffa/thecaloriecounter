@@ -60,6 +60,7 @@ function TodaysFoodsTable(props) {
     setQuantityVal(event.target.value)
   }
 
+  // Control the date input
   function dateChangeHandler(event){
     setLogDate(event.target.value)
   }
@@ -98,6 +99,7 @@ function TodaysFoodsTable(props) {
     props.setConsumedFoods(prev => [...prev, newConsumedFood]);
   };
 
+  // Handle user submitting new calorie log
   async function submitKcalHandler(event){
     event.preventDefault();
     const processName = "newLog";
@@ -119,7 +121,9 @@ function TodaysFoodsTable(props) {
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
-  
+
+  // Display feedback if the process was related to consumed foods
+  // Show form loader if a new consumd food is being added
   const displayTopFeedback = feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:");
   const displayFormLoading = processes.includes("newConsumedFood");
 
@@ -130,7 +134,7 @@ function TodaysFoodsTable(props) {
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
-        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} updateFeedbackData={updateFeedbackData} />
+        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
       </section>
 
       <section className="row mx-4">

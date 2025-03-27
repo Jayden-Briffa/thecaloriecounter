@@ -1,13 +1,15 @@
 import React from 'react';
 import { useProcesses } from '../context/LoadingProcessesContext';
+import { useFeedback } from '../context/FeedbackContext';
 import TodaysFoodsTableRow from '../components/TodaysFoodsTableRow';
 import deleteConsumed from '../services/deleteConsumed'
 
 function TodaysFoodsTableRows(props) {
   
+  const { updateFeedbackData } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
 
-  async function submitHandler(event){
+  async function deleteSubmitHandler(event){
     event.preventDefault();
 
     // Get food name and ID from form dataset
@@ -24,13 +26,13 @@ function TodaysFoodsTableRows(props) {
     removeProcess(processName);
 
     if (deletedFood instanceof Error){
-      props.updateFeedbackData({message: `Sorry, we couldn't delete your food: ${foodName}`, type: "danger", source: "deletedFood"})
+      updateFeedbackData({message: `Sorry, we couldn't delete your food: ${foodName}`, type: "danger", source: processName})
       return;
     }
 
     // Remove the deleted consumed food from the table
     props.setConsumedFoods(prev => prev.filter(oldFood => oldFood.id !== foodId))
-    props.updateFeedbackData({message: `Your food (${foodName}) was successfully deleted!`, type: "success", source: "deletedFood"})
+    updateFeedbackData({message: `Your food (${foodName}) was successfully deleted!`, type: "success", source: processName})
   }
 
   // Return an instance of TodaysFoodsTableRow for each food in consumedFoods
@@ -42,7 +44,7 @@ function TodaysFoodsTableRows(props) {
         const displayRowLoading = processes.includes(`deleteConsumedFood:${food.id}`)
 
         return (
-      <TodaysFoodsTableRow key={index} foodName={food.name} foodId={food.id} foodQuantity={food.quantity} foodUnits={food.units} foodKcal={food.kcal} submitHandler={submitHandler} displayLoading={displayRowLoading}/>
+      <TodaysFoodsTableRow key={index} foodName={food.name} foodId={food.id} foodQuantity={food.quantity} foodUnits={food.units} foodKcal={food.kcal} submitHandler={deleteSubmitHandler} displayLoading={displayRowLoading}/>
       )})}
     </>
   );
