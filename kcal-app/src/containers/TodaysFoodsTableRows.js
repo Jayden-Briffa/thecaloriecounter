@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useProcesses } from '../context/LoadingProcessesContext';
 import { useFeedback } from '../context/FeedbackContext';
 import TodaysFoodsTableRow from '../components/TodaysFoodsTableRow';
-import UpdateConsumedFoodModal from '../components/UpdateConsumedFoodModal';
+import UpdateConsumedFoodModal from './UpdateConsumedFoodModal';
 import deleteConsumed from '../services/deleteConsumed'
 
 function TodaysFoodsTableRows(props) {
   
+  const  [foodToUpdate, setFoodToUpdate]= useState({});
   const { updateFeedbackData } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
 
@@ -36,10 +37,18 @@ function TodaysFoodsTableRows(props) {
     updateFeedbackData({message: `Your food (${foodName}) was successfully deleted!`, type: "success", source: processName})
   }
 
+  function clickUpdateHandler(event){
+    const btn = event.target.closest('button');
+    const consumedFoodData = JSON.parse(btn.dataset.food)
+    const myFoodsData = props.allFoods.find(food => food.id === consumedFoodData.food_id)
+
+    setFoodToUpdate([consumedFoodData, myFoodsData])
+  }
+
   // Return an instance of TodaysFoodsTableRow for each food in consumedFoods
   return (
     <>
-      <UpdateConsumedFoodModal />
+      <UpdateConsumedFoodModal food={foodToUpdate} />
 
       {props.foodData.map((food, index) => {
         
@@ -47,7 +56,7 @@ function TodaysFoodsTableRows(props) {
         const displayRowLoading = processes.includes(`deleteConsumedFood:${food.id}`)
 
         return (
-      <TodaysFoodsTableRow key={index} foodName={food.name} foodId={food.id} foodQuantity={food.quantity} foodUnits={food.units} foodKcal={food.kcal} submitHandler={deleteSubmitHandler} displayLoading={displayRowLoading}/>
+      <TodaysFoodsTableRow key={index} food={food} submitHandler={deleteSubmitHandler} clickUpdateHandler={clickUpdateHandler} displayLoading={displayRowLoading}/>
       )})}
     </>
   );

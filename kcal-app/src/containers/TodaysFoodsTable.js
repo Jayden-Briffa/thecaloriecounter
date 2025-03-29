@@ -134,7 +134,7 @@ function TodaysFoodsTable(props) {
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
-        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
+        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>
 
       <section className="row mx-4">
