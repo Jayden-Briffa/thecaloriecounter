@@ -2,6 +2,7 @@ import React from 'react';
 import { useProcesses } from '../context/LoadingProcessesContext';
 import { useFeedback } from '../context/FeedbackContext';
 import TodaysFoodsTableRow from '../components/TodaysFoodsTableRow';
+import UpdateConsumedFoodModal from '../components/UpdateConsumedFoodModal';
 import deleteConsumed from '../services/deleteConsumed'
 
 function TodaysFoodsTableRows(props) {
@@ -38,6 +39,8 @@ function TodaysFoodsTableRows(props) {
   // Return an instance of TodaysFoodsTableRow for each food in consumedFoods
   return (
     <>
+      <UpdateConsumedFoodModal />
+
       {props.foodData.map((food, index) => {
         
         // Show the loading icon if deletion is in progress
