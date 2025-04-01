@@ -10,7 +10,7 @@ function MyFoodsTableOutput() {
   // Store loading status and userFoods as component states
   const [isLoading, setIsLoading] = useState(true);
   const [userFoods, setUserFoods] = useState(null);
-  const { feedbackData, updateFeedbackData } = useFeedback()
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback()
 
   // Get initial data only when the component is mounted
   useEffect(() => {
@@ -33,8 +33,9 @@ function MyFoodsTableOutput() {
     fetchFoods();
   }, []);
   
+    const displayFeedback = shouldShowFeedback({sources: ["MyFoodsOutputData"], types: ["danger"]}) && userFoods === null
     // If there is an issue with loading, create an error alert
-    if (feedbackData.type === "danger" && feedbackData.source === "MyFoodsOutputData" && userFoods === null){
+    if (displayFeedback){
       return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
     }
 

@@ -116,7 +116,7 @@ function TodaysFoodsTable(props) {
       return;
     }
 
-    updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: "newLog"})
+    updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: processName})
   }
   
   const isUsingMobile = usingMobile();
@@ -124,8 +124,10 @@ function TodaysFoodsTable(props) {
   const headersOptionsLabel = isUsingMobile ? "": "Options";
 
   // Display feedback if the process was related to consumed foods
-  // Show form loader if a new consumd food is being added
-  const displayTopFeedback =  shouldShowFeedback(["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"])/* feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:"); */
+  // Show form loader if a new consumed food is being added
+  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"]});
+  console.log(displayTopFeedback)
+  const displayLogFeedback = shouldShowFeedback({sources: ["newLog"]});
   const displayFormLoading = processes.includes("newConsumedFood");
 
   return (
@@ -139,7 +141,7 @@ function TodaysFoodsTable(props) {
       </section>
 
       <section className="row mx-4">
-        {feedbackData.source === "newLog" ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="mt-4 mb-0" />) : (null)}
+        {displayLogFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="mt-4 mb-0" />) : (null)}
         <TotalKcalForm totalKcal={totalKcal} logDate={logDate} dateChangeHandler={dateChangeHandler} submitHandler={submitKcalHandler} />
       </section>
     </>

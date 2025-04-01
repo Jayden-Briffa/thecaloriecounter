@@ -13,7 +13,7 @@ function TodaysFoodsTableOutput() {
   const [allFoods, setAllFoods] = useState(null);
   const [consumedFoods, setConsumedFoods] = useState(null);
   const [foodData, setFoodData] = useState([]);
-  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
 
   // Execute only when the component is 
   useEffect(() => {
@@ -71,7 +71,8 @@ function TodaysFoodsTableOutput() {
     
   }, [consumedFoods]);
   
-  if (feedbackData.source === "TodaysFoodsOutput"){
+  const displayFeedback = shouldShowFeedback({sources: ["TodaysFoodsOutput"]})
+  if (displayFeedback){
     return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
   }
   
