@@ -11,6 +11,7 @@ import extractDate from '../utils/extractDate';
 import formatDate from '../utils/formatDate';
 import submitKcal from '../services/submitKcal';
 import { usingMobile } from '../utils/checkScreenSize';
+import calcKcal from '../utils/calcKcal';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -21,7 +22,7 @@ function TodaysFoodsTable(props) {
   const [selectedFoodData, setSelectedFoodData] = useState(null);
   const [totalKcal, setTotalKcal] = useState(0);
   const [logDate, setLogDate] = useState(extractDate(new Date()));
-  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
 
   // Set selectedFoodData only when the selectedFoodId changes
@@ -35,8 +36,8 @@ function TodaysFoodsTable(props) {
   useEffect(() => {
     
     if (quantityVal && selectedFoodId && selectedFoodData){
-      const newKcal = selectedFoodData.kcal / selectedFoodData.quantity * quantityVal
-      setKcalVal(Math.floor(newKcal));
+      const newKcal = calcKcal(selectedFoodData.kcal, selectedFoodData.quantity, quantityVal); 
+      setKcalVal(newKcal);
     }
     
   }, [quantityVal, selectedFoodId, selectedFoodData]);
@@ -124,7 +125,7 @@ function TodaysFoodsTable(props) {
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumd food is being added
-  const displayTopFeedback = feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:");
+  const displayTopFeedback =  shouldShowFeedback(["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"])/* feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:"); */
   const displayFormLoading = processes.includes("newConsumedFood");
 
   return (
@@ -134,7 +135,7 @@ function TodaysFoodsTable(props) {
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
-        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} setTotalKcal={setTotalKcal} />
+        <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>
 
       <section className="row mx-4">

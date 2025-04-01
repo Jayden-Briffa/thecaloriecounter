@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useFeedback } from '../context/FeedbackContext';
-import { useProcesses } from '../context/LoadingProcessesContext';
 import Loading from '../components/Loading';
 import Feedback from '../components/Feedback';
 import TodaysFoodsTable from './TodaysFoodsTable'
@@ -15,7 +14,6 @@ function TodaysFoodsTableOutput() {
   const [consumedFoods, setConsumedFoods] = useState(null);
   const [foodData, setFoodData] = useState([]);
   const { feedbackData, updateFeedbackData } = useFeedback();
-  const { processes, addProcess, removeProcess } = useProcesses();
 
   // Execute only when the component is 
   useEffect(() => {
@@ -33,7 +31,7 @@ function TodaysFoodsTableOutput() {
 
       setAllFoods(newAllFoods['Foods']);
       setConsumedFoods(newConsumedFoods['Consumed_Foods']);
-      
+
       setIsLoading(false)
 
     } 
@@ -54,10 +52,12 @@ function TodaysFoodsTableOutput() {
         let newTableData = {};
     
         newTableData['id'] = food.id
+        newTableData['food_id'] = food.food_id
         newTableData['name'] = newFoodData.name
         newTableData['quantity'] = food.quantity;
         newTableData['units'] = newFoodData.units;
         newTableData['kcal'] = food.kcal;
+        newTableData['dateConsumed'] = newFoodData.date_consumed;
 
         tableData.push(newTableData)
       }
