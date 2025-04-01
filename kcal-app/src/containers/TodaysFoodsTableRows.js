@@ -7,7 +7,7 @@ import deleteConsumed from '../services/deleteConsumed'
 
 function TodaysFoodsTableRows(props) {
   
-  const  [foodToUpdate, setFoodToUpdate]= useState({});
+  const [foodToUpdate, setFoodToUpdate] = useState({});
   const { updateFeedbackData } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
 
@@ -41,7 +41,7 @@ function TodaysFoodsTableRows(props) {
     const btn = event.target.closest('button');
     const consumedFoodData = JSON.parse(btn.dataset.food)
     const myFoodsData = props.allFoods.find(food => food.id === consumedFoodData.food_id)
-
+    console.log("MYFOODS DATA: ", consumedFoodData.food_id)
     setFoodToUpdate([consumedFoodData, myFoodsData])
   }
 
@@ -51,7 +51,7 @@ function TodaysFoodsTableRows(props) {
       <UpdateConsumedFoodModal food={foodToUpdate} />
 
       {props.foodData.map((food, index) => {
-        
+ 
         // Show the loading icon if deletion is in progress
         const displayRowLoading = processes.includes(`deleteConsumedFood:${food.id}`)
 

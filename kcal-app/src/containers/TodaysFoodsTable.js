@@ -11,6 +11,7 @@ import extractDate from '../utils/extractDate';
 import formatDate from '../utils/formatDate';
 import submitKcal from '../services/submitKcal';
 import { usingMobile } from '../utils/checkScreenSize';
+import calcKcal from '../utils/calcKcal';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -35,8 +36,8 @@ function TodaysFoodsTable(props) {
   useEffect(() => {
     
     if (quantityVal && selectedFoodId && selectedFoodData){
-      const newKcal = selectedFoodData.kcal / selectedFoodData.quantity * quantityVal
-      setKcalVal(Math.floor(newKcal));
+      const newKcal = calcKcal(selectedFoodData.kcal, selectedFoodData.quantity, quantityVal); 
+      setKcalVal(newKcal);
     }
     
   }, [quantityVal, selectedFoodId, selectedFoodData]);

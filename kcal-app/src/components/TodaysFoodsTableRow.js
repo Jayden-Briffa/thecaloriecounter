@@ -2,6 +2,7 @@ import React from 'react';
 import Loading from './Loading';
 
 function TodaysFoodsTableRow(props) {
+  
   return (
     <div className="row g-0">
       <div className="col-4">

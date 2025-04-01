@@ -31,7 +31,7 @@ function TodaysFoodsTableOutput() {
 
       setAllFoods(newAllFoods['Foods']);
       setConsumedFoods(newConsumedFoods['Consumed_Foods']);
-      
+
       setIsLoading(false)
 
     } 
@@ -57,6 +57,7 @@ function TodaysFoodsTableOutput() {
         newTableData['quantity'] = food.quantity;
         newTableData['units'] = newFoodData.units;
         newTableData['kcal'] = food.kcal;
+        newTableData['dateConsumed'] = newFoodData.date_consumed;
 
         tableData.push(newTableData)
       }
