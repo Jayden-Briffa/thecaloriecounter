@@ -18,9 +18,13 @@ function FeedbackProvider({ children }){
         }));
     }
 
+    function shouldShowFeedback(possibleSources){
+        return possibleSources.filter(possibleSource => feedbackData.source.includes(possibleSource)) ? true : false;
+    }
+
     // Return all child components with context applied
     return (
-        <FeedbackContext.Provider value={ {feedbackData, updateFeedbackData} }>
+        <FeedbackContext.Provider value={ {feedbackData, updateFeedbackData, shouldShowFeedback} }>
             {children}
         </FeedbackContext.Provider>
     )

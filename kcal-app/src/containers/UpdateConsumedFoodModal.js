@@ -55,6 +55,8 @@ function UpdateConsumedFoodModal(props) {
       return;
     }
 
+    // Update consumedFoods and give feedback
+    props.setConsumedFoods(props.consumedFoods.map(prev => prev.id !== todaysFoodsData.id ? prev : {...prev, quantity: newQuantity, kcal: newKcal}));
     updateFeedbackData({message: `Successfully updated your consumed food: ${body.name}`, type: "success", source: processName})
       
     event.preventDefault();

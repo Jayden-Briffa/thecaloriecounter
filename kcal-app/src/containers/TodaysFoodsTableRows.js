@@ -40,15 +40,15 @@ function TodaysFoodsTableRows(props) {
   function clickUpdateHandler(event){
     const btn = event.target.closest('button');
     const consumedFoodData = JSON.parse(btn.dataset.food)
-    const myFoodsData = props.allFoods.find(food => food.id === consumedFoodData.food_id)
-    console.log("MYFOODS DATA: ", consumedFoodData.food_id)
+    const myFoodsData = props.allFoods.find(food => food.id === consumedFoodData.food_id);
+    
     setFoodToUpdate([consumedFoodData, myFoodsData])
   }
 
   // Return an instance of TodaysFoodsTableRow for each food in consumedFoods
   return (
     <>
-      <UpdateConsumedFoodModal food={foodToUpdate} />
+      <UpdateConsumedFoodModal food={foodToUpdate} setConsumedFoods={props.setConsumedFoods} consumedFoods={props.consumedFoods} />
 
       {props.foodData.map((food, index) => {
  

@@ -11,7 +11,7 @@ function UpdateTodaysFoodForm(props) {
         <p className='form-text m-0 p-0'>{props.todaysFoodsData.units}</p>
       </div>
 
-      <button type="submit" className="button bg-pink border-pink col-3">Submit</button>
+      <button type="submit" data-bs-dismiss="modal" className="button bg-pink border-pink col-3">Submit</button>
     </form>
   );
 }

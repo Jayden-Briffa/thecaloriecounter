@@ -22,7 +22,7 @@ function TodaysFoodsTable(props) {
   const [selectedFoodData, setSelectedFoodData] = useState(null);
   const [totalKcal, setTotalKcal] = useState(0);
   const [logDate, setLogDate] = useState(extractDate(new Date()));
-  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
 
   // Set selectedFoodData only when the selectedFoodId changes
@@ -125,7 +125,7 @@ function TodaysFoodsTable(props) {
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumd food is being added
-  const displayTopFeedback = feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:");
+  const displayTopFeedback =  shouldShowFeedback(["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"])/* feedbackData.source === "newConsumedFood" || feedbackData.source.includes("deleteConsumedFood:"); */
   const displayFormLoading = processes.includes("newConsumedFood");
 
   return (
