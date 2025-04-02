@@ -11,7 +11,7 @@ import { usingMobile } from '../utils/checkScreenSize';
 function MyFoodTable(props) {
 
   const [userFoods, setUserFoods] = useState(props.userFoods)
-  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses()
 
   async function submitHandler(event){
@@ -48,7 +48,7 @@ function MyFoodTable(props) {
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
 
-  const displayTopFeedback = feedbackData.source === "newFood" || feedbackData.source.includes("deleteFood:");
+  const displayTopFeedback = shouldShowFeedback({sources: ["newFood", "deleteFood:"]});
   const displayFormLoading = processes.includes("newFood")
 
   return (

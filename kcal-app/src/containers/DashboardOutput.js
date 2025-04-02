@@ -19,7 +19,7 @@ function DashboardOutput() {
   const [selectedDays, setSelectedDays] = useState(10);
   const [shownDays, setShownDays] = useState(10);
   const [isLoading, setIsLoading] = useState(true)
-  const { feedbackData, updateFeedbackData } = useFeedback();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { addProcess, removeProcess } = useProcesses();
 
   // Calculate average kcal when rendered
@@ -106,7 +106,9 @@ function DashboardOutput() {
     avgClasses = 'col-4 mt-5'
   }
 
-  if (feedbackData.type === "danger" && feedbackData.source === "DashboardOutput"){
+  const displayFeedback = shouldShowFeedback({sources: ["DashboardOutput"], types: ["danger"]});
+  console.log(displayFeedback)
+  if (displayFeedback){
     return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
   }
 

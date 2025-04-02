@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const FeedbackContext = createContext();
 
 function FeedbackProvider({ children }){
-    const [feedbackData, setFeedbackData] = useState({feedbackKey: 0, source:""})
+    const [feedbackData, setFeedbackData] = useState({feedbackKey: 0, source:"", type: ""})
 
     // Set feedbackData safely
     function updateFeedbackData(newFeedbackData){
@@ -18,8 +18,15 @@ function FeedbackProvider({ children }){
         }));
     }
 
-    function shouldShowFeedback(possibleSources){
-        return possibleSources.filter(possibleSource => feedbackData.source.includes(possibleSource)) ? true : false;
+    function shouldShowFeedback({sources = [], types = []}){
+
+        // Check for valid sources if they were passed
+        const validSource = sources.length === 0 || sources.some(source => feedbackData.source.includes(source))
+
+        // Check for valid types if they were passed
+        const validType = types.length === 0 || types.some(type => feedbackData.type.includes(type))
+
+        return validSource && validType
     }
 
     // Return all child components with context applied
