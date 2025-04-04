@@ -21,7 +21,7 @@ foodRouter.get('/', (req, res, next) => {
     }
 
     let foodIdsArr;
-    let whereClause = '';
+    let whereClause = ' ';
     let values = [];
     if (req.query.foodIds){
         // Put each ID in an array and generate the where clause...
