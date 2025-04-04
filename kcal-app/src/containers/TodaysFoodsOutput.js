@@ -44,23 +44,10 @@ function TodaysFoodsTableOutput() {
       // Use a for loop to access await
       // food holds consumed id, food id, consumed quantity, consumed kcal, and date
       // newFoodData holds id, name, quantity, units, kcal, and date
-      /* for (const food of consumedFoods){
-        const newFoodData = await getFoods({foodId: food.food_id});
-        let newTableData = {};
-    
-        newTableData['id'] = food.id
-        newTableData['food_id'] = food.food_id
-        newTableData['name'] = newFoodData.name
-        newTableData['quantity'] = food.quantity;
-        newTableData['units'] = newFoodData.units;
-        newTableData['kcal'] = food.kcal;
-        newTableData['dateConsumed'] = newFoodData.date_consumed;
-
-        tableData.push(newTableData)
-      } */
       let myFoodsData = await getFoods({foodId: [consumedFoods.map(food => food.food_id)]});
       myFoodsData = myFoodsData['Foods'];
 
+      // Create an array of data objects to show
       const newFoodData = consumedFoods.map(consumedFood => {
         const myFood = myFoodsData.find(myFood => myFood.id === consumedFood.food_id)
 

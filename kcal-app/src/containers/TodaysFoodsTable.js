@@ -12,6 +12,8 @@ import formatDate from '../utils/formatDate';
 import submitKcal from '../services/submitKcal';
 import { usingMobile } from '../utils/checkScreenSize';
 import calcKcal from '../utils/calcKcal';
+import BtnModal from '../components/BtnModal';
+import { useConfirmAction } from '../context/ConfirmActionContext';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -24,6 +26,7 @@ function TodaysFoodsTable(props) {
   const [logDate, setLogDate] = useState(extractDate(new Date()));
   const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses();
+  const { setActionData } = useConfirmAction();
 
   // Set selectedFoodData only when the selectedFoodId changes
   useEffect(() => {
@@ -119,6 +122,14 @@ function TodaysFoodsTable(props) {
     updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: processName})
   }
   
+  async function clearConsumed(){
+    alert("Clearing all consumed")
+  }
+
+  async function handleClick(){
+    setActionData({heading: "Are you sure you want to clear all consumed foods?", handleConfirm: clearConsumed})
+  }
+
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
@@ -139,6 +150,8 @@ function TodaysFoodsTable(props) {
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>
+
+      <BtnModal handleClick={handleClick} className="mt-3 py-2 w-100" modalSelector="#confirmActionModal" btnText="Clear all consumed foods" />
 
       <section className="row mx-4">
         {displayLogFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="mt-4 mb-0" />) : (null)}
