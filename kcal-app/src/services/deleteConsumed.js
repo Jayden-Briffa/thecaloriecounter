@@ -2,8 +2,20 @@
 export default async function deleteConsumed(foodId){
 
     try{
+        let url = `http://localhost:4001/api/consumed`;
+        let query = '';
+
+        if (typeof foodId === "object"){
+            // Add necessary prefix and the foodId array in the format 1,2,3
+            query += (query ? '&&' : '?') + `foodIds=${foodId.join()}`;
+
+        } else {
+
+            url += `/${foodId}`;
+        }
+        
         // Get a response from the API and translate to JSON
-        await fetch(`http://localhost:4001/api/consumed/${foodId}`, {
+        await fetch(url + query, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
