@@ -10,6 +10,7 @@ function DashboardPage() {
       <section className="page">
         <h1 className="mb-5">Dashboard</h1>
         <DashboardOutput />
+
       </section>
       
     </ProcessesProvider>

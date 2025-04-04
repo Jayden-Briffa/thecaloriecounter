@@ -1,12 +1,24 @@
 // Get and return all data from the Foods table. Set the result to a give setState function
-export default async function getFoods(foodId = null){
+export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
     try{
         let url = `http://localhost:4001/api/foods`;
-        let query = '?orderedBy=name';
 
+        let query = "";
+        if (orderedBy){
+            query += `?orderedBy=${orderedBy}`;
+        }
+        
         if (foodId){
-            url += `/${foodId}`;
+            if (typeof foodId === "object"){
+                // Add necessary prefix and the foodId array in the format 1,2,3
+                query += (query ? '&&' : '?') + `foodIds=${foodId.join()}`;
+
+            } else {
+
+                url += `/${foodId}`;
+            }
+            
         }
 
         // Get a response from the API and translate to JSON

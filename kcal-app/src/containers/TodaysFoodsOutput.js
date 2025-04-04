@@ -22,7 +22,7 @@ function TodaysFoodsTableOutput() {
       const processName = "TodaysFoodsOutput";
 
       // Get foods then set loading to false
-      const newAllFoods = await getFoods();
+      const newAllFoods = await getFoods({orderedBy: "name"});
       const newConsumedFoods = await getConsumed();
 
       if (newAllFoods instanceof Error || newConsumedFoods instanceof Error){
@@ -47,8 +47,7 @@ function TodaysFoodsTableOutput() {
       // food holds consumed id, food id, consumed quantity, consumed kcal, and date
       // newFoodData holds id, name, quantity, units, kcal, and date
       for (const food of consumedFoods){
-        
-        const newFoodData = await getFoods(food.food_id);
+        const newFoodData = await getFoods({foodId: food.food_id});
         let newTableData = {};
     
         newTableData['id'] = food.id
