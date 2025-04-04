@@ -107,7 +107,7 @@ function DashboardOutput() {
   }
 
   const displayFeedback = shouldShowFeedback({sources: ["DashboardOutput"], types: ["danger"]});
-  console.log(displayFeedback)
+  
   if (displayFeedback){
     return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
   }
