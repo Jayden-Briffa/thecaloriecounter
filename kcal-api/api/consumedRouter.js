@@ -83,14 +83,6 @@ consumedRouter.put('/:consumedId', (req, res, next) => {
     })
 })
 
-function handleDelete(err){
-    if (err){
-        return next(err);
-    }
-
-    return res.status(204).send();
-}
-
 consumedRouter.delete('/', (req, res, next) => {
     
     let consumedIdsArr;
@@ -110,12 +102,24 @@ consumedRouter.delete('/', (req, res, next) => {
 
     values = consumedIdsArr;
 
-    db.run(`DELETE FROM Consumed_Foods ${whereClause}`, values, handleDelete) 
+    db.run(`DELETE FROM Consumed_Foods ${whereClause}`, values, (err) => {
+        if (err){
+            return next(err);
+        }
+    
+        return res.status(204).send();
+    }) 
 })
 
 consumedRouter.delete('/:consumedId', (req, res, next) => {
 
-    db.run(`DELETE FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId], handleDelete)
+    db.run(`DELETE FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId], (err) => {
+        if (err){
+            return next(err);
+        }
+    
+        return res.status(204).send();
+    })
 })
 
 module.exports = consumedRouter;
