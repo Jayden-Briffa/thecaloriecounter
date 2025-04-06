@@ -21,6 +21,7 @@ Thumbs.db
 
 # Other
 kcal-api/database.sqlite
+database-backup.sqlite
 todo.txt
 runServer.bat
 runApp.bat
