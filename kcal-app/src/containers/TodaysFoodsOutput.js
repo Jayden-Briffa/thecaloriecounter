@@ -81,7 +81,7 @@ function TodaysFoodsTableOutput() {
     return <Loading />
   }
 
-  return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods}/>
+  return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods} setFoodData={setFoodData} />
 }
 
 export default TodaysFoodsTableOutput;

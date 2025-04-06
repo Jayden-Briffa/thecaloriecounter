@@ -14,6 +14,7 @@ import { usingMobile } from '../utils/checkScreenSize';
 import calcKcal from '../utils/calcKcal';
 import BtnModal from '../components/BtnModal';
 import { useConfirmAction } from '../context/ConfirmActionContext';
+import deleteConsumed from '../services/deleteConsumed';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -122,13 +123,22 @@ function TodaysFoodsTable(props) {
     updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: processName})
   }
   
-  async function clearConsumed(){
-    alert("Clearing all consumed")
-  }
-
   async function handleClick(){
     setActionData({heading: "Are you sure you want to clear all consumed foods?", handleConfirm: clearConsumed})
   }
+  
+  async function clearConsumed(){
+    // Get all consumedFood ids and delete the data associated with them
+    const consumedIds = props.foodData.map(food => food.id);
+    const res = await deleteConsumed({consumedId: consumedIds});
+
+    if (res instanceof Error){
+      return;
+    }
+
+    props.setFoodData([]);
+  }
+
 
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";

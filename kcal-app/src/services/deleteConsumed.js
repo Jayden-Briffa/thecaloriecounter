@@ -1,17 +1,17 @@
 // Delete record from Consumed_Foods with the given ID
-export default async function deleteConsumed(foodId){
+export default async function deleteConsumed({consumedId}){
 
     try{
         let url = `http://localhost:4001/api/consumed`;
         let query = '';
 
-        if (typeof foodId === "object"){
-            // Add necessary prefix and the foodId array in the format 1,2,3
-            query += (query ? '&&' : '?') + `foodIds=${foodId.join()}`;
+        if (typeof consumedId === "object"){
+            // Add necessary prefix and the consumedId array in the format 1,2,3
+            query += (query ? '&&' : '?') + `consumedIds=${consumedId.join()}`;
 
         } else {
 
-            url += `/${foodId}`;
+            url += `/${consumedId}`;
         }
         
         // Get a response from the API and translate to JSON
