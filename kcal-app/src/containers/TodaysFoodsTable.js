@@ -156,7 +156,8 @@ function TodaysFoodsTable(props) {
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumed food is being added
-  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood", "clearConsumedFoods"]});
+  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"]});
+  console.log(displayTopFeedback)
   const displayLogFeedback = shouldShowFeedback({sources: ["newLog"]});
   
   const displayFormLoading = processes.includes("newConsumedFood");
