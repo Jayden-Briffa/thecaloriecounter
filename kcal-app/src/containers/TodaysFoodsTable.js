@@ -15,6 +15,7 @@ import calcKcal from '../utils/calcKcal';
 import BtnModal from '../components/BtnModal';
 import { useConfirmAction } from '../context/ConfirmActionContext';
 import deleteConsumed from '../services/deleteConsumed';
+import Loading from '../components/Loading';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {
@@ -128,15 +129,24 @@ function TodaysFoodsTable(props) {
   }
   
   async function clearConsumed(){
+
+    const processName = "clearConsumedFoods";
+    addProcess(processName);
+
     // Get all consumedFood ids and delete the data associated with them
     const consumedIds = props.foodData.map(food => food.id);
     const res = await deleteConsumed({consumedId: consumedIds});
 
+    removeProcess(processName);
+
     if (res instanceof Error){
+      updateFeedbackData({message: "Sorry, we couldn't clear your consumed foods", type: "danger", source: processName})
       return;
     }
 
-    props.setFoodData([]);
+    // Make the user's table reflect the now-removed IDs
+    props.setConsumedFoods(props.consumedFoods.filter(food => !consumedIds.includes(food.id)));
+    updateFeedbackData({message: `Successfully cleared your consumed foods!`, type: "success", source: processName})
   }
 
 
@@ -146,14 +156,16 @@ function TodaysFoodsTable(props) {
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumed food is being added
-  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"]});
-  
+  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood", "clearConsumedFoods"]});
   const displayLogFeedback = shouldShowFeedback({sources: ["newLog"]});
+  
   const displayFormLoading = processes.includes("newConsumedFood");
+  const displayCenterLoading = processes.includes("clearConsumedFoods");
 
   return (
     <>
       {displayTopFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top" />) : (null)}
+      {displayCenterLoading ? (<Loading centered={true} />) : (null)}
 
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
