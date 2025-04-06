@@ -22,7 +22,7 @@ function TodaysFoodsTableOutput() {
       const processName = "TodaysFoodsOutput";
 
       // Get foods then set loading to false
-      const newAllFoods = await getFoods({orderedBy: "name"});
+      const newAllFoods = await getFoods();
       const newConsumedFoods = await getConsumed();
 
       if (newAllFoods instanceof Error || newConsumedFoods instanceof Error){
@@ -41,28 +41,28 @@ function TodaysFoodsTableOutput() {
 
   useEffect(() => {
     async function fetchData(){
+      let tableData = [];
+  
       // Use a for loop to access await
       // food holds consumed id, food id, consumed quantity, consumed kcal, and date
       // newFoodData holds id, name, quantity, units, kcal, and date
-      let myFoodsData = await getFoods({foodId: [consumedFoods.map(food => food.food_id)]});
-      myFoodsData = myFoodsData['Foods'];
+      for (const food of consumedFoods){
+        
+        const newFoodData = await getFoods(food.food_id);
+        let newTableData = {};
+    
+        newTableData['id'] = food.id
+        newTableData['food_id'] = food.food_id
+        newTableData['name'] = newFoodData.name
+        newTableData['quantity'] = food.quantity;
+        newTableData['units'] = newFoodData.units;
+        newTableData['kcal'] = food.kcal;
+        newTableData['dateConsumed'] = newFoodData.date_consumed;
 
-      // Create an array of data objects to show
-      const newFoodData = consumedFoods.map(consumedFood => {
-        const myFood = myFoodsData.find(myFood => myFood.id === consumedFood.food_id)
-
-        return {
-          id: consumedFood.id,
-          food_id: consumedFood.food_id,
-          name: myFood.name,
-          quantity: consumedFood.quantity,
-          units: myFood.units,
-          kcal: consumedFood.kcal,
-          dateConsumed: consumedFood.date_consumed
-        }
-      })
-
-      setFoodData(newFoodData);
+        tableData.push(newTableData)
+      }
+    
+      setFoodData(tableData)
     }
     
     if (consumedFoods){
@@ -81,7 +81,7 @@ function TodaysFoodsTableOutput() {
     return <Loading />
   }
 
-  return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods} setFoodData={setFoodData} />
+  return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods}/>
 }
 
 export default TodaysFoodsTableOutput;

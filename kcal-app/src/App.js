@@ -10,27 +10,24 @@ import DashboardPage from "./containers/DashboardPage";
 import MyFoodsPage from "./containers/MyFoodsPage";
 import TodaysFoodsPage from "./containers/TodaysFoodsPage";
 import Footer from './containers/Footer';
-import { ConfirmActionProvider } from './context/ConfirmActionContext';
 
 function App() {
 
   return (
-    <ConfirmActionProvider>
-      <FeedbackProvider>
-        <Router>
+    <FeedbackProvider>
+      <Router>
 
-          <Header />
+        <Header />
 
-          <Routes>
-              <Route exact path="/dashboard" element={<DashboardPage />} />
-              <Route path="/myfoods" element={<MyFoodsPage />} />
-              <Route path="/today" element={<TodaysFoodsPage />} />
-          </Routes>
+        <Routes>
+            <Route exact path="/dashboard" element={<DashboardPage />} />
+            <Route path="/myfoods" element={<MyFoodsPage />} />
+            <Route path="/today" element={<TodaysFoodsPage />} />
+        </Routes>
 
-          <Footer />
-        </Router>
-      </FeedbackProvider>
-    </ConfirmActionProvider>
+        <Footer />
+      </Router>
+    </FeedbackProvider>
   );
 }
 

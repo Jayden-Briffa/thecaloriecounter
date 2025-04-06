@@ -7,8 +7,6 @@ const db = new sqlite3.Database(path.join(__dirname, '..', 'database.sqlite'));
 
 // Get all foods
 foodRouter.get('/', (req, res, next) => {
-
-    // Ensure that the given orderedBy is valid
     const validFields = ['id', 'name', 'quantity', 'units', 'kcal', 'created_at'];
     let orderedBy = 'id';
 
@@ -19,23 +17,8 @@ foodRouter.get('/', (req, res, next) => {
     } else if (req.query.orderedBy){
         return next(new Error(`Cannot order by field ${req.query.orderedBy}`))
     }
-
-    let foodIdsArr;
-    let whereClause = ' ';
-    let values = [];
-    if (req.query.foodIds){
-        // Put each ID in an array and generate the where clause...
-        //...with a number of parameters equal to the number of IDs
-        foodIdsArr = req.query.foodIds.split(",");
-        const placeholders = foodIdsArr.map(() => "?").join();
-        whereClause = foodIdsArr ? ` WHERE id IN (${placeholders}) ` : ' ';
-
-        values = foodIdsArr;
-    }   
-
-    // If a list of ids is given, just get those...
-    //...otherwise, get all Foods records
-    db.all(`SELECT * FROM Foods${whereClause}ORDER BY ${orderedBy}`, values, (err, rows) => {
+    
+    db.all(`SELECT * FROM Foods ORDER BY ${orderedBy}`, (err, rows) => {
         if (err){
             return next(err);
         };

@@ -17,7 +17,7 @@ function MyFoodsTableOutput() {
     async function fetchFoods(){
       
       // Set initial userFoods state then set loading to false
-      const newUserFoods = await getFoods({orderedBy: "name"})
+      const newUserFoods = await getFoods()
 
       // If there was an error, show negative feedback
       if (newUserFoods instanceof Error){
