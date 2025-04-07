@@ -5,19 +5,19 @@ function TodaysFoodsTableRow(props) {
   
   return (
     <div className="row g-0">
-      <div className="col-4">
+      <div className="col-4 cell-content">
         {props.food.name}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.food.quantity}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.food.units}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.food.kcal}
       </div>
-      <div className="col-2 d-flex justify-content-center gap-3 position-relative">
+      <div className="col-2 cell-content d-flex justify-content-center gap-3 position-relative">
         <div className="border-0">
           <button type="submit" className="btn p-0" onClick={props.clickUpdateHandler} data-food={JSON.stringify(props.food)} data-bs-toggle="modal" data-bs-target="#updateConsumedFoodModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
