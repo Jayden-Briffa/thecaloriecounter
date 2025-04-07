@@ -1,5 +1,5 @@
 // Set and return a new record in Consumed_Foods
-export default async function postConsumed(body){
+export default async function postConsumed({body}){
 
     try{
         // Get a response from the API and translate to JSON

@@ -91,7 +91,7 @@ function TodaysFoodsTable(props) {
     };
 
     // Create new consumed food record
-    const newConsumedFood = await postConsumed(bodyData);
+    const newConsumedFood = await postConsumed({body: bodyData});
 
     removeProcess(processName);
 

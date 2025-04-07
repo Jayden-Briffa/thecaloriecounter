@@ -23,7 +23,7 @@ function TodaysFoodsTableRows(props) {
     addProcess(processName);
 
     // Delete consumed food with the selected ID
-    const deletedFood = await deleteConsumed(foodId);
+    const deletedFood = await deleteConsumed({consumedId: foodId});
     
     removeProcess(processName);
 

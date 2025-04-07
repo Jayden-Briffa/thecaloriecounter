@@ -3,7 +3,7 @@ import postKcal from "./postKcal";
 import putKcal from "./putKcal";
 
 // Set and return a new record in Kcal_Logs
-export default async function submitKcal(body){
+export default async function submitKcal({body}){
     
     try{
         // Look for an existing log with the given date
@@ -18,9 +18,9 @@ export default async function submitKcal(body){
         // If a record for today is already present, update it...
         //... otherwise, create one
         if (Object.keys(currLog).length > 0){
-            newLog = await putKcal(currLog['Logs'].id, body)
+            newLog = await putKcal({id: currLog['Logs'].id, body: body})
         } else {
-            newLog = await postKcal(body)
+            newLog = await postKcal({bod: body})
         }
 
         return newLog;

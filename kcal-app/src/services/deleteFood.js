@@ -1,5 +1,5 @@
 // Delete record from Consumed_Foods with the given ID
-export default async function deleteFood(foodId){
+export default async function deleteFood({foodId}){
 
     try{
         // Get a response from the API and translate to JSON
