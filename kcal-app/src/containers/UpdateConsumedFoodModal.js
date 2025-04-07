@@ -16,12 +16,12 @@ function UpdateConsumedFoodModal(props) {
 
   // Update newQuantity when a food is selected
   useEffect(() => {
-    setNewQuantity(todaysFoodsData.quantity)
+    setNewQuantity(todaysFoodsData.quantity ?? 0);
   }, [props.food])
 
   useEffect(() => {
 
-    if (props.food){
+    if (props.food && newQuantity){
       // Recalculate kcal
       const myFoodsKcal = myFoodsData.kcal;
       const myFoodsQuantity = myFoodsData.quantity;
