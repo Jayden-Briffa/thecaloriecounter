@@ -3,7 +3,7 @@ export default async function deleteFood(foodId){
 
     try{
         // Get a response from the API and translate to JSON
-        await fetch(`http://localhost:4001/api/foods/${foodId}`, {
+        const response = await fetch(`http://localhost:4001/api/foods/${foodId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -11,6 +11,11 @@ export default async function deleteFood(foodId){
             
         });
         
+        if (!response.ok){
+            return new Error(response.message);
+        }
+    
+        return response
 
     } catch (error){
         console.error("Error getting Foods data: ", error)

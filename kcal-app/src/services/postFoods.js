@@ -12,6 +12,10 @@ export default async function postConsumed(body){
             body: JSON.stringify(body)
         });
 
+        if (!response.ok){
+            return new Error(response.message);
+        }
+
         const jsonResponse = await response.json();
 
         //console.log(jsonResponse)

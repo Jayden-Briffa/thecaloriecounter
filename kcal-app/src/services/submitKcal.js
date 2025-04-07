@@ -9,6 +9,10 @@ export default async function submitKcal(body){
         // Look for an existing log with the given date
         const currLog = await getKcal({date: body.date});
         
+        if (currLog instanceof Error){
+            return new Error(currLog.message);
+        }
+
         let newLog; 
 
         // If a record for today is already present, update it...
