@@ -4,19 +4,19 @@ import Loading from './Loading';
 function MyFoodsTableRow(props) {
   return (
     <div className="row g-0">
-      <div className="col-4 position-relative">
+      <div className="col-4 position-relative cell-content">
         {props.foodName}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.foodQuantity}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.foodUnits}
       </div>
-      <div className="col-2">
+      <div className="col-2 cell-content">
         {props.foodKcal}
       </div>
-      <div className="col-2 position-relative">
+      <div className="col-2 position-relative cell-content">
         <form onSubmit={props.submitHandler} data-foodname={props.foodName} data-foodid={props.foodId}>
           <input type="hidden" />
           <button type="submit" className="btn p-0">
