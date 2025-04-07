@@ -65,11 +65,16 @@
   border: 4px solid var(--PINK);
 }
 
+.data-table{
+  overflow: hidden;
+}
+
 .cell-border-pink div div{
   border: 1px solid var(--PINK);
 }
 
 .cell-border-pink.data-table.rounded > div:first-child > div{
+  border-right: none;
   border-top: none;
 }
 
