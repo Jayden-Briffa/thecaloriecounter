@@ -23,6 +23,11 @@ export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
         // Get a response from the API and translate to JSON
         const response = await fetch(url + query);
+
+        if (!response.ok){
+            return new Error(response.message);
+        }
+
         const jsonResponse = await response.json();
 
         //console.log("FOODS: ", jsonResponse)
