@@ -1,9 +1,10 @@
 :root{
   /* COLORS */
   --PINK: #B6174B;
-  --BLUE: #9EE0FF;
+  --BLUE: #9ee0ff;
   --GREEN: #193700;
   --BRIGHT-BLUE: #49FFFF;
+  --BLUE-FADED: #d6f2ff;
 
   /* Backgrounds */
   --COLOR-HEADER-FOOTER: var(--PINK);
@@ -73,18 +74,23 @@
   border: 1px solid var(--PINK);
 }
 
-input[type='number']{
-  position: relative;
+/* Inputs */
+input.form-control,
+select.form-select{
+  transition: all 0.2s;
+}
+
+input.form-control:focus,
+select.form-select:focus{
+  box-shadow: none;
+  border: 1px solid var(--PINK);
+  background-color: var(--BLUE-FADED);
 }
 
 input[type='number']::-webkit-inner-spin-button, 
 input[type='number']::-webkit-outer-spin-button { 
-    position: absolute;
-    top: 0;
-    right: 2%;
-    height: 100%;
+    -webkit-appearance: none;
 }
-
 
 /* GENERAL SELECTORS */
 .page{
