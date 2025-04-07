@@ -1,5 +1,5 @@
 // Get and return the average kcal consumed between 2 dates
-export default async function getKcalAvg(start, end){
+export default async function getKcalAvg({start, end}){
 
     try{
         const url = 'http://localhost:4001/api/kcal';

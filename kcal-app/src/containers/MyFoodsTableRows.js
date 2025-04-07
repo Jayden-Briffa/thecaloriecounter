@@ -18,7 +18,7 @@ function MyFoodsTableRows(props) {
     const processName = `deleteFood:${foodId}`
     addProcess(processName)
 
-    const deletedFood = await deleteFood(foodId)
+    const deletedFood = await deleteFood({foodId: foodId})
 
     // Remove the process from processes array no matter the result
     removeProcess(processName)

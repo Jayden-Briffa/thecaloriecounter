@@ -47,7 +47,7 @@ function UpdateConsumedFoodModal(props) {
     addProcess(processName);
 
     // Update the record and remove process
-    const updatedConsumed = await putConsumed(body.id, body);
+    const updatedConsumed = await putConsumed({consumedId: body.id, body: body});
     removeProcess(processName);
 
     if (updatedConsumed instanceof Error){

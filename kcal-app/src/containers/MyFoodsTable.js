@@ -30,7 +30,7 @@ function MyFoodTable(props) {
     };
     
     // Set and return the new Foods record
-    const newFood = await postFoods(formData);
+    const newFood = await postFoods({body: formData});
     
     // Remove the new food process from processes array, no matter the result
     removeProcess(processName)

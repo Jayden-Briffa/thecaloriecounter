@@ -51,7 +51,7 @@ function DashboardOutput() {
     const {startDate, endDate} = calcEndDate(new Date().getTime() - (8.64e+7), -selectedDays + 1)
     
     // Reverse the start and end dates because end will be before start
-    const res = await getKcalAvg(endDate, startDate);
+    const res = await getKcalAvg({start: endDate, end: startDate});
 
     // If there was an error, return it to stop loading
     if (res instanceof Error){

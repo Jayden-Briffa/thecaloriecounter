@@ -1,5 +1,5 @@
 // Set and return a new record in Kcal_Logs
-export default async function postKcal(body){
+export default async function postKcal({body}){
     
     try{
         // Get a response from the API and translate to JSON
