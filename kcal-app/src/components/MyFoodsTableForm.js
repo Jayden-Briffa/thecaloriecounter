@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from './Loading';
+import AppInput from '../containers/AppInput';
 
 function MyFoodsTableForm(props) {
   return (
@@ -8,7 +9,7 @@ function MyFoodsTableForm(props) {
         <input type="text" className="form-control border-pink text-center p-0 mb-0 rounded-0 cell-content" name="name" id="InputNewFoodName" placeholder="Name..." />
       </div>
       <div className="col-2">
-        <input type="number" className="form-control border-pink text-center p-0 mb-0 rounded-0 cell-content" name="quantity" id="InputNewFoodQuantity" placeholder="Quantity..." />
+        <AppInput type="number" className="cell-content" name="quantity" id="InputNewFoodQuantity" placeholder="Quantity..." />
       </div>
       <div className="col-2">
         <input type="text" className="form-control border-pink text-center p-0 mb-0 rounded-0 cell-content" name="units" id="InputNewFoodUnits" placeholder="Units..." />

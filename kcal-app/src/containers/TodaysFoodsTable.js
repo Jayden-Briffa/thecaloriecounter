@@ -112,7 +112,7 @@ function TodaysFoodsTable(props) {
 
     addProcess(processName);
 
-    const newLog = await submitKcal({date: logDate, kcal: totalKcal});
+    const newLog = await submitKcal({body: {date: logDate, kcal: totalKcal}});
     
     removeProcess(processName);
 
@@ -148,7 +148,6 @@ function TodaysFoodsTable(props) {
     props.setConsumedFoods(props.consumedFoods.filter(food => !consumedIds.includes(food.id)));
     updateFeedbackData({message: `Successfully cleared your consumed foods!`, type: "success", source: processName})
   }
-
 
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
