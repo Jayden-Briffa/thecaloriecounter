@@ -14,7 +14,9 @@ function AppInput(props) {
     placeholder,
     min,
     max,
-    step
+    step,
+    disabled,
+    expand
   } = props;
 
   // Assign optional attributes where they have been given
@@ -26,6 +28,7 @@ function AppInput(props) {
     ...(min && { min }),
     ...(max && { max }),
     ...(step && { step }),
+    ...(disabled && { disabled }),
   }
 
   const [ isFocussed, setIsFocussed ] = useState(false);
@@ -50,12 +53,11 @@ function AppInput(props) {
   }
 
   return (
-    <div className='d-inline-block position-relative'>
+    <div className={`d-inline-block position-relative ${expand ? "w-100" : ""}`}>
       <input 
         onFocus={handleFocus}
         onBlur={handleFocusOut}
         type={type} 
-        value={value}
         onChange={onChange}
         className={`form-control border-pink text-center p-0 mb-0 rounded-0 ${className}`}
         {...optionals}

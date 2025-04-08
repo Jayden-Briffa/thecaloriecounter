@@ -1,7 +1,10 @@
 import React from 'react';
 import Loading from './Loading';
+import AppInput from '../containers/AppInput';
 
 function TodaysFoodsTableForm(props) {
+  console.log(props.kcalVal)
+ 
   return (
     <form className="row g-0" method="post" onSubmit={props.submitHandler}>
       <div className="col-4 border-top-0">
@@ -12,13 +15,13 @@ function TodaysFoodsTableForm(props) {
         </select>
       </div>
       <div className="col-2">
-        <input type="number" className="form-control cell-content border-pink text-center p-0 mb-0 rounded-0" name="quantity" id="InputConsumedFoodQuantity" placeholder="Quantity..." value={props.quantityVal} onChange={props.quantityChangeHandler} />
+        <AppInput type="number" className="cell-content" name="quantity" id="InputConsumedFoodQuantity" placeholder="Quantity..." value={props.quantityVal} setValue={props.setQuantityVal} onChange={props.quantityChangeHandler} />
       </div>
       <div className="col-2">
-        <input type="text" className="form-control cell-content border-pink text-center p-0 mb-0 rounded-0" name="units" disabled value={props.selectedFoodData ? props.selectedFoodData.units : ""} />
+        <AppInput type="text" className="cell-content" name="units" disabled value={props.selectedFoodData.units} />
       </div>
       <div className="col-2">
-        <input type="number" className="form-control cell-content border-pink text-center p-0 mb-0 rounded-0" name="kcal" disabled value={props.kcalVal} />
+        <AppInput className="cell-content" name="kcal" disabled value={props.kcalVal} />
       </div>
       <div className="col-2 d-flex position-relative justify-content-center  border-pink border-1 text-center p-0 mb-0 rounded-0">
         <button className="btn-submit border-0 bg-transparent" type="submit">

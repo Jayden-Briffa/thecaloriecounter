@@ -7,6 +7,7 @@ function IncrementAndDecrement(props) {
 
   // Change the value of the nearest <input>
   function defaultSetValue(callback){
+    console.log("Default called")
     const inputElem = document.getElementById(props.id).closest('input');
 
     const oldValue = inputElem.value;
