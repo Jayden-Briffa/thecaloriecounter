@@ -22,8 +22,8 @@ function TodaysFoodsTable(props) {
 
   const [kcalVal, setKcalVal] = useState(0);
   const [quantityVal, setQuantityVal] = useState(0);
-  const [selectedFoodId, setSelectedFoodId] = useState(null);
-  const [selectedFoodData, setSelectedFoodData] = useState(null);
+  const [selectedFoodId, setSelectedFoodId] = useState(props.allFoods[0].id);
+  const [selectedFoodData, setSelectedFoodData] = useState(props.allFoods[0]);
   const [totalKcal, setTotalKcal] = useState(0);
   const [logDate, setLogDate] = useState(extractDate(new Date()));
   const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
@@ -32,9 +32,11 @@ function TodaysFoodsTable(props) {
 
   // Set selectedFoodData only when the selectedFoodId changes
   useEffect(() => {
-    const foodData = props.allFoods.find((food) => food.id === Number(selectedFoodId));
-    setSelectedFoodData(foodData)
-
+    if (selectedFoodId !== null){
+      const foodData = props.allFoods.find((food) => food.id === Number(selectedFoodId));
+      setSelectedFoodData(foodData)
+    }
+    
   }, [selectedFoodId, props.allFoods])
 
   // Recalculate kcal whenever the quantity or selected food changes
@@ -169,7 +171,7 @@ function TodaysFoodsTable(props) {
 
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
-        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setKcalVal={setKcalVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
+        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setQuantityVal={setQuantityVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>
 
