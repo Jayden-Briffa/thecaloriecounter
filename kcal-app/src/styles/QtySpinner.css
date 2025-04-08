@@ -1,0 +1,21 @@
+.qty-spinner{
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    width: 30%;
+    gap: 0;
+    top: 0;
+    right: 2%;
+    z-index: 2;
+  }
+  
+  .qty-spinner button{
+    border: none;
+  }
+  
+  .qty-spinner svg:hover{
+    fill: var(--GREEN);
+  }

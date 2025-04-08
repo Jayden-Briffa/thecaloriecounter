@@ -92,10 +92,6 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 
-.qty-spinner{
-  width: 20px;
-}
-
 /* GENERAL SELECTORS */
 .page{
   min-height: 88vh;

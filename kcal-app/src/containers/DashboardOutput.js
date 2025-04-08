@@ -120,7 +120,7 @@ function DashboardOutput() {
     <section className={sectionClasses}>
       <div className={graphClasses}>
         <DashboardKcalGraph kcalVals={kcalVals} />
-        <DashboardDaysForm selectedDays={selectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
+        <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
       </div>
       
       <div className={avgClasses}>
