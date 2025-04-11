@@ -3,7 +3,7 @@
 This is my first real project for creating a web app
   
 ---
-There are 2 main components
+There are 2 main components. Each has their own README file for extra information
 
 ## App
 This will be made with React as its framework to provide the user with a user-friendly and visually-appealing access point

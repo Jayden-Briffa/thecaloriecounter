@@ -2,6 +2,10 @@
 
 This is my first real project made with React. It was bootstrapped using CRA to solidify my React knowledge and make it easier for me to track my calories. 
 
+## Commands
++ npm build
++ npm start
+
 # Pages
 
 ## Dashboard
