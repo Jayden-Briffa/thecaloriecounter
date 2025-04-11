@@ -23,11 +23,11 @@ Takes the following query parameters
 
 ### GET /:foodId
     
-Returns the food with the given ID {Foods: ...}
+Returns the food with the given ID {Food: ...}
 
 ### POST / 
 
-Creates a new food and returns it {Foods: ...}
+Creates a new food and returns it {Food: ...}
 
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |
@@ -38,7 +38,7 @@ The following values should be provided in the request body:
 | kcal | Number of calories per quantity of units | '75' | required |
 
 ### PUT /:foodId
-Updates the food with the given ID and returns it {Foods: ...}
+Updates the food with the given ID and returns it {Food: ...}
 
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |
@@ -57,10 +57,10 @@ Deletes the food with the given ID
 Returns all consumed food logs {Consumed_Foods: ...}
 
 ### GET /:consumedId
-Returns the consumed food log with the given ID {...}
+Returns the consumed food log with the given ID {Consumed_Food...}
 
 ### POST /
-Creates a new consumed food log and returns it {Foods: ...}
+Creates a new consumed food log and returns it {Consumed_Food: ...}
 
 The kcal count should be calculated using data from /Foods to reduce unnecessary API calls.
 
@@ -73,7 +73,7 @@ The following values should be provided in the request body:
 | dateConsumed | When the food was consumed | '2025-04-08' | required |
 
 ### PUT /:consumedId
-Updates the consumed food log with the given ID and returns it {...}
+Updates the consumed food log with the given ID and returns it {Consumed_Food: ...}
 
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |
@@ -91,16 +91,16 @@ Returns all calorie logs {Logs: ...}
 Takes the following query parameters
 | Parameter name | Description | Example | Requirement | Returns |
 | ---- | ---- | ---- | ---- | ---- |
-| date | Only include logs created on a specific date | ?date=2025-03-15 | Optional | {Logs: ...}
+| date | Only include logs created on a specific date | ?date=2025-03-15 | Optional | {Log: ...}
 | start | Only include logs after or on the date | ?start=2025-03-15 | Optional (required when using end) | {Logs: ...}
 | end | Only include logs before or on the date | ?end=2025-03-20 | Optional (required when using start) | {Logs: ...}
 | getAvg | Return an average of calorie logs | getAvg=true | Optional |{Kcal: ...}
 
 ### GET /:logId
-Returns the calorie log with the given ID {...}
+Returns the calorie log with the given ID {Log: ...}
 
 ### POST /
-Creates a new calorie log and returns it {Logs: ...}
+Creates a new calorie log and returns it {Log: ...}
 
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |
@@ -109,7 +109,7 @@ The following values should be provided in the request body:
 | date | '2025-03-15' | required |
 
 ### PUT /:logId
-Updates the calorie log with the given ID and returns it {Logs: ...}
+Updates the calorie log with the given ID and returns it {Log: ...}
 
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |

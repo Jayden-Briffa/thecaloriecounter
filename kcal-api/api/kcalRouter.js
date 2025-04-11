@@ -15,7 +15,7 @@ kcalRouter.get('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(200).json({Logs: row})
+            return res.status(200).json({Log: row})
         })
 
         // Get average kcal between the given dates
@@ -62,13 +62,13 @@ kcalRouter.param('logId', (req, res, next) => {
             return res.status(404).send(`Food not found with id: ${id}`);
         }
 
-        req.foodItem = row;
+        req.kcalLog = row;
         return next();
     });
 })
 
 kcalRouter.get('/:logId', (req, res, next) => {
-    return res.status(200).json(req.foodItem);
+    return res.status(200).json({Log: req.kcalLog});
 })
 
 kcalRouter.post('/', (req, res, next) => {
@@ -83,7 +83,7 @@ kcalRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Logs: row});
+            return res.status(201).json({Log: row});
         })
     })
 })
@@ -104,7 +104,7 @@ kcalRouter.put('/:logId', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Logs: row});
+            return res.status(201).json({Log: row});
         })
     })
 })
