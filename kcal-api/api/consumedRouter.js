@@ -11,7 +11,7 @@ consumedRouter.get('/', (req, res, next) => {
             return next(err);
         }
 
-        return res.status(200).send({Consumed_Foods : rows});
+        return res.status(200).json({Consumed_Foods : rows});
     })
 })
 
@@ -26,13 +26,13 @@ consumedRouter.param('consumedId', (req, res, next) => {
             return res.status(404).send(`Food not found with id: ${id}`);
         }
 
-        req.foodItem = row;
+        req.consumedFood = row;
         return next();
     });
 })
 
 consumedRouter.get('/:consumedId', (req, res, next) => {
-    return res.status(200).json(req.foodItem);
+    return res.status(200).json({Consumed_Food: req.consumedFood});
 })
 
 consumedRouter.post('/', (req, res, next) => {
@@ -55,7 +55,7 @@ consumedRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Foods: row});
+            return res.status(201).json({Consumed_Food: row});
         })
     })
 })
@@ -78,7 +78,7 @@ consumedRouter.put('/:consumedId', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json(row);
+            return res.status(201).json({Consumed_Food: row});
         })
     })
 })

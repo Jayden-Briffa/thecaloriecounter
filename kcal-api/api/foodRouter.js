@@ -61,7 +61,7 @@ foodRouter.param('foodId', (req, res, next) => {
 })
 
 foodRouter.get('/:foodId', (req, res, next) => {
-    return res.status(200).json(req.foodItem);
+    return res.status(200).json({Food: req.foodItem});
 })
 
 foodRouter.post('/', (req, res, next) => {
@@ -76,7 +76,7 @@ foodRouter.post('/', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Foods: row});
+            return res.status(201).json({Food: row});
         })
     })
 })
@@ -100,7 +100,7 @@ foodRouter.put('/:foodId', (req, res, next) => {
                 return next(err);
             }
 
-            return res.status(201).json({Foods: row});
+            return res.status(201).json({Food: row});
         })
     })
 })
