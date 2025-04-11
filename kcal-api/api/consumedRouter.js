@@ -83,12 +83,41 @@ consumedRouter.put('/:consumedId', (req, res, next) => {
     })
 })
 
+consumedRouter.delete('/', (req, res, next) => {
+    
+    let consumedIdsArr;
+    let whereClause = ' ';
+    let values = [];
+
+    // If a consumedIds value wasn't given, give an error
+    if (req.query.consumedIds === undefined){
+        return next(new Error('You must provide a foodIds argument'));
+    }  
+
+    // Put each ID in an array and generate the where clause...
+    //...with a number of parameters equal to the number of IDs
+    consumedIdsArr = req.query.consumedIds.split(",").map(Number);
+    const placeholders = consumedIdsArr.map(() => "?").join();
+    whereClause = `WHERE id IN (${placeholders})`;
+
+    values = consumedIdsArr;
+
+    db.run(`DELETE FROM Consumed_Foods ${whereClause}`, values, (err) => {
+        if (err){
+            return next(err);
+        }
+    
+        return res.status(204).send();
+    }) 
+})
+
 consumedRouter.delete('/:consumedId', (req, res, next) => {
+
     db.run(`DELETE FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId], (err) => {
         if (err){
             return next(err);
         }
-
+    
         return res.status(204).send();
     })
 })
