@@ -14,10 +14,15 @@ export default async function getKcal({date = null, start=null, end=null}){
 
         // Get a response from the API and translate to JSON
         const response = await fetch(url + query);
+
+        if (!response.ok){
+            return new Error(response.message);
+        }
+
         const jsonResponse = await response.json();
 
         //console.log("LOGS: ", jsonResponse)
-        return jsonResponse;
+        return jsonResponse.Logs ?? jsonResponse.Log;
 
     } catch (error){
         console.error("Error getting Foods data: ", error)

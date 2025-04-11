@@ -16,12 +16,12 @@ function UpdateConsumedFoodModal(props) {
 
   // Update newQuantity when a food is selected
   useEffect(() => {
-    setNewQuantity(todaysFoodsData.quantity)
+    setNewQuantity(todaysFoodsData.quantity ?? 0);
   }, [props.food])
 
   useEffect(() => {
 
-    if (props.food){
+    if (props.food && newQuantity){
       // Recalculate kcal
       const myFoodsKcal = myFoodsData.kcal;
       const myFoodsQuantity = myFoodsData.quantity;
@@ -47,7 +47,7 @@ function UpdateConsumedFoodModal(props) {
     addProcess(processName);
 
     // Update the record and remove process
-    const updatedConsumed = await putConsumed(body.id, body);
+    const updatedConsumed = await putConsumed({consumedId: body.id, body: body});
     removeProcess(processName);
 
     if (updatedConsumed instanceof Error){

@@ -1,10 +1,6 @@
 # The Calorie Counter
 
-This is my first independent react project. At the end of its development, it should meet the following requirements:
-
-- Perform CRUD operations on user-added foods, alongside quantity, units, and kcal 
-- Provide the user with a dashboard to display average kcal consumption and kcal consumed over time
-- Let the user add foods they consumed throughout the day along with the quantity of that food
+This is my first real project for creating a web app
   
 ---
 There are 2 main components

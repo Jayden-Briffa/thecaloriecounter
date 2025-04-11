@@ -19,15 +19,15 @@ function App() {
       <FeedbackProvider>
         <Router>
 
-          <Header />
+            <Header />
 
-          <Routes>
-              <Route exact path="/dashboard" element={<DashboardPage />} />
-              <Route path="/myfoods" element={<MyFoodsPage />} />
-              <Route path="/today" element={<TodaysFoodsPage />} />
-          </Routes>
+            <Routes>
+                <Route exact path="/dashboard" element={<DashboardPage />} />
+                <Route path="/myfoods" element={<MyFoodsPage />} />
+                <Route path="/today" element={<TodaysFoodsPage />} />
+            </Routes>
 
-          <Footer />
+            <Footer />
         </Router>
       </FeedbackProvider>
     </ConfirmActionProvider>

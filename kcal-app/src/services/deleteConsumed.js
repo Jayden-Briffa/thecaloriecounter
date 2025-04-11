@@ -15,13 +15,19 @@ export default async function deleteConsumed({consumedId}){
         }
         
         // Get a response from the API and translate to JSON
-        await fetch(url + query, {
+        const response = await fetch(url + query, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
             
         });
+
+        if (!response.ok){
+            return new Error(response.message);
+        }
+    
+        return response
         
 
     } catch (error){

@@ -51,14 +51,14 @@ function DashboardOutput() {
     const {startDate, endDate} = calcEndDate(new Date().getTime() - (8.64e+7), -selectedDays + 1)
     
     // Reverse the start and end dates because end will be before start
-    const res = await getKcalAvg(endDate, startDate);
+    const res = await getKcalAvg({start: endDate, end: startDate});
 
     // If there was an error, return it to stop loading
     if (res instanceof Error){
       return res;
     }
 
-    const avg = res['Kcal']['average_kcal'];
+    const avg = res;
     const avgRounded = Math.floor(avg);
 
     setAvgKcal(avgRounded)
@@ -77,7 +77,7 @@ function DashboardOutput() {
       return res;
     }
 
-    const newKcalVals = res['Logs'];
+    const newKcalVals = res;
 
     setKcalVals(newKcalVals)
   }
@@ -120,7 +120,7 @@ function DashboardOutput() {
     <section className={sectionClasses}>
       <div className={graphClasses}>
         <DashboardKcalGraph kcalVals={kcalVals} />
-        <DashboardDaysForm selectedDays={selectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
+        <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
       </div>
       
       <div className={avgClasses}>

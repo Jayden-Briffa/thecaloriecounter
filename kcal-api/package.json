@@ -1,7 +1,7 @@
 {
     "name": "calorie_tracker",
     "description": "Project to work with node/express and also to help my future diet-related efforts",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": "Jayden Briffa",
     "scripts": {
         "start": "node server.js",
@@ -12,7 +12,7 @@
     "dependencies": {
         "express": "",
         "cors": "",
-        "morgan": "",
+        "morgan": ">=1.10.0",
         "sqlite3": ""
     }
 }

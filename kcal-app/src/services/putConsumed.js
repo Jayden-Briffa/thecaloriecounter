@@ -1,8 +1,8 @@
 // Set and return a new record in Kcal_Logs
-export default async function putConsumed(id, body){
+export default async function putConsumed({consumedId, body}){
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`http://localhost:4001/api/consumed/${id}`, {
+        const response = await fetch(`http://localhost:4001/api/consumed/${consumedId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -11,10 +11,14 @@ export default async function putConsumed(id, body){
             body: JSON.stringify(body)
         });
 
+        if (!response.ok){
+            return new Error(response.message);
+        }
+
         const jsonResponse = await response.json();
 
         //console.log(jsonResponse)
-        return jsonResponse['Consumed_Foods'];
+        return jsonResponse.Consumed_Food;
 
     } catch (error){
         console.error("Error putting Today's Foods data: ", error)
