@@ -115,7 +115,7 @@ function TodaysFoodsTable(props) {
     addProcess(processName);
 
     const newLog = await submitKcal({body: {date: logDate, kcal: totalKcal}});
-    
+
     removeProcess(processName);
 
     if (newLog instanceof Error){

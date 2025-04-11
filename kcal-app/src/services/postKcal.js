@@ -19,7 +19,7 @@ export default async function postKcal({body}){
         const jsonResponse = await response.json();
 
         //console.log(jsonResponse)
-        return jsonResponse['Logs'];
+        return jsonResponse.Log;
 
     } catch (error){
         console.error("Error posting Kcal data: ", error)
