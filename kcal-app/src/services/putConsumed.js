@@ -18,7 +18,7 @@ export default async function putConsumed({consumedId, body}){
         const jsonResponse = await response.json();
 
         //console.log(jsonResponse)
-        return jsonResponse['Consumed_Foods'];
+        return jsonResponse.Consumed_Food;
 
     } catch (error){
         console.error("Error putting Today's Foods data: ", error)

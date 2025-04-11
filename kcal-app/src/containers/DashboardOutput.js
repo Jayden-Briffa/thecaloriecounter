@@ -58,7 +58,7 @@ function DashboardOutput() {
       return res;
     }
 
-    const avg = res['Kcal']['average_kcal'];
+    const avg = res;
     const avgRounded = Math.floor(avg);
 
     setAvgKcal(avgRounded)
@@ -77,7 +77,7 @@ function DashboardOutput() {
       return res;
     }
 
-    const newKcalVals = res['Logs'];
+    const newKcalVals = res;
 
     setKcalVals(newKcalVals)
   }

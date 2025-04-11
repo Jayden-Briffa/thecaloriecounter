@@ -29,8 +29,8 @@ function TodaysFoodsTableOutput() {
         updateFeedbackData({message: "Sorry, it looks like we couldn't get the data we're looking for", type: "danger", source: processName})
       }
 
-      setAllFoods(newAllFoods['Foods']);
-      setConsumedFoods(newConsumedFoods['Consumed_Foods']);
+      setAllFoods(newAllFoods);
+      setConsumedFoods(newConsumedFoods);
 
       setIsLoading(false)
 
@@ -44,8 +44,7 @@ function TodaysFoodsTableOutput() {
       // Use a for loop to access await
       // food holds consumed id, food id, consumed quantity, consumed kcal, and date
       // newFoodData holds id, name, quantity, units, kcal, and date
-      let myFoodsData = await getFoods({foodId: [consumedFoods.map(food => food.food_id)]});
-      myFoodsData = myFoodsData['Foods'];
+      const myFoodsData = await getFoods({foodId: [consumedFoods.map(food => food.food_id)]});
 
       // Create an array of data objects to show
       const newFoodData = consumedFoods.map(consumedFood => {

@@ -3,7 +3,6 @@ import Loading from './Loading';
 import AppInput from '../containers/AppInput';
 
 function TodaysFoodsTableForm(props) {
-  console.log(props.kcalVal)
  
   return (
     <form className="row g-0" method="post" onSubmit={props.submitHandler}>

@@ -25,7 +25,7 @@ function MyFoodsTableOutput() {
         return;
       }
 
-      setUserFoods(newUserFoods['Foods']);
+      setUserFoods(newUserFoods);
       setIsLoading(false)
     
     }
