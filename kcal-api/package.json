@@ -12,7 +12,7 @@
     "dependencies": {
         "express": "",
         "cors": "",
-        "morgan": "",
+        "morgan": ">=1.10.0",
         "sqlite3": ""
     }
 }
