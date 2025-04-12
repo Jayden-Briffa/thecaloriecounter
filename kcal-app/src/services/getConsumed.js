@@ -12,7 +12,7 @@ export default async function getConsumed(){
         const jsonResponse = await response.json();
 
         //console.log(jsonResponse)
-        return jsonResponse.Consumed_Foods;
+        return jsonResponse.Consumed_Foods ?? jsonResponse;
 
     } catch (error){
         console.error("Error getting Foods data: ", error)

@@ -31,7 +31,7 @@ export default async function getFoods({foodId = null, orderedBy = null} = {}){
         const jsonResponse = await response.json();
 
         //console.log("FOODS: ", jsonResponse)
-        return jsonResponse.Foods;
+        return jsonResponse.Foods ?? jsonResponse;
 
     } catch (error){
         console.error("Error getting Foods data: ", error)

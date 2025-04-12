@@ -20,9 +20,9 @@ export default async function getKcal({date = null, start=null, end=null}){
         }
 
         const jsonResponse = await response.json();
-
+        
         //console.log("LOGS: ", jsonResponse)
-        return jsonResponse.Logs ?? jsonResponse.Log;
+        return jsonResponse.Logs ?? jsonResponse.Log ?? jsonResponse;
 
     } catch (error){
         console.error("Error getting Foods data: ", error)
