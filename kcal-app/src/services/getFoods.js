@@ -1,8 +1,10 @@
+import apiDomain from "../apiDomain";
+
 // Get and return all data from the Foods table. Set the result to a give setState function
 export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
     try{
-        let url = `http://localhost:4001/api/foods`;
+        let url = `http://${apiDomain}/api/foods`;
 
         let query = "";
         if (orderedBy){

@@ -1,9 +1,11 @@
+import apiDomain from "../apiDomain";
+
 // Get and return all data from Consumed_Foods
 export default async function getConsumed(){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`http://localhost:4001/api/consumed`);
+        const response = await fetch(`https://${apiDomain}/api/consumed`);
         
         if (!response.ok){
             return new Error(response.message);

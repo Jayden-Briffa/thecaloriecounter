@@ -1,9 +1,11 @@
+import apiDomain from "../apiDomain";
+
 // Set and return a new record in Consumed_Foods
 export default async function postConsumed({body}){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`http://localhost:4001/api/foods`, {
+        const response = await fetch(`https://${apiDomain}/api/foods`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

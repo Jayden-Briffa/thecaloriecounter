@@ -1,8 +1,10 @@
+import apiDomain from "../apiDomain";
+
 // Get and return all data from Kcal_Logs, or just the one associated with a specific date if given 
 export default async function getKcal({date = null, start=null, end=null}){
 
     try{
-        const url = 'http://localhost:4001/api/kcal';
+        const url = `https://${apiDomain}/api/kcal`;
         let query = '';
 
         if (date){

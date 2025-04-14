@@ -1,9 +1,11 @@
+import apiDomain from "../apiDomain";
+
 // Set and return a new record in Kcal_Logs
 export default async function postKcal({body}){
     
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`http://localhost:4001/api/kcal`, {
+        const response = await fetch(`https://${apiDomain}/api/kcal`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,8 +1,10 @@
+import apiDomain from "../apiDomain";
+
 // Delete record from Consumed_Foods with the given ID
 export default async function deleteConsumed({consumedId}){
 
     try{
-        let url = `http://localhost:4001/api/consumed`;
+        let url = `https://${apiDomain}/api/consumed`;
         let query = '';
 
         if (typeof consumedId === "object"){

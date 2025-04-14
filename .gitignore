@@ -3,7 +3,9 @@ node_modules/
 
 # Build and distribution folders
 kcal-app/build/
+kcal-app/.wrangler/
 kcal-api/dist/
+kcal-api/.wrangler/
 
 # Environment variables
 .env
@@ -22,6 +24,7 @@ Thumbs.db
 # Other
 kcal-api/database.sqlite
 database-backup.sqlite
+kcal-app/src/apiDomain.js
 todo.txt
 runServer.bat
 runApp.bat
