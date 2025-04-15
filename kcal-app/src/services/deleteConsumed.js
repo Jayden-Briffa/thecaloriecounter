@@ -4,7 +4,7 @@ import apiDomain from "../apiDomain";
 export default async function deleteConsumed({consumedId}){
 
     try{
-        let url = `https://${apiDomain}/api/consumed`;
+        let url = `${apiDomain}/api/consumed`;
         let query = '';
 
         if (typeof consumedId === "object"){

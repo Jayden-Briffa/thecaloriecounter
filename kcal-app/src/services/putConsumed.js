@@ -4,7 +4,7 @@ import apiDomain from "../apiDomain";
 export default async function putConsumed({consumedId, body}){
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/consumed/${consumedId}`, {
+        const response = await fetch(`${apiDomain}/api/consumed/${consumedId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

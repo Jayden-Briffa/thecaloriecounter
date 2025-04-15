@@ -4,9 +4,9 @@ import apiDomain from "../apiDomain";
 export default async function getKcalAvg({start, end}){
 
     try{
-        const url = `https://${apiDomain}/api/kcal`;
+        const url = `${apiDomain}/api/kcal`;
         let query = `?getAvg=true&start=${start}&end=${end}`;
-
+        
         // Get a response from the API and translate to JSON
         const response = await fetch(url + query);
 
@@ -16,8 +16,8 @@ export default async function getKcalAvg({start, end}){
 
         const jsonResponse = await response.json();
 
-        //console.log("AVG: ", jsonResponse)
-        return jsonResponse.Kcal.average_kcal;
+        //console.log("AVG: ", jsonResponse.Kcal[0].average_kcal)
+        return jsonResponse.Kcal[0].average_kcal;
 
     } catch (error){
         console.error("Error getting average kcal data: ", error)

@@ -4,7 +4,7 @@ import apiDomain from "../apiDomain";
 export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
     try{
-        let url = `http://${apiDomain}/api/foods`;
+        let url = `${apiDomain}/api/foods`;
 
         let query = "";
         if (orderedBy){

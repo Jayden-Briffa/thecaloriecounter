@@ -5,7 +5,7 @@ export default async function deleteFood({foodId}){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/foods/${foodId}`, {
+        const response = await fetch(`${apiDomain}/api/foods/${foodId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

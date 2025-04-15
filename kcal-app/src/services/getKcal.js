@@ -4,7 +4,7 @@ import apiDomain from "../apiDomain";
 export default async function getKcal({date = null, start=null, end=null}){
 
     try{
-        const url = `https://${apiDomain}/api/kcal`;
+        const url = `${apiDomain}/api/kcal`;
         let query = '';
 
         if (date){

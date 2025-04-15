@@ -21,7 +21,7 @@ export default async function submitKcal({body}){
         } else {
             newLog = await postKcal({body: body})
         }
-        
+      
         //console.log("submitKcal: ", newLog);
         return newLog;
 

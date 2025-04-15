@@ -5,7 +5,7 @@ export default async function getConsumed(){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/consumed`);
+        const response = await fetch(`${apiDomain}/api/consumed`);
         
         if (!response.ok){
             return new Error(response.message);

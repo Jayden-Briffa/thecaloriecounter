@@ -5,7 +5,7 @@ export default async function putKcal({logId, body}){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/kcal/${logId}`, {
+        const response = await fetch(`${apiDomain}/api/kcal/${logId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

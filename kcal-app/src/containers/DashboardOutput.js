@@ -52,7 +52,7 @@ function DashboardOutput() {
     
     // Reverse the start and end dates because end will be before start
     const res = await getKcalAvg({start: endDate, end: startDate});
-
+    console.log('RES:', res)
     // If there was an error, return it to stop loading
     if (res instanceof Error){
       return res;

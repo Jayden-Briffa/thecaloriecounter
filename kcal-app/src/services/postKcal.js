@@ -5,7 +5,7 @@ export default async function postKcal({body}){
     
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/kcal`, {
+        const response = await fetch(`${apiDomain}/api/kcal`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

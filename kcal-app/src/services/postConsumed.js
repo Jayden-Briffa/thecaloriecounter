@@ -5,7 +5,7 @@ export default async function postConsumed({body}){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`https://${apiDomain}/api/consumed`, {
+        const response = await fetch(`${apiDomain}/api/consumed`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
