@@ -1,10 +1,8 @@
-import apiDomain from "../apiDomain";
-
 // Delete record from Consumed_Foods with the given ID
 export default async function deleteConsumed({consumedId}){
 
     try{
-        let url = `${apiDomain}/api/consumed`;
+        let url = `${process.env.REACT_APP_API_URL}/api/consumed`;
         let query = '';
 
         if (typeof consumedId === "object"){

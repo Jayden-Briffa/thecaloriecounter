@@ -1,11 +1,9 @@
-import apiDomain from "../apiDomain";
-
 // Get and return all data from the Foods table. Set the result to a give setState function
 export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
     try{
-        let url = `${apiDomain}/api/foods`;
-
+        let url = `${process.env.REACT_APP_API_URL}/api/foods`;
+        
         let query = "";
         if (orderedBy){
             query += `?orderedBy=${orderedBy}`;

@@ -4,7 +4,6 @@ import Loading from '../components/Loading';
 import Feedback from '../components/Feedback';
 import MyFoodsTable from './MyFoodsTable'
 import getFoods from '../services/getFoods';
-import apiDomain from '../apiDomain';
 
 function MyFoodsTableOutput() {
 
@@ -22,7 +21,7 @@ function MyFoodsTableOutput() {
 
       // If there was an error, show negative feedback
       if (newUserFoods instanceof Error){
-        updateFeedbackData({message: "Sorry, it looks like we couldn't get your foods from: " + apiDomain, type: "danger", source: "MyFoodsOutputData"})
+        updateFeedbackData({message: "Sorry, it looks like we couldn't get your foods", type: "danger", source: "MyFoodsOutputData"})
         return;
       }
 

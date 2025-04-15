@@ -1,10 +1,8 @@
-import apiDomain from "../apiDomain";
-
 // Get and return the average kcal consumed between 2 dates
 export default async function getKcalAvg({start, end}){
 
     try{
-        const url = `${apiDomain}/api/kcal`;
+        const url = `${process.env.REACT_APP_API_URL}/api/kcal`;
         let query = `?getAvg=true&start=${start}&end=${end}`;
         
         // Get a response from the API and translate to JSON

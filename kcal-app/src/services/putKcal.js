@@ -1,11 +1,9 @@
-import apiDomain from "../apiDomain";
-
 // Set and return a new record in Kcal_Logs
 export default async function putKcal({logId, body}){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`${apiDomain}/api/kcal/${logId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/kcal/${logId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
