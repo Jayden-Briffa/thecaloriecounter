@@ -1,125 +1,119 @@
-const express = require('express');
-const sqlite3 = require('sqlite3');
-const path = require('path');
+import express from 'express';
+import { pool } from '../db.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const consumedRouter = express.Router();
-const db = new sqlite3.Database(path.join(__dirname, '..', 'database.sqlite'));
 
-consumedRouter.get('/', (req, res, next) => {
-    db.all(`SELECT * FROM Consumed_Foods`, (err, rows) => {
-        if (err){
-            return next(err);
-        }
-
-        return res.status(200).json({Consumed_Foods : rows});
-    })
+consumedRouter.get('/', async (req, res, next) => {
+    try{
+        const [rows] = await pool.query(`SELECT * FROM Consumed_Foods`);
+        res.status(200).json({Consumed_Foods : rows});
+    } catch (err){
+        next(err)
+    }
 })
 
-consumedRouter.param('consumedId', (req, res, next) => {
-    const id = req.params.consumedId
-    db.get(`SELECT * FROM Consumed_Foods WHERE id = ?`, [id], (err, row) => {
-        if (err){
-            return next(err);
-        }
-
+consumedRouter.param('consumedId', async (req, res, next, id) => {
+    try{
+        const [[row]] = await pool.query(`SELECT * FROM Consumed_Foods WHERE id = ?`, [id])
+    
         if (!row){
-            return res.status(404).send(`Food not found with id: ${id}`);
+            res.status(404).send(`Food not found with id: ${id}`);
         }
-
+    
         req.consumedFood = row;
-        return next();
-    });
+        next();
+
+    } catch (err){
+        next(err);
+    }
 })
 
 consumedRouter.get('/:consumedId', (req, res, next) => {
-    return res.status(200).json({Consumed_Food: req.consumedFood});
+    res.status(200).json({Consumed_Food: req.consumedFood});
 })
 
-consumedRouter.post('/', (req, res, next) => {
-    const food = req.body
+consumedRouter.post('/', async (req, res, next) => {
+    try{
+        const food = req.body
     
-    db.run(`INSERT INTO Consumed_Foods (food_id, quantity, kcal, date_consumed) VALUES(?, ?, ?, ?)`, [
-        food.foodId, 
-        food.quantity, 
-        food.kcal,
-        food.dateConsumed
-    ], 
+        const [result] = await pool.query(`INSERT INTO Consumed_Foods (food_id, quantity, kcal, date_consumed) VALUES(?, ?, ?, ?)`, [
+            food.foodId, 
+            food.quantity, 
+            food.kcal,
+            food.dateConsumed
+        ]);
     
-    function (err){
-        if (err){
-            return next(err);
-        }
+        const insertId = result.insertId;
+    
+        const [[row]] = await pool.query(`SELECT * FROM Consumed_Foods WHERE id = ?`, [insertId]);
+    
+        res.status(201).json({Consumed_Food: row});
 
-        db.get(`SELECT * FROM Consumed_Foods WHERE id = ?`, [this.lastID], (err, row) => {
-            if (err){
-                return next(err);
-            }
+    } catch (err){
+        next(err)
+    }
+});
 
-            return res.status(201).json({Consumed_Food: row});
-        })
-    })
+consumedRouter.put('/:consumedId', async (req, res, next) => {
+    try{
+        const food = req.body;
+    
+        const [result] = await pool.query(`UPDATE Consumed_Foods SET quantity = ?, kcal = ? WHERE id = ?`, [
+            food.quantity,
+            food.kcal,
+            req.consumedFood.id
+        ]);
+    
+        const [[row]] = await pool.query(`SELECT * FROM Consumed_Foods WHERE id = ?`, [req.consumedFood.id]);
+        res.status(200).json({Consumed_Food: row});
+
+    } catch (err){
+        next(err);
+    }
 })
 
-consumedRouter.put('/:consumedId', (req, res, next) => {
-    const food = req.body;
+consumedRouter.delete('/', async (req, res, next) => {
     
-    db.run(`UPDATE Consumed_Foods SET quantity = ?, kcal = ? WHERE id = ?`, [
-        food.quantity,
-        food.kcal,
-        req.params.consumedId
-    ], 
-        function (err){
-        if (err){
-            return next(err);
-        }
+    try{
+         let consumedIdsArr;
+        let whereClause = ' ';
+        let values = [];
 
-        db.get(`SELECT * FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId], (err, row) => {
-            if (err){
-                return next(err);
-            }
+        // If a consumedIds value wasn't given, give an error
+        if (req.query.consumedIds === undefined){
+            return next(new Error('You must provide a foodIds argument'));
+        }  
 
-            return res.status(201).json({Consumed_Food: row});
-        })
-    })
+        // Put each ID in an array and generate the where clause...
+        //...with a number of parameters equal to the number of IDs
+        consumedIdsArr = req.query.consumedIds.split(",").map(Number);
+        const placeholders = consumedIdsArr.map(() => "?").join();
+        whereClause = `WHERE id IN (${placeholders})`;
+
+        values = consumedIdsArr;
+
+        await pool.query(`DELETE FROM Consumed_Foods ${whereClause}`, values)
+        res.status(204).send();
+    } catch (err){
+        next(err);
+    }
+   
 })
 
-consumedRouter.delete('/', (req, res, next) => {
-    
-    let consumedIdsArr;
-    let whereClause = ' ';
-    let values = [];
+consumedRouter.delete('/:consumedId', async (req, res, next) => {
 
-    // If a consumedIds value wasn't given, give an error
-    if (req.query.consumedIds === undefined){
-        return next(new Error('You must provide a foodIds argument'));
-    }  
+    try{
+        await pool.query(`DELETE FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId])
+        res.status(204).send();
+    } catch (err){
+        next(err)
+    }
 
-    // Put each ID in an array and generate the where clause...
-    //...with a number of parameters equal to the number of IDs
-    consumedIdsArr = req.query.consumedIds.split(",").map(Number);
-    const placeholders = consumedIdsArr.map(() => "?").join();
-    whereClause = `WHERE id IN (${placeholders})`;
-
-    values = consumedIdsArr;
-
-    db.run(`DELETE FROM Consumed_Foods ${whereClause}`, values, (err) => {
-        if (err){
-            return next(err);
-        }
-    
-        return res.status(204).send();
-    }) 
 })
 
-consumedRouter.delete('/:consumedId', (req, res, next) => {
-
-    db.run(`DELETE FROM Consumed_Foods WHERE id = ?`, [req.params.consumedId], (err) => {
-        if (err){
-            return next(err);
-        }
-    
-        return res.status(204).send();
-    })
-})
-
-module.exports = consumedRouter;
+export default consumedRouter

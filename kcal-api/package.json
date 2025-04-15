@@ -1,6 +1,7 @@
 {
     "name": "calorie_tracker",
     "description": "Project to work with node/express and also to help my future diet-related efforts",
+    "type": "module",
     "version": "2.0.0",
     "author": "Jayden Briffa",
     "scripts": {
@@ -8,11 +9,12 @@
         "resetdb": "node migration.js && node seed.js",
         "restart": "node migration.js && node seed.js && node server.js"
     },
-
     "dependencies": {
-        "express": "",
+        "@google-cloud/cloud-sql-connector": "^1.7.0",
         "cors": "",
+        "dotenv": "^16.5.0",
+        "express": "",
         "morgan": ">=1.10.0",
-        "sqlite3": ""
+        "mysql2": "^3.14.0"
     }
 }

@@ -1,8 +1,12 @@
-const express = require('express');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import errorhandler from 'errorhandler';
+
 const pagesRouter = express.Router();
 
-const path = require('path');
-const errorhandler = require('errorhandler');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define page slugs in format {slugName, fileName}
 const pages = {
@@ -18,4 +22,4 @@ Object.entries(pages).forEach(([slug, file]) => {
 
 pagesRouter.use(errorhandler());
 
-module.exports = pagesRouter;
+export default pagesRouter;

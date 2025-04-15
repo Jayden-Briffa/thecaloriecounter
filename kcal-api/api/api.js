@@ -1,16 +1,20 @@
-const express = require('express');
+import express from 'express';
 const apiRouter = express.Router();
 
-const errorhandler = require('errorhandler');
-const path = require('path');
+import errorhandler from 'errorhandler';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const kcalRouter = require(path.join(__dirname, 'kcalRouter'));
-const foodRouter = require(path.join(__dirname, 'foodRouter'));
-const consumedRouter = require(path.join(__dirname, 'consumedRouter'));
+import kcalRouter from './kcalRouter.js';
+import foodRouter from './foodRouter.js';
+import consumedRouter from './consumedRouter.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 apiRouter.use(errorhandler());
 apiRouter.use('/foods', foodRouter);
 apiRouter.use('/consumed', consumedRouter);
 apiRouter.use('/kcal', kcalRouter);
 
-module.exports = apiRouter;
+export default apiRouter;

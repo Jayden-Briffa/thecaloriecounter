@@ -11,6 +11,7 @@ kcal-api/.wrangler/
 .env
 kcal-app/.env
 kcal-api/.env
+kcal-api/adc.json
 
 # Cache and logs
 npm-debug.log*
@@ -25,6 +26,7 @@ Thumbs.db
 kcal-api/database.sqlite
 database-backup.sqlite
 kcal-app/src/apiDomain.js
+kcal-app/dbexport.sql
 todo.txt
 runServer.bat
 runApp.bat
