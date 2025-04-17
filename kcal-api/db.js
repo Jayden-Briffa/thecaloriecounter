@@ -6,14 +6,24 @@ import { Connector } from '@google-cloud/cloud-sql-connector';
 
 // Connect to google cloud
 const connector = new Connector();
-const clientOpts = await connector.getOptions({
-    instanceConnectionName: process.env.CONNECTION_NAME,
-    ipType: 'PUBLIC'
-})
+
+// Connect to local or remote database depending on environment
+let clientOpts;
+if (process.env.CONNECTION_NAME){
+    clientOpts = await connector.getOptions({
+        instanceConnectionName: process.env.CONNECTION_NAME,
+        ipType: 'PUBLIC'
+    })
+} else {
+    clientOpts = {
+        host: process.env.MYSQL_HOST,
+        port: process.env.MYSQL_PORT
+    }
+}
 
 // Create a connection pool for google cloud
 const pool = await mysql.createPool({
-    ...clientOpts,
+    ...(clientOpts || {}),
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,

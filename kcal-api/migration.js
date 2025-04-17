@@ -1,34 +1,37 @@
-const sqlite3 = require('sqlite3');
-const path = require('path');
+import { pool } from './db.js';
+import fs from 'node:fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-db.serialize(() => {
-    db.run("DROP TABLE IF EXISTS Foods");
-    db.run(`CREATE TABLE Foods (
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        name TEXT NOT NULL,
-        quantity FLOAT NOT NULL,
-        units TEXT NOT NULL,
-        kcal TEXT NOT NULL,
-        added_by TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
+// The ID of your GCS bucket
+const bucketName = '';
 
-    db.run("DROP TABLE IF EXISTS Consumed_Foods");
-    db.run(`CREATE TABLE Consumed_Foods (
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        food_id INT NOT NULL,
-        quantity FLOAT NOT NULL,
-        kcal INT NOT NULL,
-        date_consumed TEXT NOT NULL,
-        FOREIGN KEY (food_id) REFERENCES Foods(id)
-    )`);
+// The ID of your GCS file
+const fileName = '';
 
-    db.run("DROP TABLE IF EXISTS Kcal_Logs");
-    db.run(`CREATE TABLE Kcal_Logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        kcal INT NOT NULL,
-        date TEXT NOT NULL
-    )`);
-})
+// The path to which the file should be downloaded
+const destFileName = '';
+
+// Imports the Google Cloud client library
+const {Storage} = require('@google-cloud/storage');
+
+// Creates a client
+const storage = new Storage();
+
+async function downloadFile() {
+  const options = {
+    destination: destFileName,
+  };
+
+  // Downloads the file
+  await storage.bucket(bucketName).file(fileName).download(options);
+
+  console.log(
+    `gs://${bucketName}/${fileName} downloaded to ${destFileName}.`
+  );
+}
+
+downloadFile().catch(console.error);

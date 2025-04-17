@@ -27,8 +27,9 @@ kcal-app/wrangler.toml
 kcal-api/wrangler.toml
 
 # Database
-kcal-app/src/apiDomain.js
-kcal-app/dbexport.sql
+kcal-api/dbexport.sql
+kcal-api/db_current.sql
+kcal-api/migration.js
 
 # Other
 todo.txt
