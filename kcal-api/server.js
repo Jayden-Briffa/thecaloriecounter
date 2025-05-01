@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8080;
 
 // Import routers
 import pageRouter from './pageRouter.js';
-import apiRouter from './api/api.js';
+import apiRouter from './routes/api.js';
 
 // Mount dependencies
 app.use(express.urlencoded({extended: true}));
