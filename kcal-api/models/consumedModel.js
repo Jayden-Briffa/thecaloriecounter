@@ -24,11 +24,11 @@ export const insertConsumed = async (food) => {
     return result
 }
 
-export const updateConsumed = async (food) => {
+export const updateConsumed = async (food, id) => {
     const [result] = await pool.query(`UPDATE Consumed_Foods SET quantity = ?, kcal = ? WHERE id = ?`, [
         food.quantity,
         food.kcal,
-        req.consumedFood.id
+        id
     ]);
 
     return result
@@ -36,11 +36,11 @@ export const updateConsumed = async (food) => {
 
 export const deleteConsumed = async (id) => {
     
-    if (typeof id === Object){
-        const placeholders = consumedIdsArr.map(() => "?").join();
-        whereClause = `WHERE id IN (${placeholders})`;
+    if (Array.isArray(id)){
+        // Create a list of placeholders equal to the number of items in id
+        const placeholders = id.map(() => "?").join();
 
-        await pool.query(`DELETE FROM Consumed_Foods WHERE is IN (${placeholders})`, id)
+        await pool.query(`DELETE FROM Consumed_Foods WHERE id IN (${placeholders})`, id)
     } else {
         await pool.query(`DELETE FROM Consumed_Foods WHERE id = ?`, [id])
     }

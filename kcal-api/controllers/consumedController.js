@@ -1,7 +1,6 @@
-import { pool } from '../db.js';
 import * as model from '../models/consumedModel.js';
 
-export const get_consumed = async (req, res, next) => {
+export const getConsumed = async (req, res, next) => {
     try{
         const rows = await model.selectConsumed();
         res.status(200).json({Consumed_Foods : rows});
@@ -10,7 +9,7 @@ export const get_consumed = async (req, res, next) => {
     }
 }
 
-export const param_consumed_consumedId = async (req, res, next, id) => {
+export const paramConsumedConsumedId = async (req, res, next, id) => {
     try{
         const row = await model.selectConsumed()
     
@@ -26,20 +25,15 @@ export const param_consumed_consumedId = async (req, res, next, id) => {
     }
 }
 
-export const get_consumed_consumedId = (req, res, next) => {
+export const getConsumedConsumedId = (req, res, next) => {
     res.status(200).json({Consumed_Food: req.consumedFood});
 }
 
-export const post_consumed = async (req, res, next) => {
+export const postConsumed = async (req, res, next) => {
     try{
         const food = req.body
     
-        const result = await model.insertConsumed([
-            food.foodId, 
-            food.quantity, 
-            food.kcal,
-            food.dateConsumed
-        ]);
+        const result = await model.insertConsumed({...food});
     
         const insertId = result.insertId;
     
@@ -52,17 +46,17 @@ export const post_consumed = async (req, res, next) => {
     }
 }
 
-export const put_consumed_consumedId = async (req, res, next) => {
+export const putConsumedConsumedId = async (req, res, next) => {
     try{
         const food = req.body;
-    
-        const result = await model.updateConsumed([
-            food.quantity,
-            food.kcal,
-            req.consumedFood.id
-        ]);
-    
-        const row = await model.selectConsumed(req.consumedFood.id);
+        
+        const result = await model.updateConsumed({...food}, req.params.consumedId);
+        
+        if (result.changedRows === 0){
+            throw new Error("The row couldn't be changed", result)
+        }
+
+        const row = await model.selectConsumed(req.params.consumedId);
         res.status(200).json({Consumed_Food: row});
 
     } catch (err){
@@ -70,7 +64,7 @@ export const put_consumed_consumedId = async (req, res, next) => {
     }
 }
 
-export const delete_consumed = async (req, res, next) => {
+export const deleteConsumed = async (req, res, next) => {
     
     try{
         
@@ -83,8 +77,7 @@ export const delete_consumed = async (req, res, next) => {
             return next(new Error('You must provide a foodIds argument'));
         }  
 
-        // Put each ID in an array and generate the where clause...
-        //...with a number of parameters equal to the number of IDs
+        // Parse foodIds into an array
         consumedIdsArr = req.query.consumedIds.split(",").map(Number);
 
         await model.deleteConsumed(consumedIdsArr);
@@ -96,7 +89,7 @@ export const delete_consumed = async (req, res, next) => {
    
 }
 
-export const delete_consumed_consumedId = async (req, res, next) => {
+export const deleteConsumedConsumedId = async (req, res, next) => {
 
     try{
         await model.deleteConsumed(req.params.consumedId)

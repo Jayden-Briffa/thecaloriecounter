@@ -8,16 +8,16 @@ const __dirname = path.dirname(__filename);
 
 const consumedRouter = express.Router();
 
-consumedRouter.param('consumedId', consumedController.param_consumed_consumedId)
+consumedRouter.param('consumedId', consumedController.paramConsumedConsumedId)
 
-consumedRouter.get('/', consumedController.get_consumed)
-consumedRouter.get('/:consumedId', consumedController.get_consumed_consumedId)
+consumedRouter.get('/', consumedController.getConsumed)
+consumedRouter.get('/:consumedId', consumedController.getConsumedConsumedId)
 
-consumedRouter.post('/', consumedController.post_consumed);
+consumedRouter.post('/', consumedController.postConsumed);
 
-consumedRouter.put('/:consumedId', consumedController.put_consumed_consumedId)
+consumedRouter.put('/:consumedId', consumedController.putConsumedConsumedId)
 
-consumedRouter.delete('/', consumedController.delete_consumed)
-consumedRouter.delete('/:consumedId', consumedController.delete_consumed_consumedId)
+consumedRouter.delete('/', consumedController.deleteConsumed)
+consumedRouter.delete('/:consumedId', consumedController.deleteConsumedConsumedId)
 
 export default consumedRouter
