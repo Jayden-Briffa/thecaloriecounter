@@ -59,7 +59,7 @@ function AppInput(props) {
         onBlur={handleFocusOut}
         type={type} 
         onChange={onChange}
-        className={`form-control border-pink text-center p-0 mb-0 rounded-0 ${className}`}
+        className={`form-control border-pink p-0 mb-0 rounded-0 ${className}`}
         {...optionals}
       />
 

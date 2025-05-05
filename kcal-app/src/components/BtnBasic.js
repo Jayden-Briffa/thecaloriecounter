@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { Children } from 'react';
 
 function BtnBasic(props) {
+
+  const extras = {type: "button", ...props}
+  delete extras.className;
+  delete extras.btnText;
+  
   return (
-      <button onClick={props.handleClick ?? null} type="button" className={`button border-pink ${props.className}`}>{props.btnText}</button>
+      <button className={`button border-pink ${props.className}`}
+      {...extras}>{props.btnText ?? props.children}</button>
   );
 }
 

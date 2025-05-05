@@ -10,6 +10,7 @@ import MyFoodsPage from "./containers/MyFoodsPage";
 import TodaysFoodsPage from "./containers/TodaysFoodsPage";
 import Footer from './containers/Footer';
 import { ConfirmActionProvider } from './context/ConfirmActionContext';
+import AuthPage from './containers/AuthPage';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Header />
 
             <Routes>
+                <Route path="/signup" element={<AuthPage />} />
                 <Route exact path="/dashboard" element={<DashboardPage />} />
                 <Route path="/myfoods" element={<MyFoodsPage />} />
                 <Route path="/today" element={<TodaysFoodsPage />} />
