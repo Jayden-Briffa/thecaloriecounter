@@ -1,15 +1,15 @@
 import { pool } from "../db.js"
 
-export const selectConsumed = async (id = null) => {
+export const selectConsumed = async ({id = null} = {}) => {
     
     let rows;
-
+    
     if (id !== null) {
         [[rows]] = await pool.query(`SELECT * FROM Consumed_Foods WHERE id = ?`, [id]);
     } else {
         [rows] = await pool.query(`SELECT * FROM Consumed_Foods`);
     }
-    
+ 
     return rows 
 }
 
@@ -36,13 +36,15 @@ export const updateConsumed = async (food, id) => {
 
 export const deleteConsumed = async (id) => {
     
+    let result;
     if (Array.isArray(id)){
         // Create a list of placeholders equal to the number of items in id
         const placeholders = id.map(() => "?").join();
 
-        await pool.query(`DELETE FROM Consumed_Foods WHERE id IN (${placeholders})`, id)
+        [result] = await pool.query(`DELETE FROM Consumed_Foods WHERE id IN (${placeholders})`, id)
     } else {
-        await pool.query(`DELETE FROM Consumed_Foods WHERE id = ?`, [id])
+        [result] = await pool.query(`DELETE FROM Consumed_Foods WHERE id = ?`, [id])
     }
-    
+
+    return result;
 }

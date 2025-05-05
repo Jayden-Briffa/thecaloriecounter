@@ -32,7 +32,7 @@ export const getFood = async (req, res, next) => {
 
 export const paramFoodFoodId = async (req, res, next, id) => {
     try {
-        const row = await model.selectFood(id);
+        const row = await model.selectFood({id});
 
         if (!row) {
             return res.status(404).send(`Food not found with id: ${id}`);
@@ -52,9 +52,9 @@ export const getFoodFoodId = (req, res, next) => {
 export const postFood = async (req, res, next) => {
     const food = req.body;
     try {
-        const result = await model.insertFood({...food});
+        const result = await model.insertFood(food);
 
-        const row = await model.selectFood(result.insertId);
+        const row = await model.selectFood({id: result.insertId});
         res.status(201).json({Food: row});
     } catch (err) {
         next(err);
@@ -63,10 +63,12 @@ export const postFood = async (req, res, next) => {
 
 export const putFoodFoodId = async (req, res, next) => {
     const food = req.body;
-    try {
-        await model.updateFood({...food}, req.params.foodId);
+    const id = req.params.foodId
 
-        const row = await model.selectFood(req.params.foodId);
+    try {
+        await model.updateFood(food, id);
+
+        const row = await model.selectFood(id);
         res.status(200).json({Food: row});
     } catch (err) {
         next(err);

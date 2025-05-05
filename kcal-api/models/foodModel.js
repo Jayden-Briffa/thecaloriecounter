@@ -1,6 +1,6 @@
 import { pool } from "../db.js"
 
-export const selectFood = async ({id = null, orderedBy = null}) => {
+export const selectFood = async ({id = null, orderedBy = null} = {}) => {
 
     const orderClause = orderedBy ? ` ORDER BY ${orderedBy}` : ' ';
 
@@ -36,15 +36,17 @@ export const insertFood = async (food) => {
 }
 
 export const updateFood = async (food, id) => {
-    await pool.query(`UPDATE Foods SET name = ?, quantity = ?, units = ?, kcal = ? WHERE id = ?`, [
+    const [result] = await pool.query(`UPDATE Foods SET name = ?, quantity = ?, units = ?, kcal = ? WHERE id = ?`, [
         food.name,
         food.quantity,
         food.units,
         food.kcal,
         id
     ]);
+    return result;
 }
 
 export const deleteFood = async (id) => {
-    await pool.query(`DELETE FROM Foods WHERE id = ?`, [id]);
+    const [result] = await pool.query(`DELETE FROM Foods WHERE id = ?`, [id]);
+    return result;
 }

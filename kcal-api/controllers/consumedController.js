@@ -11,7 +11,7 @@ export const getConsumed = async (req, res, next) => {
 
 export const paramConsumedConsumedId = async (req, res, next, id) => {
     try{
-        const row = await model.selectConsumed()
+        const row = await model.selectConsumed({id})
     
         if (!row){
             res.status(404).send(`Food not found with id: ${id}`);
@@ -33,11 +33,9 @@ export const postConsumed = async (req, res, next) => {
     try{
         const food = req.body
     
-        const result = await model.insertConsumed({...food});
+        const result = await model.insertConsumed(food);
     
-        const insertId = result.insertId;
-    
-        const row = await model.selectConsumed(insertId);
+        const row = await model.selectConsumed({id: result.insertId});
     
         res.status(201).json({Consumed_Food: row});
 
@@ -49,14 +47,15 @@ export const postConsumed = async (req, res, next) => {
 export const putConsumedConsumedId = async (req, res, next) => {
     try{
         const food = req.body;
-        
-        const result = await model.updateConsumed({...food}, req.params.consumedId);
+        const id = req.params.consumedId;
+
+        const result = await model.updateConsumed(food, id);
         
         if (result.changedRows === 0){
             throw new Error("The row couldn't be changed", result)
         }
 
-        const row = await model.selectConsumed(req.params.consumedId);
+        const row = await model.selectConsumed({id});
         res.status(200).json({Consumed_Food: row});
 
     } catch (err){
@@ -69,8 +68,6 @@ export const deleteConsumed = async (req, res, next) => {
     try{
         
         let consumedIdsArr;
-        let whereClause = ' ';
-        let values = [];
 
         // If a consumedIds value wasn't given, give an error
         if (req.query.consumedIds === undefined){

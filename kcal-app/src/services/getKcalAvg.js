@@ -14,8 +14,8 @@ export default async function getKcalAvg({start, end}){
 
         const jsonResponse = await response.json();
 
-        //console.log("AVG: ", jsonResponse.Kcal[0].average_kcal)
-        return jsonResponse.Kcal[0].average_kcal;
+        //console.log("AVG: ", jsonResponse.Kcal.average_kcal)
+        return jsonResponse.Kcal;
 
     } catch (error){
         console.error("Error getting average kcal data: ", error)
