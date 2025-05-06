@@ -1,24 +1,17 @@
 import express from 'express';
-import { pool } from '../db.js';  // Updated for MySQL
-import path from 'path';
-import { fileURLToPath } from 'url';
-import * as kcalController from '../controllers/kcalController.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import * as controller from '../controllers/kcalController.js';
 
 const kcalRouter = express.Router();
 
-kcalRouter.get('/', kcalController.getKcal);
+kcalRouter.param('logId', controller.paramLogId);
 
-kcalRouter.param('logId', kcalController.paramLogId);
+kcalRouter.get('/', controller.getKcal);
+kcalRouter.get('/:logId', controller.getKcalLogId);
 
-kcalRouter.get('/:logId', kcalController.getKcalLogId);
+kcalRouter.post('/', controller.postKcal);
 
-kcalRouter.post('/', kcalController.postKcal);
+kcalRouter.put('/:logId', controller.putKcalLogId);
 
-kcalRouter.put('/:logId', kcalController.putKcalLogId);
-
-kcalRouter.delete('/:logId', kcalController.deleteKcalLogId);
+kcalRouter.delete('/:logId', controller.deleteKcalLogId);
 
 export default kcalRouter;

@@ -1,25 +1,17 @@
 import express from 'express';
-import { pool } from '../db.js';  // Updated for MySQL
-import path from 'path';
-import { fileURLToPath } from 'url';
-import * as foodController from '../controllers/foodController.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import * as controller from '../controllers/foodController.js';
 
 const foodRouter = express.Router();
 
-// Get all foods
-foodRouter.get('/', foodController.getFood);
+foodRouter.param('foodId', controller.paramFoodFoodId);
 
-foodRouter.param('foodId', foodController.paramFoodFoodId);
+foodRouter.get('/', controller.getFood);
+foodRouter.get('/:foodId', controller.getFoodFoodId);
 
-foodRouter.get('/:foodId', foodController.getFoodFoodId);
+foodRouter.post('/', controller.postFood);
 
-foodRouter.post('/', foodController.postFood);
+foodRouter.put('/:foodId', controller.putFoodFoodId);
 
-foodRouter.put('/:foodId', foodController.putFoodFoodId);
-
-foodRouter.delete('/:foodId', foodController.deleteFoodFoodId);
+foodRouter.delete('/:foodId', controller.deleteFoodFoodId);
 
 export default foodRouter;

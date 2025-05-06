@@ -1,23 +1,18 @@
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import * as consumedController from '../controllers/consumedController.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import * as controller from '../controllers/consumedController.js';
 
 const consumedRouter = express.Router();
 
-consumedRouter.param('consumedId', consumedController.paramConsumedConsumedId)
+consumedRouter.param('consumedId', controller.paramConsumedConsumedId)
 
-consumedRouter.get('/', consumedController.getConsumed)
-consumedRouter.get('/:consumedId', consumedController.getConsumedConsumedId)
+consumedRouter.get('/', controller.getConsumed)
+consumedRouter.get('/:consumedId', controller.getConsumedConsumedId)
 
-consumedRouter.post('/', consumedController.postConsumed);
+consumedRouter.post('/', controller.postConsumed);
 
-consumedRouter.put('/:consumedId', consumedController.putConsumedConsumedId)
+consumedRouter.put('/:consumedId', controller.putConsumedConsumedId)
 
-consumedRouter.delete('/', consumedController.deleteConsumed)
-consumedRouter.delete('/:consumedId', consumedController.deleteConsumedConsumedId)
+consumedRouter.delete('/', controller.deleteConsumed)
+consumedRouter.delete('/:consumedId', controller.deleteConsumedConsumedId)
 
 export default consumedRouter
