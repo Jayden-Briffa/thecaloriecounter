@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ProcessesProvider } from '../context/LoadingProcessesContext';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import userLogin from '../services/userLogin.js';
+import userSignup from '../services/userSignup.js';
 
 function AuthPage() {
   const [currForm, setCurrForm] = useState("signup");
@@ -27,14 +29,29 @@ function AuthPage() {
     }
   }
 
-  function handleSubmitLogin(event){
+  async function handleSubmitLogin(event){
     event.preventDefault();
-    console.log("Logging in...")
+    
+    const formData = {
+      email: document.getElementById("loginEmail"),
+      password: document.getElementById("loginPassword")
+    }
+
+    const result = await userLogin(formData);
+
+    window.location.assign(`${window.location.origin}/dashboard`)
   }
 
-  function handleSubmitSignup(event){
+  async function handleSubmitSignup(event){
     event.preventDefault();
-    console.log("Signing up...")
+      
+    const formData = {
+      email: document.getElementById("signupEmail"),
+      password: document.getElementById("signupPassword"),
+      confirmPassword: document.getElementById("signupConfirmPassword")
+    }
+
+    const result = await userSignup(formData)
   }
 
   return (
