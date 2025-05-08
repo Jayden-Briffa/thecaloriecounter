@@ -1,0 +1,29 @@
+import jwt from 'jsonwebtoken';
+import * as model from '../models/authModel.js';
+
+// Get user details on each request
+export async function checkuser(req, res, next){
+
+    if (Object.keys(req.cookies).includes('jwt')){
+        const result = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
+
+        const user = await model.selectUserById(result.id);
+        res.locals.user = user;
+        
+    } else {
+        res.locals.user = null;
+    }
+    
+    next()
+}
+
+// Refuse to serve users who don't have a valid jwt cookie
+export async function requireAuth(req, res, next){
+    
+    if (res.locals.user !== null){
+        return next()
+    }
+
+    const errors = {login_required: "You must log in before making a request to this service"}
+    return res.status(403).json({ errors })
+}

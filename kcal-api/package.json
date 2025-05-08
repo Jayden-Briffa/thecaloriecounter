@@ -13,6 +13,7 @@
     "dependencies": {
         "@google-cloud/cloud-sql-connector": "^1.7.0",
         "bcrypt": "^5.1.1",
+        "cookie-parser": "^1.4.7",
         "cors": "",
         "dotenv": "^16.5.0",
         "errorhandler": "^1.5.1",

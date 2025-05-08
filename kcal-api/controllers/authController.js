@@ -3,18 +3,22 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import isEmail from 'validator/lib/isEmail.js';
 
+// Validate new user accounts
 async function validateSignup(email, password){
     const errors = {}
 
+    // Check that email is valid
     if (!isEmail(email)){
         errors.email = "You must give a valid email";
     }
 
+    // Check that email is unique
     const foundUser = await model.selectUserByEmail(email)
-    if (foundUser.length > 0){
+    if (foundUser ?? false){
         errors.email = "That email is already registered";
     }
 
+    // Check that password is strong
     if (password.length < 6){
         errors.password = "Your password must be at least 6 characters long";
     }
@@ -46,6 +50,7 @@ function createToken(id){
     })
 }
 
+// Create account
 export async function postSignup(req, res, next) {
     const { email, password } = req.body;
 
@@ -60,15 +65,16 @@ export async function postSignup(req, res, next) {
         
         const token = createToken(result.insertId)
 
-        res.cookie('jwt', token, { maxAge });
+        res.cookie('jwt', token, { httpOnly: true, maxAge });
         res.status(201).json({user: result.insertId});
 
     } catch(error){
-        console.log(error)
-        res.status(400).json(error)
+        const errors = await handleErrors(error)
+        res.status(400).json(errors)
     }
 };
 
+// Create cookie only
 export async function postLogin(req, res, next) {
     const { email, password } = req.body
 
@@ -82,7 +88,7 @@ export async function postLogin(req, res, next) {
         }
 
         const token = createToken(user.id);
-        res.cookie('jwt', token, { maxAge });
+        res.cookie('jwt', token, { httpOnly: true, maxAge });
         res.status(200).json({user: user.id})
     
     } catch(error){
