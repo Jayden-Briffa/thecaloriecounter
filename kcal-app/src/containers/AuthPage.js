@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ProcessesProvider } from '../context/LoadingProcessesContext';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
-import userLogin from '../services/userLogin.js';
-import userSignup from '../services/userSignup.js';
+import userSignup from '../services/postSignup.js';
+import postLogin from '../services/postLogin.js';
 
 function AuthPage() {
   const [currForm, setCurrForm] = useState("signup");
@@ -33,25 +33,35 @@ function AuthPage() {
     event.preventDefault();
     
     const formData = {
-      email: document.getElementById("loginEmail"),
-      password: document.getElementById("loginPassword")
+      email: document.getElementById("loginEmail").value,
+      password: document.getElementById("loginPassword").value
     }
 
-    const result = await userLogin(formData);
+    const result = await postLogin({body: formData});
 
-    window.location.assign(`${window.location.origin}/dashboard`)
+    if (result instanceof Error){
+      console.log("Could not login:", result.messages)
+    }
+    //window.location.assign(`${window.location.origin}/dashboard`)
   }
 
   async function handleSubmitSignup(event){
     event.preventDefault();
       
     const formData = {
-      email: document.getElementById("signupEmail"),
-      password: document.getElementById("signupPassword"),
-      confirmPassword: document.getElementById("signupConfirmPassword")
+      email: document.getElementById("signupEmail").value,
+      password: document.getElementById("signupPassword").value,
+      confirmPassword: document.getElementById("signupConfirmPassword").value
     }
 
-    const result = await userSignup(formData)
+    const result = await userSignup({body: formData})
+
+    if (result instanceof Error){
+      console.log("Could not create account:", result.messages);
+      return;
+    }
+
+    console.log("Signup success!")
   }
 
   return (

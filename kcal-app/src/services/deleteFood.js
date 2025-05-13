@@ -7,7 +7,8 @@ export default async function deleteFood({foodId}){
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: 'include'
             
         });
         

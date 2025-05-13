@@ -3,7 +3,9 @@ export default async function getConsumed(){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/consumed`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/consumed`, {
+            credentials: 'include'
+        });
         
         if (!response.ok){
             return new Error(response.message);

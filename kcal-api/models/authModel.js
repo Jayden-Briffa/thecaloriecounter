@@ -3,12 +3,13 @@ import bcrypt from 'bcrypt';
 
 export async function selectUserById(id) {
     const [[row]] = await pool.query(`SELECT * FROM Users WHERE id = ?`, [id])
-    return row
+    return row ?? []
 };
 
 export async function selectUserByEmail(email) {
     const [[row]] = await pool.query(`SELECT * FROM Users WHERE email = ?`, [email])
-    return row
+
+    return row ?? []
 };
 
 export async function insertUser(email, password) {

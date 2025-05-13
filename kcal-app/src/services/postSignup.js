@@ -1,0 +1,27 @@
+export default async function postSignup({body}){
+    try{
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+
+        const jsonResponse = await response.json();
+
+        if (!response.ok){
+            const err = new Error("Could not create account")
+            err.messages = jsonResponse.errors;
+            return err;
+        }
+        
+        console.log(jsonResponse)
+        return jsonResponse;
+
+    } catch (error){
+        console.error("Error creating user account:", error)
+        return error
+    }
+}

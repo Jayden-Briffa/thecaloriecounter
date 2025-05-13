@@ -9,7 +9,8 @@ export default async function postKcal({body}){
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         });
 
         if (!response.ok){

@@ -19,8 +19,8 @@ export default async function deleteConsumed({consumedId}){
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
-            }
-            
+            },
+            credentials: 'include'
         });
 
         if (!response.ok){

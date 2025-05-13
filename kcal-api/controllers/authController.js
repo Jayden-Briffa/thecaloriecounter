@@ -14,7 +14,8 @@ async function validateSignup(email, password){
 
     // Check that email is unique
     const foundUser = await model.selectUserByEmail(email)
-    if (foundUser ?? false){
+    console.log(foundUser);
+    if (foundUser.length !== 0){
         errors.email = "That email is already registered";
     }
 
@@ -43,7 +44,7 @@ async function validateLogin(user, password){
     return errors
 }
 
-const maxAge = 3 * 24 * 60 * 60
+const maxAge = 3 * 24 * 60 * 60 * 1000
 function createToken(id){
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: maxAge

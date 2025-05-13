@@ -19,7 +19,7 @@ import apiRouter from './routes/api.js';
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({origin: true, credentials: true}));
 app.use(errorhandler());
 
 const __filename = fileURLToPath(import.meta.url);
