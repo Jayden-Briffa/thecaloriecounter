@@ -3,10 +3,10 @@ import * as model from '../models/authModel.js';
 
 // Get user details on each request
 export async function checkuser(req, res, next){
-    console.log("COOKIE BEFORE:", req.cookies.user)
+
     if (Object.keys(req.cookies).includes('user')){
         const result = jwt.verify(req.cookies.user, process.env.JWT_SECRET)
-        console.log("COOKIE:", req.cookies.user)
+
         const user = await model.selectUserById(result.id);
 
         if (user !== undefined){

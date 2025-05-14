@@ -12,9 +12,9 @@ import cookieParser from 'cookie-parser';
 apiRouter.use(errorhandler());
 apiRouter.use(cookieParser())
 apiRouter.use(checkuser)
+apiRouter.use('/auth', authRouter);
 apiRouter.use('/foods', requireAuth, foodRouter);
-apiRouter.use('/consumed', consumedRouter);
-apiRouter.use('/kcal', kcalRouter);
-apiRouter.use('/auth', authRouter)
+apiRouter.use('/consumed', requireAuth, consumedRouter);
+apiRouter.use('/kcal', requireAuth, kcalRouter);
 
 export default apiRouter;

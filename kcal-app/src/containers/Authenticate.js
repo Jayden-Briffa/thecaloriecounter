@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { ProcessesProvider } from '../context/LoadingProcessesContext';
-import LoginForm from '../components/LoginForm';
-import SignupForm from '../components/SignupForm';
+import { useFeedback } from '../context/FeedbackContext.js';
+import LoginForm from '../components/LoginForm.js';
+import SignupForm from '../components/SignupForm.js';
 import userSignup from '../services/postSignup.js';
 import postLogin from '../services/postLogin.js';
+import { useUser } from '../context/userContext.js';
 
-function AuthPage() {
+function Authenticate(props) {
   const [currForm, setCurrForm] = useState("signup");
   const [switchFormText, setSwitchFormText] = useState("");
   const [formElem, setFormElem] = useState(null);
+  const { updateUser } = useUser();
+  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
 
   useEffect(() => {
     if (currForm === "login"){
@@ -41,8 +44,10 @@ function AuthPage() {
 
     if (result instanceof Error){
       console.log("Could not login:", result.messages)
+      return;
     }
-    //window.location.assign(`${window.location.origin}/dashboard`)
+    
+    updateUser()
   }
 
   async function handleSubmitSignup(event){
@@ -61,21 +66,17 @@ function AuthPage() {
       return;
     }
 
-    console.log("Signup success!")
+    updateUser()
   }
 
   return (
-    <ProcessesProvider>
-      <section className='page'>
-         
+    <>
         <div className='bg-pink my-5 p-3 rounded-3 d-flex flex-column align-items-start'>
           {formElem}
-          <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>{switchFormText}</p>
+            <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>{switchFormText}</p>
         </div>
-        
-      </section>
-    </ProcessesProvider>
+      </>
   );
 }
 
-export default AuthPage;
+export default Authenticate;

@@ -91,7 +91,6 @@ export async function postLogin(req, res, next) {
 
         const token = createToken(user.id);
         res.cookie('user', token, { httpOnly: true, maxAge });
-        res.cookie('access', {}, { maxAge });
         res.status(200).json({user: user.id})
     
     } catch(error){
@@ -101,10 +100,18 @@ export async function postLogin(req, res, next) {
 
 };
 
-export async function postLogout(req, res, next) {
+export async function getLogout(req, res, next) {
     res.cookie("user", "", { maxAge: 100});
-    res.cookie("access", "", { maxAge: 100});
     res.status(200).json({message: "Successfully logged out"})
 };
+
+export async function getUser(req, res, next){
+    const user = res.locals.user;
+    if (user !== null){
+        res.status(200).json({user: {email: user.email}})
+    } else {
+        res.status(200).json({user: null})
+    }
+}
 
 export async function deleteSignup(req, res, next) {};
