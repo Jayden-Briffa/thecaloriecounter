@@ -1,0 +1,9 @@
+.form-error-list{
+    list-style-type: "X ";
+    box-shadow: 0px 0px 5px black;
+}
+
+.form-error {
+    color: var(--COLOR-TEXT-ERROR);
+    font-weight: bold;
+}

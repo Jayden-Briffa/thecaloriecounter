@@ -11,7 +11,7 @@ function AccountPage() {
   const { userLoggedIn, loadingUser } = useUser();
   const { feedbackData, shouldShowFeedback } = useFeedback();
 
-  const displayTopFeedback = shouldShowFeedback({sources: ["redirect"]})
+  const displayTopFeedback = shouldShowFeedback({sources: ["redirect", "login", "signup"]})
 
   return (
     <ProcessesProvider>

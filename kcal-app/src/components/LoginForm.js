@@ -1,8 +1,11 @@
 import React from 'react';
 import AppInput from '../containers/AppInput';
 import BtnBasic from './BtnBasic';
+import FormErrors from './FormErrors';
+import Loading from './Loading';
 
 function LoginForm(props) {
+
   return (
       <form className='d-flex flex-column gap-3 w-100 p-3 py-5 rounded-3 border-2 border-black' onSubmit={props.handleSubmit} method="post">
         <h1>Log in to an account:</h1>
@@ -19,6 +22,9 @@ function LoginForm(props) {
         <div className="pt-4">
           <BtnBasic type="submit" className="rounded-3 fs-5 py-1 w-100">Login!</BtnBasic>
         </div>
+
+        {props.displayLoading ? <Loading extraClasses="align-self-center" /> : (null)}
+        {props.errors ? <FormErrors errors={props.errors} /> : (null)}
 
       </form>
 

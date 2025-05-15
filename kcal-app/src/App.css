@@ -13,6 +13,7 @@
   --COLOR-TEXT-HIGHLIGHT: var(--BRIGHT-BLUE);
   --COLOR-TEXT-LIGHT: whitesmoke;
   --COLOR-TEXT-DARK: black;
+  --COLOR-TEXT-ERROR: darkred;
 
   /* SPACING */
   --PADDING-PAGE-TOPBOTTOM: 5vh;

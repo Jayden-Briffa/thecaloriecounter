@@ -16,9 +16,17 @@ function ProcessesProvider({ children }){
         setProcesses(prev => prev.filter(process => process !== processName))
     }
 
+    function processExists(processName){
+        if (processes.includes(processName)){
+            return true;
+        }
+
+        return false;
+    }
+
     // Return all child components with context applied
     return (
-        <ProcessesContext.Provider value={ { processes, addProcess, removeProcess } }>
+        <ProcessesContext.Provider value={ { processes, addProcess, removeProcess, processExists } }>
             {children}
         </ProcessesContext.Provider>
     )

@@ -19,6 +19,10 @@ function FeedbackProvider({ children }){
     }
 
     function shouldShowFeedback({sources = [], types = []}){
+        
+        if (feedbackData.source === null){
+            return false
+        }
 
         // Check for valid sources if they were passed
         const validSource = sources.length === 0 || sources.some(source => feedbackData.source.includes(source))

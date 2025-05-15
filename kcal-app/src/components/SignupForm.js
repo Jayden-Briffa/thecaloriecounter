@@ -1,6 +1,8 @@
 import React from 'react';
 import AppInput from '../containers/AppInput';
 import BtnBasic from './BtnBasic';
+import FormErrors from './FormErrors';
+import Loading from './Loading';
 
 function SignupForm(props) {
   return (
@@ -24,6 +26,9 @@ function SignupForm(props) {
         <div className="pt-4">
           <BtnBasic type="submit" className="rounded-3 fs-5 py-1 w-100">Sign up!</BtnBasic>
         </div>
+
+        {props.displayLoading ? <Loading extraClasses="align-self-center" /> : (null)}
+        {props.errors ? <FormErrors errors={props.errors} /> : (null)}
 
       </form>
   );
