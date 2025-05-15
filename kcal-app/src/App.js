@@ -12,6 +12,7 @@ import TodaysFoodsPage from "./containers/TodaysFoodsPage";
 import Footer from './containers/Footer';
 import AccountPage from './containers/AccountPage';
 import { UserContextProvider } from './context/userContext';
+import RequireAuth from './containers/RequireAuth';
 
 function App() {
 
@@ -23,13 +24,15 @@ function App() {
 
               <Header />
 
-              <Routes>
+                <Routes>
                   <Route path="/account" element={<AccountPage />} />
                   <Route path="/" element={<AccountPage />} />
-                  <Route exact path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/myfoods" element={<MyFoodsPage />} />
-                  <Route path="/today" element={<TodaysFoodsPage />} />
-              </Routes>
+                  <Route element={<RequireAuth />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/myfoods" element={<MyFoodsPage />} />
+                    <Route path="/today" element={<TodaysFoodsPage />} />
+                  </Route>
+                </Routes>
 
               <Footer />
           </Router>

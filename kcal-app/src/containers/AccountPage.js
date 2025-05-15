@@ -3,24 +3,21 @@ import { ProcessesProvider } from '../context/LoadingProcessesContext.js';
 import Authenticate from './Authenticate.js';
 import MyAccount from './MyAccount.js';
 import { useUser } from '../context/userContext.js';
+import { useFeedback } from '../context/FeedbackContext.js';
+import Feedback from '../components/Feedback.js';
+import Loading from '../components/Loading.js';
 
 function AccountPage() {
-  const [pageContent, setPageContent] = useState(null)
-  const { user } = useUser();
-  console.log("USER:", user)
+  const { userLoggedIn, loadingUser } = useUser();
+  const { feedbackData, shouldShowFeedback } = useFeedback();
 
-  useEffect(() => {
-    if (user === null){
-      setPageContent(<Authenticate />);
-    } else {
-      setPageContent(<MyAccount />)
-    }
-  }, [user])
+  const displayTopFeedback = shouldShowFeedback({sources: ["redirect"]})
 
   return (
     <ProcessesProvider>
       <section className='page'>
-          {pageContent}
+          {displayTopFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top" />) : (null)}
+          {loadingUser ? <Loading /> : userLoggedIn() ? <MyAccount /> : <Authenticate />}
       </section>
     </ProcessesProvider>
   );
