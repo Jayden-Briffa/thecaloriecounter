@@ -119,11 +119,11 @@ function TodaysFoodsTable(props) {
     removeProcess(processName);
 
     if (newLog instanceof Error){
-      updateFeedbackData({message: "Sorry, we couldn't add your new calorie log", type: "danger", source: processName})
+      updateFeedbackData({message: "Sorry, we couldn't add your new calorie log", type: "danger", source: processName, showAtTop: false})
       return;
     }
 
-    updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: processName})
+    updateFeedbackData({message: `Your calorie count for ${formatDate(newLog.date)} has been set or updated to ${newLog.kcal}!`, type: "success", source: processName, showAtTop: false})
   }
   
   async function handleClick(){
@@ -157,7 +157,6 @@ function TodaysFoodsTable(props) {
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumed food is being added
-  const displayTopFeedback =  shouldShowFeedback({sources: ["newConsumedFood", "deleteConsumedFood", "updateConsumedFood"]});
   const displayLogFeedback = shouldShowFeedback({sources: ["newLog"]});
   
   const displayFormLoading = processes.includes("newConsumedFood");
@@ -165,7 +164,6 @@ function TodaysFoodsTable(props) {
 
   return (
     <>
-      {displayTopFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top" />) : (null)}
       {displayCenterLoading ? (<Loading centered={true} />) : (null)}
 
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">

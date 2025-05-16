@@ -68,7 +68,7 @@ export const putKcalLogId = async (req, res, next) => {
 
 export const deleteKcalLogId = async (req, res, next) => {
     try {
-        await model.deleteKcal(req.params.logId);
+        await model.deleteKcal({id: req.params.logId});
         res.status(204).send();
     } catch (err) {
         next(err);

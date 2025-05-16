@@ -26,7 +26,7 @@ function TodaysFoodsTableOutput() {
       const newConsumedFoods = await getConsumed();
 
       if (newAllFoods instanceof Error || newConsumedFoods instanceof Error){
-        updateFeedbackData({message: "Sorry, it looks like we couldn't get the data we're looking for", type: "danger", source: processName})
+        updateFeedbackData({message: "Sorry, it looks like we couldn't get the data we're looking for", type: "danger", source: processName, showAtTop: false})
       }
 
       setAllFoods(newAllFoods);
@@ -70,7 +70,7 @@ function TodaysFoodsTableOutput() {
     
   }, [consumedFoods]);
   
-  const displayFeedback = shouldShowFeedback({sources: ["TodaysFoodsOutput"]})
+  const displayFeedback = shouldShowFeedback({sources: ["TodaysFoodsOutput"]});
   if (displayFeedback){
     return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
   }

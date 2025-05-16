@@ -50,7 +50,16 @@ export const updateKcal = async (log, id) => {
     return result;
 };
 
-export const deleteKcal = async (id) => {
-    const [result] = await pool.query(`DELETE FROM Kcal_Logs WHERE id = ?`, [id]);
+export const deleteKcal = async ({id = null, userId = null}) => {
+
+    let result;
+    if (id !== null){
+        [result] = await pool.query(`DELETE FROM Kcal_Logs WHERE id = ?`, [id]);
+    } else if (userId !== null){
+        [result] = await pool.query(`DELETE FROM Kcal_Logs WHERE user_id = ?`, [userId]);
+    } else {
+        throw new Error("No id or userId provided");
+    }
+    
     return result;
 };

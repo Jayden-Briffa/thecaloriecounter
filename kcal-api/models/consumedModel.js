@@ -37,7 +37,7 @@ export const updateConsumed = async (food, id) => {
     return result
 }
 
-export const deleteConsumed = async (id) => {
+export const deleteConsumed = async ({id = null, userId = null}) => {
     
     let result;
     if (Array.isArray(id)){
@@ -45,8 +45,12 @@ export const deleteConsumed = async (id) => {
         const placeholders = id.map(() => "?").join();
 
         [result] = await pool.query(`DELETE FROM Consumed_Foods WHERE id IN (${placeholders})`, id)
-    } else {
+    } else if (id !== null) {
         [result] = await pool.query(`DELETE FROM Consumed_Foods WHERE id = ?`, [id])
+    } else if (userId !== null){
+        [result] = await pool.query(`DELETE FROM Consumed_Foods WHERE user_id = ?`, [userId])
+    } else {
+        throw new Error("No id or userId provided");
     }
 
     return result;

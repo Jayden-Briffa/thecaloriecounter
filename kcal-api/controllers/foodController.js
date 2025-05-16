@@ -83,7 +83,7 @@ export const putFoodFoodId = async (req, res, next) => {
 
 export const deleteFoodFoodId = async (req, res, next) => {
     try {
-        await model.deleteFood(req.params.foodId);
+        await model.deleteFood({id: req.params.foodId});
         res.status(204).send();
     } catch (err) {
         next(err);

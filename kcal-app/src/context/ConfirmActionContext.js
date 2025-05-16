@@ -9,7 +9,7 @@ function ConfirmActionProvider({ children }){
     // Return all child components with context applied
     return (
         <ConfirmActionContext.Provider value={ {actionData, setActionData} }>
-            <ModalConfirmAction heading={actionData.heading} rejectText={actionData.rejectText} confirmText={actionData.confirmText} handleReject={actionData.handleReject} handleConfirm={actionData.handleConfirm} />
+            <ModalConfirmAction heading={actionData.heading} body={actionData.body} rejectText={actionData.rejectText} confirmText={actionData.confirmText} handleReject={actionData.handleReject} handleConfirm={actionData.handleConfirm} />
             {children}
         </ConfirmActionContext.Provider>
     )

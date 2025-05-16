@@ -83,7 +83,7 @@ export const deleteConsumed = async (req, res, next) => {
         // Parse foodIds into an array
         consumedIdsArr = req.query.consumedIds.split(",").map(Number);
 
-        await model.deleteConsumed(consumedIdsArr);
+        await model.deleteConsumed({id: consumedIdsArr});
         res.status(204).send();
 
     } catch (err){
@@ -95,7 +95,7 @@ export const deleteConsumed = async (req, res, next) => {
 export const deleteConsumedConsumedId = async (req, res, next) => {
 
     try{
-        await model.deleteConsumed(req.params.consumedId)
+        await model.deleteConsumed({id: req.params.consumedId})
         res.status(204).send();
     } catch (err){
         next(err)

@@ -47,13 +47,11 @@ function MyFoodTable(props) {
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
-
-  const displayTopFeedback = shouldShowFeedback({sources: ["newFood", "deleteFood:"]});
+  
   const displayFormLoading = processes.includes("newFood")
 
   return (
     <>
-      {displayTopFeedback ? (<Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top" />) : (null)}
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="my-foods-table">
         <MyFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
         <MyFoodsTableForm submitHandler={submitHandler} displayLoading={displayFormLoading} />

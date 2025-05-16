@@ -12,6 +12,7 @@ function FeedbackProvider({ children }){
         // Set new data
         // Increment feedbackKey
         setFeedbackData(prev => ({
+            showAtTop: true,
             ...prev,
             ...newFeedbackData,
             feedbackKey: prev.feedbackKey + 1

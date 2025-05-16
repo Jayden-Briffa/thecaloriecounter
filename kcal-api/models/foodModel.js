@@ -48,7 +48,16 @@ export const updateFood = async (food, id) => {
     return result;
 }
 
-export const deleteFood = async (id) => {
-    const [result] = await pool.query(`DELETE FROM Foods WHERE id = ?`, [id]);
+export const deleteFood = async ({id = null, userId = null}) => {
+
+    let result;
+    if (id !== null){
+        [result] = await pool.query(`DELETE FROM Foods WHERE id = ?`, [id]);
+    } else if (userId !== null){
+        [result] = await pool.query(`DELETE FROM Foods WHERE user_id = ?`, [userId]);
+    } else {
+        throw new Error("No id or userId provided");
+    }
+
     return result;
 }

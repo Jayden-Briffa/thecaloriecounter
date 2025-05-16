@@ -21,6 +21,6 @@ export async function insertUser(email, password) {
 };
 
 export async function deleteUser(id) {
-    const [result] = await pool.query(`DELETE FROM Users WHERE id = id`, [id])
+    const [result] = await pool.query(`DELETE FROM Users WHERE id = ?`, [id])
     return result
 };

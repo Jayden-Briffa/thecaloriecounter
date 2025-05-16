@@ -1,4 +1,7 @@
 import * as model from '../models/authModel.js';
+import { deleteConsumed } from '../models/consumedModel.js';
+import { deleteFood } from '../models/foodModel.js';
+import { deleteKcal } from '../models/kcalModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import isEmail from 'validator/lib/isEmail.js';
@@ -111,4 +114,20 @@ export async function getUser(req, res, next){
     }
 }
 
-export async function deleteSignup(req, res, next) {};
+export async function deleteUser(req, res, next) {
+    try{
+        const userId = res.locals.user.id;
+        
+        // Delete children
+        deleteKcal({userId});
+        deleteConsumed({userId});
+        deleteFood({userId});
+
+        // Delete user record
+        model.deleteUser(res.locals.user.id);
+        res.cookie("user", "", { maxAge: 100});
+        res.status(204).send();
+    } catch (err){
+        next(err);
+    }
+};

@@ -38,7 +38,7 @@ function DashboardOutput() {
     removeProcess(processName);
 
     if (avgRes instanceof Error || valsRes instanceof Error){
-      updateFeedbackData({message: "Sorry, we couldn't get your dashboard data. Try again later ", type: "danger", source: processName})
+      updateFeedbackData({message: "Sorry, we couldn't get your dashboard data. Try again later ", type: "danger", source: processName, showAtTop: false})
       return;
     }
 
@@ -109,7 +109,7 @@ function DashboardOutput() {
   const displayFeedback = shouldShowFeedback({sources: ["DashboardOutput"], types: ["danger"]});
   
   if (displayFeedback){
-    return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
+    return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} />
   }
 
   if (isLoading){

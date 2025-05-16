@@ -21,7 +21,7 @@ function MyFoodsTableOutput() {
 
       // If there was an error, show negative feedback
       if (newUserFoods instanceof Error){
-        updateFeedbackData({message: "Sorry, it looks like we couldn't get your foods", type: "danger", source: "MyFoodsOutputData"})
+        updateFeedbackData({message: "Sorry, it looks like we couldn't get your foods", type: "danger", source: "MyFoodsOutputData", showAtTop: false})
         return;
       }
 
@@ -33,10 +33,11 @@ function MyFoodsTableOutput() {
     fetchFoods();
   }, []);
   
-    const displayFeedback = shouldShowFeedback({sources: ["MyFoodsOutputData"], types: ["danger"]}) && userFoods === null
+    const displayFeedback = shouldShowFeedback({sources: ["MyFoodsOutputData"], types: ["danger"]}) && userFoods === null;
+
     // If there is an issue with loading, create an error alert
     if (displayFeedback){
-      return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} /> 
+      return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} />
     }
 
   // If the content is still loading, output a loading placeholder
