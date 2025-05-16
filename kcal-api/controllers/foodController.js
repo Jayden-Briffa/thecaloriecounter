@@ -20,7 +20,7 @@ export const getFood = async (req, res, next) => {
             rows = await model.selectFood({id: foodIdsArr, orderedBy: orderedBy});
             
         } else {
-            rows = await model.selectFood({orderedBy: orderedBy});
+            rows = await model.selectFood({userId: res.locals.user.id, orderedBy: orderedBy});
         }
         
         res.status(200).json({Foods: rows});
@@ -51,6 +51,7 @@ export const getFoodFoodId = (req, res, next) => {
 
 export const postFood = async (req, res, next) => {
     const food = req.body;
+    food.userId = res.locals.user.id
     try {
         const result = await model.insertFood(food);
 

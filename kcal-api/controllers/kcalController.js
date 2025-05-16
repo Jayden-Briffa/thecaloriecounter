@@ -19,7 +19,7 @@ export const getKcal = async (req, res, next) => {
     try {
 
         // Get all kcal logs
-        const rows = await model.selectKcal({...req.query});
+        const rows = await model.selectKcal({userId: res.locals.user.id, ...req.query});
 
         if (req.query.getAvg){
             return res.status(200).json({Kcal: rows.average_kcal});
@@ -38,6 +38,8 @@ export const getKcalLogId = (req, res, next) => {
 
 export const postKcal = async (req, res, next) => {
     const log = req.body;
+    log.userId = res.locals.user.id;
+
     try {
         const result = await model.insertKcal(log);
         const row = await model.selectKcal({id: result.insertId});

@@ -18,7 +18,7 @@ export async function checkuser(req, res, next){
     } else {
         res.locals.user = null;
     }
-    console.log(res.locals.user, req.cookies)
+
     next()
 }
 

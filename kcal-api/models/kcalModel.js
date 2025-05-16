@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 
-export const selectKcal = async ({ id = null, date = null, start = null, end = null, getAvg = false} = {}) => {
+export const selectKcal = async ({ userId = null, id = null, date = null, start = null, end = null, getAvg = false} = {}) => {
 
     let selector = "*";
     let whereClause = '';
@@ -11,23 +11,22 @@ export const selectKcal = async ({ id = null, date = null, start = null, end = n
     if (getAvg){
         selector = "AVG(kcal) AS average_kcal";
         expectSingleRow = true;
-
     }
 
     // Filter?
     if (id !== null) {
-        whereClause = "WHERE id = ?";
-        values = [id];
+        whereClause += "WHERE id = ?";
+        values = values.concat([id]);
         expectSingleRow = true;
 
     } else if (date) {
-        whereClause = "WHERE 'date' = ?";
-        values = [date];
+        whereClause += "WHERE user_id = ? AND date = ?";
+        values = values.concat([userId, date]);
         expectSingleRow = true;
 
     } else if (start && end) {
-        whereClause = "WHERE date BETWEEN ? AND ?";
-        values = [start, end];
+        whereClause += "WHERE user_id = ? AND date BETWEEN ? AND ?";
+        values = values.concat([userId, start, end]);
 
     }
     
@@ -36,13 +35,13 @@ export const selectKcal = async ({ id = null, date = null, start = null, end = n
     if (expectSingleRow){
         [rows] = rows
     }
-    
+ 
     return rows
 
 };
 
 export const insertKcal = async (log) => {
-    const [result] = await pool.query(`INSERT INTO Kcal_Logs (kcal, date) VALUES(?, ?)`, [log.kcal, log.date]);
+    const [result] = await pool.query(`INSERT INTO Kcal_Logs (kcal, user_id, date) VALUES(?, ?, ?)`, [log.kcal, log.userId, log.date]);
     return result;
 };
 

@@ -2,7 +2,7 @@ import * as model from '../models/consumedModel.js';
 
 export const getConsumed = async (req, res, next) => {
     try{
-        const rows = await model.selectConsumed();
+        const rows = await model.selectConsumed({userId: res.locals.user.id});
         res.status(200).json({Consumed_Foods : rows});
     } catch (err){
         next(err)
@@ -31,7 +31,8 @@ export const getConsumedConsumedId = (req, res, next) => {
 
 export const postConsumed = async (req, res, next) => {
     try{
-        const food = req.body
+        let food = req.body;
+        food.userId = res.locals.user.id;
     
         const result = await model.insertConsumed(food);
     

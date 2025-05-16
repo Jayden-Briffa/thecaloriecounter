@@ -14,7 +14,7 @@ async function validateSignup(email, password){
 
     // Check that email is unique
     const foundUser = await model.selectUserByEmail(email)
-    console.log(foundUser);
+ 
     if (foundUser.length !== 0){
         errors.email = "That email is already registered";
     }

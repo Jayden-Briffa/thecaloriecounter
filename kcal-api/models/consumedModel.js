@@ -1,23 +1,26 @@
 import { pool } from "../db.js"
 
-export const selectConsumed = async ({id = null} = {}) => {
+export const selectConsumed = async ({userId = null, id = null} = {}) => {
     
     let rows;
     
     if (id !== null) {
         [[rows]] = await pool.query(`SELECT * FROM Consumed_Foods WHERE id = ?`, [id]);
+    } else if (userId !== null) {
+        [rows] = await pool.query(`SELECT * FROM Consumed_Foods WHERE user_id = ?`, [userId]);
     } else {
-        [rows] = await pool.query(`SELECT * FROM Consumed_Foods`);
+        return null
     }
  
     return rows 
 }
 
 export const insertConsumed = async (food) => {
-    const [result] = await pool.query(`INSERT INTO Consumed_Foods (food_id, quantity, kcal, date_consumed) VALUES(?, ?, ?, ?)`, [
+    const [result] = await pool.query(`INSERT INTO Consumed_Foods (food_id, quantity, kcal, user_id, date_consumed) VALUES (?, ?, ?, ?, ?)`, [
         food.foodId, 
         food.quantity, 
         food.kcal,
+        food.userId,
         food.dateConsumed
     ]);
 
