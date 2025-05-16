@@ -14,10 +14,15 @@ export const paramConsumedConsumedId = async (req, res, next, id) => {
         const row = await model.selectConsumed({id})
     
         if (!row){
-            res.status(404).send(`Food not found with id: ${id}`);
+            return res.status(404).send(`Food not found with id: ${id}`);
         }
     
         req.consumedFood = row;
+
+         if (req.foodItem.user_id !== res.locals.user.id){
+            return res.status(403).json({errors: {forbidden: "You cannot do anything to a consumed food item you didn't add"}})
+        }
+
         next();
 
     } catch (err){

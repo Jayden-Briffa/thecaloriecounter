@@ -67,12 +67,10 @@ export async function postSignup(req, res, next) {
         const token = createToken(result.insertId)
 
         res.cookie('user', token, { httpOnly: true, maxAge });
-        res.cookie('access', {}, { maxAge });
         res.status(201).json({user: result.insertId});
 
     } catch(error){
-        const errors = await handleErrors(error)
-        res.status(400).json(errors)
+        next(error)
     }
 };
 
@@ -94,8 +92,7 @@ export async function postLogin(req, res, next) {
         res.status(200).json({user: user.id})
     
     } catch(error){
-        console.log(error)
-        res.status(400).json(error)
+        next(error)
     }
 
 };
