@@ -9,8 +9,8 @@ export const paramLogId = async (req, res, next, id) => {
         }
 
         req.kcalLog = row;
-
-         if (req.foodItem.user_id !== res.locals.user.id){
+        
+        if (req.kcalLog.user_id !== res.locals.user.id){
             return res.status(403).json({errors: {forbidden: "You cannot affect kcal logs that aren't yours"}})
         }
 
