@@ -1,6 +1,6 @@
 import React from 'react';
 import DashboardOutput from './DashboardOutput';
-import { ProcessesProvider } from '../context/LoadingProcessesContext';
+import { ProcessesProvider } from '../../../context/LoadingProcessesContext';
 
 function DashboardPage() {
 

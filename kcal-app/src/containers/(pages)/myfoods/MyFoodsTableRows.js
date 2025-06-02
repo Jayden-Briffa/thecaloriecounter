@@ -1,7 +1,6 @@
-import React from 'react';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import MyFoodsTableRow from '../components/MyFoodsTableRow';
-import deleteFood from '../services/deleteFood';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import MyFoodsTableRow from '../../../components/MyFoodsTableRow';
+import deleteFood from '../../../services/deleteFood';
 
 function MyFoodsTableRows(props) {
 

@@ -1,21 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import { useFeedback } from '../context/FeedbackContext';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import Feedback from '../components/Feedback';
-import TodaysFoodsTableHeaders from '../components/TodaysFoodsTableHeaders';
-import TodaysFoodsTableForm from '../components/TodaysFoodsTableForm';
+import {useState, useEffect} from 'react';
+import { useFeedback } from '../../../context/FeedbackContext';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import { useConfirmAction } from '../../../context/ConfirmActionContext';
+import { usingMobile } from '../../../utils/checkScreenSize';
+import Feedback from '../../../components/Feedback';
+import TodaysFoodsTableHeaders from '../../../components/TodaysFoodsTableHeaders';
+import TodaysFoodsTableForm from '../../../components/TodaysFoodsTableForm';
+import TotalKcalForm from '../../../components/TotalKcalForm';
+import postConsumed from '../../../services/postConsumed';
+import extractDate from '../../../utils/extractDate';
+import formatDate from '../../../utils/formatDate';
+import submitKcal from '../../../services/submitKcal';
+import calcKcal from '../../../utils/calcKcal';
+import BtnModal from '../../../components/BtnModal';
+import deleteConsumed from '../../../services/deleteConsumed';
+import Loading from '../../../components/Loading';
 import TodaysFoodsTableRows from './TodaysFoodsTableRows';
-import TotalKcalForm from '../components/TotalKcalForm';
-import postConsumed from '../services/postConsumed';
-import extractDate from '../utils/extractDate';
-import formatDate from '../utils/formatDate';
-import submitKcal from '../services/submitKcal';
-import { usingMobile } from '../utils/checkScreenSize';
-import calcKcal from '../utils/calcKcal';
-import BtnModal from '../components/BtnModal';
-import { useConfirmAction } from '../context/ConfirmActionContext';
-import deleteConsumed from '../services/deleteConsumed';
-import Loading from '../components/Loading';
 
 // Table to display today's consumed foods
 function TodaysFoodsTable(props) {

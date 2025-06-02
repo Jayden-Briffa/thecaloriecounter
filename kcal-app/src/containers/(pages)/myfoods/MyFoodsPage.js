@@ -1,6 +1,5 @@
-import React from 'react';
+import { ProcessesProvider } from '../../../context/LoadingProcessesContext';
 import MyFoodsOutput from './MyFoodsOutput';
-import { ProcessesProvider } from '../context/LoadingProcessesContext';
 
 function MyFoodsPage() {
 

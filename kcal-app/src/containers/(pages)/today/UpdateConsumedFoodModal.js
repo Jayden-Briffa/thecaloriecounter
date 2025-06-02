@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import { useFeedback } from '../context/FeedbackContext';
-import UpdateTodaysFoodForm from '../components/UpdateTodaysFoodForm';
-import putConsumed from '../services/putConsumed';
-import calcKcal from '../utils/calcKcal';
+import { useState, useEffect } from 'react';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import { useFeedback } from '../../../context/FeedbackContext';
+import UpdateTodaysFoodForm from '../../../components/UpdateTodaysFoodForm';
+import putConsumed from '../../../services/putConsumed';
+import calcKcal from '../../../utils/calcKcal';
 
 function UpdateConsumedFoodModal(props) {
   const [newQuantity, setNewQuantity] = useState(0);

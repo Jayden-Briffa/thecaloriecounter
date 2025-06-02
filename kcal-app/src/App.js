@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { FeedbackProvider } from './context/FeedbackContext';
 import { ConfirmActionProvider } from './context/ConfirmActionContext';
 import Header from "./containers/Header";
-import DashboardPage from "./containers/DashboardPage";
-import MyFoodsPage from "./containers/MyFoodsPage";
-import TodaysFoodsPage from "./containers/TodaysFoodsPage";
+import DashboardPage from "./containers/(pages)/dashboard/DashboardPage";
+import MyFoodsPage from "./containers/(pages)/myfoods/MyFoodsPage";
+import TodaysFoodsPage from "./containers/(pages)/today/TodaysFoodsPage";
 import Footer from './containers/Footer';
-import AccountPage from './containers/AccountPage';
+import AccountPage from './containers/(pages)/account/AccountPage';
 import { UserContextProvider } from './context/userContext';
 import RequireAuth from './containers/RequireAuth';
 

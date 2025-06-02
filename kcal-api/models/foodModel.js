@@ -10,7 +10,7 @@ export const selectFood = async ({userId = null, id = null, orderedBy = null} = 
         // Create a list of placeholders equal to the number of items in id
         const placeholders = id.map(() => "?").join();
 
-        [result] = await pool.query(`SELECT * FROM Foods WHERE id IN (${placeholders})${orderClause}`, [id]);
+        [result] = await pool.query(`SELECT * FROM Foods WHERE id IN (${placeholders})${orderClause}`, id);
         
     } else if (id !== null) {
         [[result]] = await pool.query(`SELECT * FROM Foods WHERE id = ?`, [id]);

@@ -1,12 +1,12 @@
 import React from 'react';
-import BtnBasic from '../components/BtnBasic';
-import getLogout from '../services/getLogout';
-import { useUser } from '../context/userContext';
-import { useConfirmAction } from '../context/ConfirmActionContext';
-import BtnModal from '../components/BtnModal';
-import deleteUser from '../services/deleteUser';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import { useFeedback } from '../context/FeedbackContext';
+import BtnBasic from '../../../components/BtnBasic';
+import getLogout from '../../../services/getLogout';
+import { useUser } from '../../../context/userContext';
+import { useConfirmAction } from '../../../context/ConfirmActionContext';
+import BtnModal from '../../../components/BtnModal';
+import deleteUser from '../../../services/deleteUser';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import { useFeedback } from '../../../context/FeedbackContext';
 
 function MyAccount(props) {
   const { user, updateUser } = useUser();
@@ -53,13 +53,27 @@ function MyAccount(props) {
     updateUser();
   }
 
+  const optionsStyle = {
+    
+  }
+
+  const optionsButtonsStyle = {
+    
+  }
+
   return (
     <>
       <h1>Hi &#128516;</h1>
       <p>You're logged in as {user.email}</p>
 
-      <BtnBasic onClick={handleLogout}>Logout</BtnBasic>
-      <BtnModal handleClick={handleClick} modalSelector="#confirmActionModal" btnText="Delete account" />
+      <div className='' id='account-options' style={optionsStyle}>
+        <h2 className='mb-3'>Options</h2>
+
+        <div className='d-flex flex-column gap-3' id='account-options-buttons' style={optionsButtonsStyle}>
+          <BtnBasic onClick={handleLogout} className="py-2">Logout</BtnBasic>
+          <BtnModal handleClick={handleClick} modalSelector="#confirmActionModal" btnText="Delete account" />
+        </div>
+      </div>
     </>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import { useFeedback } from '../context/FeedbackContext';
-import TodaysFoodsTableRow from '../components/TodaysFoodsTableRow';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import { useFeedback } from '../../../context/FeedbackContext';
+import TodaysFoodsTableRow from '../../../components/TodaysFoodsTableRow';
+import deleteConsumed from '../../../services/deleteConsumed'
 import UpdateConsumedFoodModal from './UpdateConsumedFoodModal';
-import deleteConsumed from '../services/deleteConsumed'
 
 function TodaysFoodsTableRows(props) {
   

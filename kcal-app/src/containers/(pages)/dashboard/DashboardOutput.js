@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import '../styles/DashboardOutput.css';
-import Loading from '../components/Loading';
-import Feedback from '../components/Feedback';
-import { useFeedback } from '../context/FeedbackContext';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import DashboardKcalGraph from '../components/DashboardKcalGraph';
-import DashboardDaysForm from '../components/DashboardDaysForm';
-import DashboardKcalAvg from '../components/DashboardKcalAvg';
-import calcEndDate from '../utils/calcEndDate';
-import getKcalAvg from '../services/getKcalAvg';
-import getKcal from '../services/getKcal';
-import { usingMobile } from '../utils/checkScreenSize';
+import {useState, useEffect} from 'react';
+import '../../../styles/DashboardOutput.css';
+import Loading from '../../../components/Loading';
+import Feedback from '../../../components/Feedback';
+import { useFeedback } from '../../../context/FeedbackContext';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import DashboardKcalGraph from '../../../components/DashboardKcalGraph';
+import DashboardDaysForm from '../../../components/DashboardDaysForm';
+import DashboardKcalAvg from '../../../components/DashboardKcalAvg';
+import calcEndDate from '../../../utils/calcEndDate';
+import getKcalAvg from '../../../services/getKcalAvg';
+import getKcal from '../../../services/getKcal';
+import { usingMobile } from '../../../utils/checkScreenSize';
 
 function DashboardOutput() {
 

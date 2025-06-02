@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useFeedback } from '../context/FeedbackContext';
-import Loading from '../components/Loading';
-import Feedback from '../components/Feedback';
+import { useState, useEffect } from 'react';
+import { useFeedback } from '../../../context/FeedbackContext';
+import Loading from '../../../components/Loading';
+import Feedback from '../../../components/Feedback';
+import getFoods from '../../../services/getFoods';
+import getConsumed from '../../../services/getConsumed';
 import TodaysFoodsTable from './TodaysFoodsTable'
-import getFoods from '../services/getFoods';
-import getConsumed from '../services/getConsumed';
 
 function TodaysFoodsTableOutput() {
 

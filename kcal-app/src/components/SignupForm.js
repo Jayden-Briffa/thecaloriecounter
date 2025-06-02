@@ -6,7 +6,7 @@ import Loading from './Loading';
 
 function SignupForm(props) {
   return (
-      <form className='d-flex flex-column gap-3 w-100 p-3 py-5 rounded-3 border-2 border-black' onSubmit={props.handleSubmit} method="post">
+      <form className='d-flex flex-column gap-3 w-100 p-3 py-5 rounded-3 border-2 border-black' onSubmit={props.handleSubmit} method="post" id="signup-form">
         <h1>Sign up for an account:</h1>
         <div className='d-flex flex-column'>
           <label htmlFor="signupEmail" className='text-start fw-bold fs-4'>Email:</label>

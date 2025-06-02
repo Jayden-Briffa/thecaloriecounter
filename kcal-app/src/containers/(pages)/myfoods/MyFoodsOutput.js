@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useFeedback } from '../context/FeedbackContext';
-import Loading from '../components/Loading';
-import Feedback from '../components/Feedback';
+import { useState, useEffect } from 'react';
+import { useFeedback } from '../../../context/FeedbackContext';
+import Loading from '../../../components/Loading';
+import Feedback from '../../../components/Feedback';
+import getFoods from '../../../services/getFoods';
 import MyFoodsTable from './MyFoodsTable'
-import getFoods from '../services/getFoods';
 
 function MyFoodsTableOutput() {
 

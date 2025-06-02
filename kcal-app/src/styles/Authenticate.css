@@ -1,0 +1,52 @@
+:root{
+    --SLIDE-GROWTH-SMALL: 50%;
+    --SLIDE-MOVE-AMOUNT: 100vw;
+}
+
+#auth-forms{
+    position: relative;
+}
+
+#login-card,
+#signup-card {
+    max-width: 500px;
+}
+
+#login-card{
+    position: absolute;
+    width: 100%;
+}
+
+#signup-card{
+    position: absolute;
+    transform: translate(var(--SLIDE-MOVE-AMOUNT));
+    width: 100%;
+}
+
+.moving-out{
+    animation: slide-out 0.5s forwards ease-out;
+}
+
+.moving-in{
+    animation: slide-in 0.5s forwards ease-in-out;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translate(var(--SLIDE-MOVE-AMOUNT)) scale(var(--SLIDE-GROWTH-SMALL));
+    }
+
+    100% {
+        transform: translate(0) scale(1);
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform: translate(0) scale(1);
+    }
+
+    100% {
+        transform: translate(calc(var(--SLIDE-MOVE-AMOUNT) * -1)) scale(var(--SLIDE-GROWTH-SMALL));
+    }
+}

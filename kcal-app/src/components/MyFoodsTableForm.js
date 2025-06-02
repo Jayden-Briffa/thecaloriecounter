@@ -6,16 +6,16 @@ function MyFoodsTableForm(props) {
   return (
     <form className="row g-0" method="post" onSubmit={props.submitHandler}>
       <div className="col-4 border-top-0">
-        <AppInput type="text" className="cell-content" name="name" id="InputNewFoodName" placeholder="Name..." expand />
+        <AppInput type="text" className="cell-content text-center" name="name" id="InputNewFoodName" placeholder="Name..." expand />
       </div>
       <div className="col-2">
-        <AppInput type="number" className="cell-content" name="quantity" id="InputNewFoodQuantity" placeholder="Quantity..." />
+        <AppInput type="number" className="cell-content text-center" name="quantity" id="InputNewFoodQuantity" placeholder="Quantity..." />
       </div>
       <div className="col-2">
-        <AppInput type="text" className="cell-content" name="units" id="InputNewFoodUnits" placeholder="Units..." />
+        <AppInput type="text" className="cell-content text-center" name="units" id="InputNewFoodUnits" placeholder="Units..." />
       </div>
       <div className="col-2">
-        <AppInput type="number" className="cell-content" name="kcal" id="InputNewFoodKcal" placeholder="Kcal..." />
+        <AppInput type="number" className="cell-content text-center" name="kcal" id="InputNewFoodKcal" placeholder="Kcal..." />
       </div>
       <div className="col-2 d-flex position-relative justify-content-center border-pink border-1 text-center p-0 mb-0 rounded-0 cell-content">
         <button className="btn-submit border-0 bg-transparent" type="submit">

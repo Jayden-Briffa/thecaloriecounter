@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import { useFeedback } from '../context/FeedbackContext';
-import { useProcesses } from '../context/LoadingProcessesContext';
-import Feedback from '../components/Feedback';
-import MyFoodsTableHeaders from '../components/MyFoodsTableHeaders';
-import MyFoodsTableForm from '../components/MyFoodsTableForm';
+import { useState } from 'react';
+import { useFeedback } from '../../../context/FeedbackContext';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
+import { usingMobile } from '../../../utils/checkScreenSize';
+import postFoods from '../../../services/postFoods';
+import MyFoodsTableHeaders from '../../../components/MyFoodsTableHeaders';
+import MyFoodsTableForm from '../../../components/MyFoodsTableForm';
 import MyFoodsTableRows from './MyFoodsTableRows';
-import postFoods from '../services/postFoods';
-import { usingMobile } from '../utils/checkScreenSize';
 
 function MyFoodTable(props) {
 
   const [userFoods, setUserFoods] = useState(props.userFoods)
-  const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
+  const { updateFeedbackData } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses()
 
   async function submitHandler(event){
