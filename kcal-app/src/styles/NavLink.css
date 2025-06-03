@@ -1,0 +1,18 @@
+.nav-item a{
+    color: var(--COLOR-TEXT-LIGHT);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-item a.nav-link.active{
+    color: var(--BRIGHT-BLUE);
+    font-weight: bold;
+}
+
+.nav-item a.nav-link:hover{
+    color: var(--BRIGHT-BLUE);
+}
+
+#navbar-sm .nav-item a.nav-link{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}

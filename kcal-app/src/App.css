@@ -87,9 +87,15 @@
   cursor: pointer;
 }
 
+/* Structure */
+#page.inactive{
+  filter: blur(2px);
+}
+
 /* Inputs */
 input.form-control,
 select.form-select{
+  text-align: center;
   transition: all 0.2s;
 }
 
@@ -105,9 +111,15 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 
+button.btn-blank{
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
 /* GENERAL SELECTORS */
-.page{
-  min-height: 88vh;
+#page{
   text-align: center;
   padding: var(--PADDING-PAGE);
 }

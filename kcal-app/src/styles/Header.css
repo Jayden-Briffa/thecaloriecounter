@@ -1,8 +1,42 @@
 .header{
-    height: 7vh;
+    min-height: 7vh;
 }
 
 .active{
     color: var(--BRIGHT-BLUE);
     font-weight: bold;
 }
+
+#navbar-toggler{
+    z-index: 1000;
+    border: 2px solid white;
+}
+
+#navbar-sm{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80vw;
+    min-width: 200px;
+    background-color: var(--PINK);
+    padding-top: 40px;
+    padding-right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+#navbar-sm ul{
+   list-style-type: none;
+   display: flex;
+   flex-direction: column;
+}
+
+#navbar-sm a{
+  font-size: 1.5rem;
+}
+
+#navbar-sm.hidden{
+    left: -100%;
+}
+

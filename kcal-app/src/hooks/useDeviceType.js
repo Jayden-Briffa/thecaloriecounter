@@ -5,21 +5,24 @@ export default function useDeviceType() {
    
     useEffect(() => {
         
-        const breakpoints = {
-            "992px": "lg",
-            "768px": "md",
-            "0": "sm"
-        };
+        const breakpoints = [
+            { min: '992px', type: "lg" },
+            { min: '768px', type: "md" },
+            { min: 0,   type: "sm" }
+        ];
 
         let deviceBreakpoint;
-        for (let breakpoint in breakpoints){
-            if (window.matchMedia(`(width >= ${breakpoint})`).matches) {
-                deviceBreakpoint = breakpoint;
+        for (let bp of breakpoints){
+            console.log(`Checking breakpoint: ${bp.min}`);
+            console.log(`Matches: ${window.matchMedia(`(width >= ${bp.min})`).matches}`);
+            if (window.matchMedia(`(width >= ${bp.min})`).matches) {
+                deviceBreakpoint = bp.type;
                 break;
             }
-        }
+        };
 
-        setDeviceType(breakpoints?.[deviceBreakpoint] ?? null)
+        setDeviceType(deviceBreakpoint ?? null)
+
     }, [setDeviceType])
 
 

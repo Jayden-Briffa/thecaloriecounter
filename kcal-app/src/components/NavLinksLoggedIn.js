@@ -1,4 +1,3 @@
-import React from 'react'
 import NavLink from './NavLink';
 
 function NavLinksLoggedIn(props){
@@ -6,16 +5,16 @@ function NavLinksLoggedIn(props){
     return (
         <>
             {/* Dashboard */}
-            <NavLink path="/dashboard" label="Dashboard" location={props.location} />
+            <NavLink path="/dashboard" label="Dashboard" location={props.location} onClick={props.handleToggleNavbar} />
 
             {/* My foods */}
-            <NavLink path="/myfoods" label="My Foods" location={props.location} />
+            <NavLink path="/myfoods" label="My Foods" location={props.location} onClick={props.handleToggleNavbar} />
 
             {/* Today */}
-            <NavLink path="/today" label="Today" location={props.location} />
+            <NavLink path="/today" label="Today" location={props.location} onClick={props.handleToggleNavbar} />
 
             {/* Account */}
-            <NavLink path="/account" altPaths={['/']} label="Account" location={props.location} />
+            <NavLink path="/account" altPaths={['/']} label="Account" location={props.location} onClick={props.handleToggleNavbar} />
         </>
     )
 }
