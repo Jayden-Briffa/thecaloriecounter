@@ -1,19 +1,22 @@
-import React from 'react';
 import { appPink } from '../utils/getColors';
-import '../styles/QtySpinner.css';
+import '../styles/IncrementAndDecrement.css';
 
 function IncrementAndDecrement(props) {
   const svgDimensions = "10";
 
   // Change the value of the nearest <input>
   function defaultSetValue(callback){
-  
-    const inputElem = document.getElementById(props.id).closest('input');
 
-    const oldValue = inputElem.value;
+    const oldValue = props.thisInput.current.value;
+
+    if (oldValue === ""){
+      props.thisInput.current.value = "0";
+      return
+    }
+
     const newValue = callback(oldValue);
 
-    inputElem.value = newValue;
+    props.thisInput.current.value = newValue;
   }
 
   // Change the attached value using a default or given setter
@@ -29,7 +32,7 @@ function IncrementAndDecrement(props) {
     
   }
 
-  // Prevent focus from shifting an stop blur
+  // Prevent focus from shifting and stop blur
   function handleMouseDown(e) {
     e.preventDefault(); 
     props.handleFocus?.(); 

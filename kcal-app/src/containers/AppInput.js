@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import IncrementAndDecrement from '../components/IncrementAndDecrement';
+import PasswordEye from '../components/PasswordEye';
 
 function AppInput(props) {
   // Deconstruct props into attributes
@@ -32,7 +33,10 @@ function AppInput(props) {
   }
 
   const [ isFocussed, setIsFocussed ] = useState(false);
+  const [ inputType, setInputType ] = useState(type ?? "text");
   const [ showSpinner, setShowSpinner ] = useState(false);
+  const [ showEye, setShowEye ] = useState(false);
+  const thisInput = useRef(null);
   
   useEffect(() => {
     // If the type is a number, show spinner...
@@ -41,6 +45,12 @@ function AppInput(props) {
       setShowSpinner(true);
     } else {
       setShowSpinner(false);
+    }
+
+    if (type === "password" && isFocussed){
+      setShowEye(true);
+    } else {
+      setShowEye(false);
     }
   }, [isFocussed, type]);
 
@@ -57,13 +67,15 @@ function AppInput(props) {
       <input 
         onFocus={handleFocus}
         onBlur={handleFocusOut}
-        type={type} 
+        type={inputType} 
         onChange={onChange}
         className={`form-control border-pink p-0 mb-0 rounded-0 ${className}`}
+        ref={thisInput}
         {...optionals}
       />
 
-      {showSpinner ? <IncrementAndDecrement value={value} setValue={setValue} handleFocus={handleFocus} id={id ?? null} /> : null}
+      {showSpinner ? <IncrementAndDecrement value={value} setValue={setValue} handleFocus={handleFocus} thisInput={thisInput} /> : null}
+      {showEye ? <PasswordEye handleFocus={handleFocus} setInputType={setInputType} thisInput={thisInput} /> : null}
 
     </div>
 

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import '../../../styles/DashboardOutput.css';
 import Loading from '../../../components/Loading';
-import Feedback from '../../../components/Feedback';
+import Feedback from '../../../components/FeedbackAlert';
 import { useFeedback } from '../../../context/FeedbackContext';
 import { useProcesses } from '../../../context/LoadingProcessesContext';
 import DashboardKcalGraph from '../../../components/DashboardKcalGraph';

@@ -15,7 +15,7 @@ function NavLinksLoggedIn(props){
             <NavLink path="/today" label="Today" location={props.location} />
 
             {/* Account */}
-            <NavLink path="/account" label="Account" location={props.location} />
+            <NavLink path="/account" altPaths={['/']} label="Account" location={props.location} />
         </>
     )
 }

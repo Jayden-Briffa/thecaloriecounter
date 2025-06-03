@@ -1,19 +1,16 @@
 .animate-collapse{
-    animation: collapse 5s forwards;
+    animation: collapse 0.5s forwards;
     transform-origin: top
 }
 
 .animate-fade-partial{
-    animation: fade-partial 5s forwards;
+    animation: fade-partial 0.5s forwards;
     transform-origin: top
 }
 
 @keyframes collapse{
-    0%{
-        transform: scaleY(1);
-    }
 
-    90%{
+    0%{
         transform: scaleY(1);
         opacity: 1;
     }
@@ -22,6 +19,7 @@
         transform: scaleY(0);
         opacity: 0;
     }
+
 }
 
 @keyframes fade-partial{

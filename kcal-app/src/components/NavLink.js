@@ -1,9 +1,14 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 function NavLink(props) {
+  
   // Return True if the location is equal to the given path
-  const isActive = (path) => props.location.pathname === path;
+  const isActive = (path) => {
+    let allPaths = props.altPaths ?? [];
+    allPaths.push(path);
+
+    return allPaths.includes(props.location.pathname)
+  };
 
   return (
     <li className="nav-item">

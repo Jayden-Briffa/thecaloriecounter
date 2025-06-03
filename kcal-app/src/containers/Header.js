@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useUser } from '../context/userContext';
 import NavLinksLoggedIn from '../components/NavLinksLoggedIn';
 import NavLinksNotLoggedIn from '../components/NavLinksNotLoggedIn';
-import Feedback from '../components/Feedback';
+import Feedback from '../components/FeedbackAlert';
 import { useFeedback } from '../context/FeedbackContext';
 
 function Header() {

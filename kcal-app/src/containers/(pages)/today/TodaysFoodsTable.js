@@ -3,7 +3,7 @@ import { useFeedback } from '../../../context/FeedbackContext';
 import { useProcesses } from '../../../context/LoadingProcessesContext';
 import { useConfirmAction } from '../../../context/ConfirmActionContext';
 import { usingMobile } from '../../../utils/checkScreenSize';
-import Feedback from '../../../components/Feedback';
+import Feedback from '../../../components/FeedbackAlert';
 import TodaysFoodsTableHeaders from '../../../components/TodaysFoodsTableHeaders';
 import TodaysFoodsTableForm from '../../../components/TodaysFoodsTableForm';
 import TotalKcalForm from '../../../components/TotalKcalForm';

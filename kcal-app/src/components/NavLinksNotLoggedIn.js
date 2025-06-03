@@ -1,4 +1,3 @@
-import React from 'react'
 import NavLink from './NavLink';
 
 function NavLinksNotLoggedIn(props){
@@ -6,7 +5,7 @@ function NavLinksNotLoggedIn(props){
     return (
         <>
             {/* Account */}
-            <NavLink path="/account" label="Signup/login" location={props.location} />
+            <NavLink path="/account" altPaths={['/']} label="Signup/login" location={props.location} />
         </>
     )
 }

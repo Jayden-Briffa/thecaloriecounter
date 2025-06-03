@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../../styles/Authenticate.css';
 import { useFeedback } from '../../../context/FeedbackContext.js';
 import LoginForm from '../../../components/LoginForm.js';
@@ -15,6 +15,21 @@ function Authenticate(props) {
   const { updateUser } = useUser();
   const { updateFeedbackData } = useFeedback();
   const { addProcess, removeProcess, processExists } = useProcesses();
+
+  function updateAuthFormsHeight() {
+    const authForms = document.getElementById('auth-forms');
+    const loginCard = document.getElementById('login-card');
+    const signupCard = document.getElementById('signup-card');
+
+    const loginCardHeight = loginCard.offsetHeight;
+    const signupCardHeight = signupCard.offsetHeight;
+
+    console.log("Login Card Height:", loginCardHeight);
+    console.log("Signup Card Height:", signupCardHeight);
+    authForms.style.height = `${Math.max(loginCardHeight, signupCardHeight)}px`;
+  };
+
+  useEffect(updateAuthFormsHeight, []);
 
   function toggleForm(){
     const loginCard = document.getElementById('login-card')
@@ -56,13 +71,15 @@ function Authenticate(props) {
 
     if (result instanceof Error){
       updateFeedbackData({message: "Could not log in", type: "danger", source: processName})
-      setLoginErrors(result.messages)
+      setLoginErrors(result.messages);
+      updateAuthFormsHeight();
       return;
     }
     
-    updateFeedbackData({source: null})
-    setLoginErrors(null)
-    updateUser()
+    updateFeedbackData({source: null});
+    setLoginErrors(null);
+    updateUser();
+    updateAuthFormsHeight();
   }
 
   async function handleSubmitSignup(event){
@@ -84,23 +101,25 @@ function Authenticate(props) {
     if (result instanceof Error){
       updateFeedbackData({message: "Could not create an account", type: "danger", source: processName})
       setSignupErrors(result.messages)
+      updateAuthFormsHeight();
       return;
     }
 
     updateFeedbackData({message: "Successfully created your account", type: "success", source: processName});
-    setSignupErrors(null)
-    updateUser()
+    setSignupErrors(null);
+    updateUser();
+    updateAuthFormsHeight();
   }
 
   return (
     <>
-        <div className='d-flex justify-content-center' id='auth-forms'>
-          <div className='bg-pink my-5 p-3 rounded-3 d-flex flex-column align-items-start' id='login-card'>
+        <div className='d-flex justify-content-center mb-4' id='auth-forms'>
+          <div className='bg-pink p-3 rounded-3 d-flex flex-column align-items-start' id='login-card'>
             <LoginForm handleSubmit={handleSubmitLogin} errors={loginErrors} displayLoading={processExists("login")} />
             <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>Don't have an account? Create one now!</p>
           </div>
 
-          <div className='bg-pink my-5 p-3 rounded-3 d-flex flex-column align-items-start' id='signup-card'>
+          <div className='bg-pink p-3 rounded-3 d-flex flex-column align-items-start' id='signup-card'>
             <SignupForm handleSubmit={handleSubmitSignup} errors={signupErrors} displayLoading={processExists("signup")} />
             <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>Already have an account? Sign in!</p>
           </div>
