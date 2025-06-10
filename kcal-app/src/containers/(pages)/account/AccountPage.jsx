@@ -1,8 +1,8 @@
-import { ProcessesProvider } from '../../../context/LoadingProcessesContext.js';
-import Authenticate from './Authenticate.js';
-import MyAccount from './MyAccount.js';
-import Loading from '../../../components/Loading.js';
-import { useUser } from '../../../context/userContext.js';
+import { ProcessesProvider } from '../../../context/LoadingProcessesContext';
+import Authenticate from './Authenticate';
+import MyAccount from './MyAccount';
+import Loading from '../../../components/Loading';
+import { useUser } from '../../../context/userContext';
 
 function AccountPage() {
   const { userLoggedIn, loadingUser } = useUser();

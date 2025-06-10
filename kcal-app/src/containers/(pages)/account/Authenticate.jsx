@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import '../../../styles/Authenticate.css';
-import { useFeedback } from '../../../context/FeedbackContext.js';
-import LoginForm from '../../../components/LoginForm.js';
-import SignupForm from '../../../components/SignupForm.js';
+import { useFeedback } from '../../../context/FeedbackContext';
+import LoginForm from '../../../components/LoginForm';
+import SignupForm from '../../../components/SignupForm';
 import userSignup from '../../../services/postSignup.js';
 import postLogin from '../../../services/postLogin.js';
-import { useUser } from '../../../context/userContext.js';
-import { useProcesses } from '../../../context/LoadingProcessesContext.js';
+import { useUser } from '../../../context/userContext';
+import { useProcesses } from '../../../context/LoadingProcessesContext';
 
 function Authenticate() {
   const [currForm, setCurrForm] = useState("login");
