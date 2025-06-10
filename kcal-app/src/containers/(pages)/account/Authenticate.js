@@ -8,7 +8,7 @@ import postLogin from '../../../services/postLogin.js';
 import { useUser } from '../../../context/userContext.js';
 import { useProcesses } from '../../../context/LoadingProcessesContext.js';
 
-function Authenticate(props) {
+function Authenticate() {
   const [currForm, setCurrForm] = useState("login");
   const [loginErrors, setLoginErrors] = useState(null);
   const [signupErrors, setSignupErrors] = useState(null);
@@ -24,8 +24,6 @@ function Authenticate(props) {
     const loginCardHeight = loginCard.offsetHeight;
     const signupCardHeight = signupCard.offsetHeight;
 
-    console.log("Login Card Height:", loginCardHeight);
-    console.log("Signup Card Height:", signupCardHeight);
     authForms.style.height = `${Math.max(loginCardHeight, signupCardHeight)}px`;
   };
 
@@ -70,7 +68,11 @@ function Authenticate(props) {
     removeProcess(processName);
 
     if (result instanceof Error){
-      updateFeedbackData({message: "Could not log in", type: "danger", source: processName})
+      if (result.cause === "serverConnection"){
+        updateFeedbackData({message: result.message, type: "danger", source: "serverConnection", showAtTop: true});
+      } else {
+        updateFeedbackData({message: "Could not log in", type: "danger", source: processName});
+      }
       setLoginErrors(result.messages);
       updateAuthFormsHeight();
       return;
@@ -99,7 +101,12 @@ function Authenticate(props) {
     removeProcess(processName);
 
     if (result instanceof Error){
-      updateFeedbackData({message: "Could not create an account", type: "danger", source: processName})
+      console.log("CAUSE", result.cause)
+      if (result.cause === "serverConnection"){
+        updateFeedbackData({message: result.message, type: "danger", source: "serverConnection", showAtTop: true});
+      } else {
+        updateFeedbackData({message: "Could not create an account", type: "danger", source: processName});
+      }
       setSignupErrors(result.messages)
       updateAuthFormsHeight();
       return;

@@ -18,7 +18,6 @@ export default async function getUser(){
 
     } catch (error){
         console.error("Error in checking login status: ", error)
-
-        return new Error(error)
+        return new Error(error, {cause: error})
     }
 }

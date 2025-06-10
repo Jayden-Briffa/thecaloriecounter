@@ -20,8 +20,10 @@ function Header(props) {
       props.page.current.classList.toggle('inactive');
       setHideMobileNav(prev => !prev);
     }
-  }, [setHideMobileNav, props.page, deviceType]);
 
+    // If the device is large, we don't want to toggle the navbar
+  }, [setHideMobileNav, props.page, deviceType]);
+  
   return (
     <>
       <header className="header bg-pink">
@@ -61,7 +63,7 @@ function Header(props) {
         </nav>
       </header>
 
-      {feedbackData.showAtTop ? <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top text-center" /> : (null)}
+      {feedbackData.showAtTop && feedbackData.source !== null ? <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} extraClasses="fixed-top text-center" dismissable={true} /> : (null)}
     </>
 
   );

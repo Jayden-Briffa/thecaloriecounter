@@ -2,7 +2,6 @@ import React from 'react';
 import BtnModalDismiss from './BtnModalDismiss';
 
 function ModalConfirmAction(props) {
-  console.log(props)
   return (
     <div className="modal fade" id="confirmActionModal" tabIndex="-1" aria-labelledby="confirmActionModal" aria-hidden="true">
       <div className="modal-dialog">

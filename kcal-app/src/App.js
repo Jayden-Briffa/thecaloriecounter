@@ -24,39 +24,37 @@ function App() {
     const footerHeight = document.querySelector('.footer').offsetHeight;
 
     page.current.style.minHeight = `calc(100vh - ${headerHeight + footerHeight}px)`;
-
-    console.log(`Header height: ${headerHeight}, Footer height: ${footerHeight}`);
   }, []);
 
   return (
-    <UserContextProvider>
-      <ConfirmActionProvider>
+    <ConfirmActionProvider>
         <FeedbackProvider>
-          <Router>
+          <UserContextProvider>
+            <Router>
 
-              <Header page={page} />
+                <Header page={page} />
 
-              <main ref={page} id='page'>
+                <main ref={page} id='page'>
 
-                <Routes>
-                  <Route path="/account" element={<AccountPage />} />
-                  <Route path="/" element={<AccountPage />} />
+                  <Routes>
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/" element={<AccountPage />} />
 
-                  <Route element={<RequireAuth />}>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/myfoods" element={<MyFoodsPage />} />
-                    <Route path="/today" element={<TodaysFoodsPage />} />
-                  </Route>
+                    <Route element={<RequireAuth />}>
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/myfoods" element={<MyFoodsPage />} />
+                      <Route path="/today" element={<TodaysFoodsPage />} />
+                    </Route>
 
-                </Routes>
+                  </Routes>
 
-              </main>
+                </main>
 
-              <Footer />
-          </Router>
+                <Footer />
+            </Router>
+          </UserContextProvider>
         </FeedbackProvider>
       </ConfirmActionProvider>
-    </UserContextProvider>
   );
 }
 

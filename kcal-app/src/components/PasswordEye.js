@@ -15,7 +15,7 @@ function PasswordEye(props) {
 
   return (
     <div onClick={togglePasswordVisibility} className="password-eye">
-      <button type="button" onMouseDown={handleMouseDown} className="p-0">
+      <button type="button" onMouseDown={handleMouseDown} className="btn-blank p-0">
           {props.thisInput.current.type === "password" ?
           
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-eye" viewBox="0 0 16 16">

@@ -21,7 +21,7 @@ export default async function postSignup({body}){
         return jsonResponse;
 
     } catch (error){
-        console.error("Error creating user account:", error)
-        return error
+        console.error("Error creating account: ", error)
+        return new Error("Could not connect to the server to sign up. Please try again later.", {cause: "serverConnection"});
     }
 }

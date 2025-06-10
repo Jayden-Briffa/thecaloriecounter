@@ -27,6 +27,6 @@ export default async function postLogin({body}){
     } catch (error){
         console.error("Error logging in: ", error)
 
-        return new Error(error)
+        return new Error("Could not connect to the server to login. Please try again later.", {cause: "serverConnection"});
     }
 }

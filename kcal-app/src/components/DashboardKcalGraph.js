@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import Chart from 'chart.js/auto';
 import formatDate from '../utils/formatDate';
 import {appPink} from '../utils/getColors';
@@ -47,7 +47,7 @@ function DashboardKcalGraph(props) {
   }, [props.kcalVals]);
 
   return (
-    <canvas ref={canvasRef} />
+    <canvas ref={canvasRef} className='col-1' />
   );
 }
 

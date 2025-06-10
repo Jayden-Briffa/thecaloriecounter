@@ -38,8 +38,11 @@ function DashboardOutput() {
     removeProcess(processName);
 
     if (avgRes instanceof Error || valsRes instanceof Error){
-      updateFeedbackData({message: "Sorry, we couldn't get your dashboard data. Try again later ", type: "danger", source: processName, showAtTop: false})
-      return;
+      if (valsRes instanceof Error && valsRes.errName === "NoData"){
+        updateFeedbackData({message: "No data found for the selected days. Try increasing the number of days included", type: "warning", source: "DashboardData", showAtTop: false})
+      } else  {
+        updateFeedbackData({message: "Sorry, we couldn't get your dashboard data. Try again later ", type: "danger", source: processName, showAtTop: false})
+      };
     }
 
     setIsLoading(false)
@@ -77,6 +80,12 @@ function DashboardOutput() {
       return res;
     }
 
+    if (res.length === 0){
+      const error = new Error("No data found for the selected days");
+      error.errName = "NoData";
+      return error;
+    }
+
     const newKcalVals = res;
 
     setKcalVals(newKcalVals)
@@ -106,9 +115,10 @@ function DashboardOutput() {
     avgClasses = 'col-4 mt-5'
   }
 
-  const displayFeedback = shouldShowFeedback({sources: ["DashboardOutput"], types: ["danger"]});
+  const displayPageError = shouldShowFeedback({sources: ["DashboardOutput"], types: ["danger"]});
+  const displayDataError = shouldShowFeedback({sources: ["DashboardData"]});
   
-  if (displayFeedback){
+  if (displayPageError){
     return <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} />
   }
 
@@ -118,14 +128,28 @@ function DashboardOutput() {
 
   return (
     <section className={sectionClasses}>
-      <div className={graphClasses}>
-        <DashboardKcalGraph kcalVals={kcalVals} />
+      {displayDataError ?
+
+      <>
+        <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} />
         <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
-      </div>
+      </>
       
-      <div className={avgClasses}>
-        <DashboardKcalAvg selectedDays={shownDays} avgKcal={avgKcal} />
-      </div>
+      :
+
+      <>
+        <div className={graphClasses}>
+          <DashboardKcalGraph kcalVals={kcalVals} />
+          <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
+        </div>
+
+        <div className={avgClasses}>
+          <DashboardKcalAvg selectedDays={shownDays} avgKcal={avgKcal} />
+        </div>
+      </>
+      
+    }
+        
     </section>
   );
 }

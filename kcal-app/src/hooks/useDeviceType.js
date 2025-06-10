@@ -13,8 +13,6 @@ export default function useDeviceType() {
 
         let deviceBreakpoint;
         for (let bp of breakpoints){
-            console.log(`Checking breakpoint: ${bp.min}`);
-            console.log(`Matches: ${window.matchMedia(`(width >= ${bp.min})`).matches}`);
             if (window.matchMedia(`(width >= ${bp.min})`).matches) {
                 deviceBreakpoint = bp.type;
                 break;

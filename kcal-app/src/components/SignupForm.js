@@ -1,4 +1,3 @@
-import React from 'react';
 import AppInput from '../containers/AppInput';
 import BtnBasic from './BtnBasic';
 import FormErrors from './FormErrors';
@@ -10,17 +9,17 @@ function SignupForm(props) {
         <h1>Sign up for an account:</h1>
         <div className='d-flex flex-column'>
           <label htmlFor="signupEmail" className='text-start fw-bold fs-4'>Email:</label>
-          <AppInput type="email" name="email" id="signupEmail" className="rounded-2 ps-1 fw-bold" />
+          <AppInput type="email" name="email" id="signupEmail" className="rounded-2 ps-1 fw-bold text-start" />
         </div>
 
         <div className='d-flex flex-column'>
           <label htmlFor="signupPassword" className='text-start fw-bold fs-4'>Password:</label>
-          <AppInput type="password" name="password" id="signupPassword" className="rounded-2 ps-1 fw-bold" />
+          <AppInput type="password" name="password" id="signupPassword" className="rounded-2 ps-1 fw-bold text-start" />
         </div>
 
         <div className='d-flex flex-column'>
           <label htmlFor="signupConfirmPassword" className='text-start fw-bold fs-4'>Confirm password:</label>
-          <AppInput type="password" name="password" id="signupConfirmPassword" className="rounded-2 ps-1 fw-bold" />
+          <AppInput type="password" name="password" id="signupConfirmPassword" className="rounded-2 ps-1 fw-bold text-start" />
         </div>
 
         <div className="pt-4">

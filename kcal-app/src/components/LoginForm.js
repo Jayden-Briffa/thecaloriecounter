@@ -11,12 +11,12 @@ function LoginForm(props) {
         <h1>Log in to an account:</h1>
         <div className='d-flex flex-column'>
           <label htmlFor="loginEmail" className='text-start fw-bold fs-4'>Email:</label>
-          <AppInput type="email" name="email" id="loginEmail" className="rounded-2 ps-1 fw-bold" />
+          <AppInput type="email" name="email" id="loginEmail" className="rounded-2 ps-1 fw-bold text-start" />
         </div>
 
         <div className='d-flex flex-column'>
           <label htmlFor="loginPassword" className='text-start fw-bold fs-4'>Password:</label>
-          <AppInput type="password" name="password" id="loginPassword" className="rounded-2 ps-1 fw-bold" />
+          <AppInput type="password" name="password" id="loginPassword" className="rounded-2 ps-1 fw-bold text-start" />
         </div>
 
         <div className="pt-4">

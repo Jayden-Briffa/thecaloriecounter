@@ -3,14 +3,10 @@ import Authenticate from './Authenticate.js';
 import MyAccount from './MyAccount.js';
 import Loading from '../../../components/Loading.js';
 import { useUser } from '../../../context/userContext.js';
-import useDeviceType from '../../../hooks/useDeviceType.js';
 
 function AccountPage() {
   const { userLoggedIn, loadingUser } = useUser();
-  const deviceType = useDeviceType();
-
-  console.log(deviceType)
-
+  
   return (
     <ProcessesProvider>
       <section className='page'>
