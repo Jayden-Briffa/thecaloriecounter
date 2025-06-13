@@ -86,7 +86,6 @@ export async function postLogin(req, res, next) {
         const errors = await validateLogin(user, password);
     
         if (Object.keys(errors).length > 0){
-            console.log(errors)
             return res.status(400).json({ errors })
         }
 
@@ -101,7 +100,7 @@ export async function postLogin(req, res, next) {
 };
 
 export async function getLogout(req, res, next) {
-    res.cookie("user", "", { maxAge: 100});
+    res.cookie("user", "", { maxAge: 100, sameSite: 'none', secure: true });
     res.status(200).json({message: "Successfully logged out"})
 };
 
