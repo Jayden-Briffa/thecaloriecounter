@@ -69,15 +69,14 @@ export async function postSignup(req, res, next) {
         
         const token = createToken(result.insertId)
 
-        res.cookie('user', token, { httpOnly: true, maxAge });
-        res.status(201).json({user: result.insertId});
+        res.status(201).json({token});
 
     } catch(error){
         next(error)
     }
 };
 
-// Create cookie only
+// Create token only
 export async function postLogin(req, res, next) {
     const { email, password } = req.body
 
@@ -86,23 +85,17 @@ export async function postLogin(req, res, next) {
         const errors = await validateLogin(user, password);
     
         if (Object.keys(errors).length > 0){
-            console.log(errors)
             return res.status(400).json({ errors })
         }
 
         const token = createToken(user.id);
-        res.cookie('user', token, { httpOnly: true, maxAge });
-        res.status(200).json({user: user.id})
+
+        res.status(200).json({token})
     
     } catch(error){
         next(error)
     }
 
-};
-
-export async function getLogout(req, res, next) {
-    res.cookie("user", "", { maxAge: 100});
-    res.status(200).json({message: "Successfully logged out"})
 };
 
 export async function getUser(req, res, next){
@@ -125,7 +118,6 @@ export async function deleteUser(req, res, next) {
 
         // Delete user record
         model.deleteUser(res.locals.user.id);
-        res.cookie("user", "", { maxAge: 100});
         res.status(204).send();
     } catch (err){
         next(err);

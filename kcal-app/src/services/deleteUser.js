@@ -6,16 +6,17 @@ export default async function deleteUser(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/user`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
             
         });
         
         if (!response.ok){
             return new Error(response.message);
         }
-    
+        
+        localStorage.removeItem('token');
         return response
 
     } catch (error){

@@ -6,9 +6,9 @@ export default async function deleteFood({foodId}){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/foods/${foodId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
             
         });
         

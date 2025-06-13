@@ -9,7 +9,7 @@ const connector = new Connector();
 
 // Connect to local or remote database depending on environment
 let clientOpts;
-if (process.env.CONNECTION_NAME){
+if (process.env.USE_REMOTE_DB === 'true') {
     clientOpts = await connector.getOptions({
         instanceConnectionName: process.env.CONNECTION_NAME,
         ipType: 'PUBLIC'

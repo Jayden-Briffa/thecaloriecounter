@@ -4,7 +4,9 @@ export default async function getUser(){
     try{
         // Get a response from the API and translate to JSON
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/user`, {
-            credentials: 'include'
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
         });
         
         if (!response.ok){

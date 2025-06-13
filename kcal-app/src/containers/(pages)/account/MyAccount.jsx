@@ -1,6 +1,4 @@
-import React from 'react';
 import BtnBasic from '../../../components/BtnBasic';
-import getLogout from '../../../services/getLogout';
 import { useUser } from '../../../context/userContext';
 import { useConfirmAction } from '../../../context/ConfirmActionContext';
 import BtnModal from '../../../components/BtnModal';
@@ -44,11 +42,7 @@ function MyAccount(props) {
   }
 
   async function handleLogout(){
-    const result = await getLogout();
-
-    if (result instanceof Error){
-      return;
-    }
+    localStorage.removeItem('token');
 
     updateUser();
   }
