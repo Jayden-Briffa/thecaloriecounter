@@ -2,7 +2,7 @@
 node_modules/
 
 # Build and distribution folders
-kcal-app/build/
+kcal-app/dist/
 kcal-app/.wrangler/
 kcal-api/dist/
 kcal-api/.wrangler/
