@@ -3,9 +3,8 @@ node_modules/
 
 # Build and distribution folders
 kcal-app/dist/
+kcal-app/build/
 kcal-app/.wrangler/
-kcal-api/dist/
-kcal-api/.wrangler/
 
 # Environment variables
 .env
