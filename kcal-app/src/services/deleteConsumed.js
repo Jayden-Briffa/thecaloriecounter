@@ -18,9 +18,9 @@ export default async function deleteConsumed({consumedId}){
         const response = await fetch(url + query, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
         });
 
         if (!response.ok){

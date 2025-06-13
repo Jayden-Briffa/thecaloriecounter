@@ -4,7 +4,8 @@ export default async function postSignup({body}){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(body)
         })
@@ -17,7 +18,7 @@ export default async function postSignup({body}){
             return err;
         }
         
-        console.log(jsonResponse)
+        //console.log(jsonResponse)
         return jsonResponse;
 
     } catch (error){

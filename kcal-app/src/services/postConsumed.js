@@ -6,11 +6,11 @@ export default async function postConsumed({body}){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/consumed`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
 
-            body: JSON.stringify(body),
-            credentials: 'include'
+            body: JSON.stringify(body)
         });
 
         if (!response.ok){

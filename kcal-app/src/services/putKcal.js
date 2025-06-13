@@ -6,11 +6,11 @@ export default async function putKcal({logId, body}){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/kcal/${logId}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
 
-            body: JSON.stringify(body),
-            credentials: 'include'
+            body: JSON.stringify(body)
         });
 
         if (!response.ok){

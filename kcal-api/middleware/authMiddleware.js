@@ -4,14 +4,22 @@ import * as model from '../models/authModel.js';
 // Get user details on each request
 export async function checkuser(req, res, next){
 
-    if (Object.keys(req.cookies).includes('user')){
-        const result = jwt.verify(req.cookies.user, process.env.JWT_SECRET)
+    const authHeader = req.headers.authorization;
+    if (authHeader !== undefined && authHeader.startsWith('Bearer ')){ 
+        const token = authHeader.split(' ')[1];
+        
+        let user;
+        try{
+            const result = jwt.verify(token, process.env.JWT_SECRET)
 
-        const user = await model.selectUserById(result.id);
+            user = await model.selectUserById(result.id);
 
-        if (user !== undefined){
-            res.locals.user = user;
-        } else {
+            if (user !== undefined){
+                res.locals.user = user;
+            } else {
+                res.locals.user = null;
+            }
+        } catch (error) {
             res.locals.user = null;
         }
 
@@ -22,7 +30,7 @@ export async function checkuser(req, res, next){
     next()
 }
 
-// Refuse to serve users who don't have a valid jwt cookie
+// Refuse to serve users who don't have a valid jwt auth token
 export async function requireAuth(req, res, next){
     
     if (res.locals.user !== null){

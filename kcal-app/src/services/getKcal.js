@@ -14,7 +14,9 @@ export default async function getKcal({date = null, start=null, end=null}){
 
         // Get a response from the API and translate to JSON
         const response = await fetch(url + query, {
-            credentials: 'include'
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
         });
 
         if (!response.ok){

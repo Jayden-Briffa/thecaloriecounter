@@ -7,10 +7,10 @@ export default async function postLogin({body}){
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
 
-            body: JSON.stringify(body),
-            credentials: 'include'
+            body: JSON.stringify(body)
         });
 
         const jsonResponse = await response.json();
@@ -20,8 +20,10 @@ export default async function postLogin({body}){
             err.messages = jsonResponse.errors;
             return err;
         }
-        
-        console.log(jsonResponse)
+
+        localStorage.setItem('token', jsonResponse.token);
+
+        //console.log(jsonResponse)
         return jsonResponse;
 
     } catch (error){
