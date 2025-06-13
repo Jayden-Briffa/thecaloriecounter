@@ -69,7 +69,7 @@ export async function postSignup(req, res, next) {
         
         const token = createToken(result.insertId)
 
-        res.cookie('user', token, { httpOnly: true, maxAge, sameSite: 'lax' });
+        res.cookie('user', token, { httpOnly: true, maxAge, sameSite: 'strict' });
         res.status(201).json({user: result.insertId});
 
     } catch(error){
@@ -91,7 +91,7 @@ export async function postLogin(req, res, next) {
         }
 
         const token = createToken(user.id);
-        res.cookie('user', token, { httpOnly: true, maxAge, sameSite: 'lax' });
+        res.cookie('user', token, { httpOnly: true, maxAge, sameSite: 'strict' });
         res.status(200).json({user: user.id})
     
     } catch(error){
