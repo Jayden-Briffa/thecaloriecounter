@@ -3,7 +3,7 @@ export default async function getConsumed(){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/consumed`, {
+        const response = await fetch(`${process.env.VITE_API_URL}/api/consumed`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

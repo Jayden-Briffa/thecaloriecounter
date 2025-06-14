@@ -2,7 +2,7 @@
 export default async function getKcal({date = null, start=null, end=null}){
 
     try{
-        const url = `${process.env.REACT_APP_API_URL}/api/kcal`;
+        const url = `${process.env.VITE_API_URL}/api/kcal`;
         let query = '';
 
         if (date){

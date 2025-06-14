@@ -2,7 +2,7 @@
 export default async function getFoods({foodId = null, orderedBy = null} = {}){
 
     try{
-        let url = `${process.env.REACT_APP_API_URL}/api/foods`;
+        let url = `${process.env.VITE_API_URL}/api/foods`;
         
         let query = "";
         if (orderedBy){
