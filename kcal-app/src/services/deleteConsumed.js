@@ -2,7 +2,7 @@
 export default async function deleteConsumed({consumedId}){
 
     try{
-        let url = `${process.env.REACT_APP_API_URL}/api/consumed`;
+        let url = `${process.env.VITE_API_URL}/api/consumed`;
         let query = '';
 
         if (typeof consumedId === "object"){
