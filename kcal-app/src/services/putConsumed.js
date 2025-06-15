@@ -2,7 +2,7 @@
 export default async function putConsumed({consumedId, body}){
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`${process.env.VITE_API_URL}/api/consumed/${consumedId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/consumed/${consumedId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ export default async function getUser(){
 
     try{
         // Get a response from the API and translate to JSON
-        const response = await fetch(`${process.env.VITE_API_URL}/api/auth/user`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/user`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

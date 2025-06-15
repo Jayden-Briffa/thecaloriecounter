@@ -2,7 +2,7 @@
 export default async function getKcalAvg({start, end}){
 
     try{
-        const url = `${process.env.VITE_API_URL}/api/kcal`;
+        const url = `${import.meta.env.VITE_API_URL}/api/kcal`;
         let query = `?getAvg=true&start=${start}&end=${end}`;
         
         // Get a response from the API and translate to JSON
