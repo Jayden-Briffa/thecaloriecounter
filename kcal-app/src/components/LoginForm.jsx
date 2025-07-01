@@ -8,7 +8,7 @@ function LoginForm(props) {
 
   return (
       <form className='d-flex flex-column gap-3 w-100 p-3 py-5 rounded-3 border-2 border-black' onSubmit={props.handleSubmit} method="post" id="login-form">
-        <h1>Log in to an account:</h1>
+        <h2 className='auth-card-header'>Log in to an account:</h2>
         <div className='d-flex flex-column'>
           <label htmlFor="loginEmail" className='text-start fw-bold fs-4'>Email:</label>
           <AppInput type="email" name="email" id="loginEmail" className="rounded-2 ps-1 fw-bold text-start" />

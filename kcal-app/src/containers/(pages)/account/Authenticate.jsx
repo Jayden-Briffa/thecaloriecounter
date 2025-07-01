@@ -118,15 +118,17 @@ function Authenticate() {
     updateAuthFormsHeight();
   }
 
+  const cardClasses = 'bg-pink p-3 rounded-3 align-items-start position-absolute';
+
   return (
     <>
         <div className='d-flex justify-content-center mb-4' id='auth-forms'>
-          <div className='bg-pink p-3 rounded-3 d-flex flex-column align-items-start' id='login-card'>
+          <div className={cardClasses} id='login-card'>
             <LoginForm handleSubmit={handleSubmitLogin} errors={loginErrors} displayLoading={processExists("login")} />
             <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>Don't have an account? Create one now!</p>
           </div>
 
-          <div className='bg-pink p-3 rounded-3 d-flex flex-column align-items-start' id='signup-card'>
+          <div className={cardClasses} id='signup-card'>
             <SignupForm handleSubmit={handleSubmitSignup} errors={signupErrors} displayLoading={processExists("signup")} />
             <p className="hover-underline hover-cursor-pointer text-start pt-2" onClick={toggleForm}>Already have an account? Sign in!</p>
           </div>

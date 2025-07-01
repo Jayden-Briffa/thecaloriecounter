@@ -24,7 +24,13 @@ function MyFoodsTableRows(props) {
 
     // If there was an error, stop here
     if (deletedFood instanceof Error){
-      props.updateFeedbackData({message: `Sorry, it looks like we couldn't delete your food: ${foodName}`, type: "danger", source: processName})
+      
+      if (deletedFood.message === '403'){
+        props.updateFeedbackData({message: `You cannot delete ${foodName} because you didn't add it`, type: "danger", source: processName})
+      } else {
+        props.updateFeedbackData({message: `Sorry, it looks like we couldn't delete your food: ${foodName}`, type: "danger", source: processName})
+      };
+
       return;
     }
 
@@ -39,9 +45,14 @@ function MyFoodsTableRows(props) {
       {props.userFoods.map((food, index) => {
         // Show the loading icon if deletion is in progress
         let displayRowLoading = processes.includes(`deleteFood:${food.id}`)
+        let ownedByUser = true;
+
+        if (food.user_id === -1){
+          ownedByUser = false;
+        }
 
         return (
-        <MyFoodsTableRow key={index} foodName={food.name} foodId={food.id} foodQuantity={food.quantity} foodUnits={food.units} foodKcal={food.kcal} submitHandler={submitHandler} displayLoading={displayRowLoading} />
+        <MyFoodsTableRow key={index} foodName={food.name} foodId={food.id} foodQuantity={food.quantity} foodUnits={food.units} foodKcal={food.kcal} ownedByUser={ownedByUser} submitHandler={submitHandler} displayLoading={displayRowLoading} />
       )})}
     </>
   );

@@ -5,14 +5,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 import errorhandler from 'errorhandler';
 import { pool, connector } from './db.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Import routers
-import pageRouter from './pageRouter.js';
 import apiRouter from './routes/api.js';
 
 // Mount dependencies
@@ -22,12 +19,7 @@ app.use(morgan('dev'));
 app.use(cors({origin: true, credentials: true}));
 app.use(errorhandler());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // Mount endpoints
-//app.use('/', pageRouter); // Allows routing by slug name
-//app.use(express.static(path.join(__dirname, 'public'))); // Allows routing by file name
 app.use('/api', apiRouter);
 
 // Start server

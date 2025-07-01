@@ -6,10 +6,12 @@ import postFoods from '../../../services/postFoods';
 import MyFoodsTableHeaders from '../../../components/MyFoodsTableHeaders';
 import MyFoodsTableForm from '../../../components/MyFoodsTableForm';
 import MyFoodsTableRows from './MyFoodsTableRows';
+import SearchBar from '../../../components/SearchBar';
 
 function MyFoodTable(props) {
 
   const [userFoods, setUserFoods] = useState(props.userFoods)
+  const [includedFoods, setIncludedFoods] = useState([]);
   const { updateFeedbackData } = useFeedback();
   const { processes, addProcess, removeProcess } = useProcesses()
 
@@ -46,17 +48,23 @@ function MyFoodTable(props) {
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
+  const headersUnitsLabel = isUsingMobile ? "Unit": "Units";
+  const headersFontClass = isUsingMobile ? "fs-5": "fs-4";
   
   const displayFormLoading = processes.includes("newFood")
 
   return (
     <>
+      <div>
+        <SearchBar alteredData={includedFoods} setAlteredData={setIncludedFoods} searchData={userFoods} searchAttribute='name' type='text' id='my-foods-search' placeholder='Search foods...' className='mb-2 rounded-2 border-3' ></SearchBar>
+      </div>
+
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="my-foods-table">
-        <MyFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
+        <MyFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel}  headersUnitsLabel={headersUnitsLabel} headersFontClass={headersFontClass}  />
         <MyFoodsTableForm submitHandler={submitHandler} displayLoading={displayFormLoading} />
-        <MyFoodsTableRows userFoods={userFoods} setUserFoods={setUserFoods} updateFeedbackData={updateFeedbackData} />
+        <MyFoodsTableRows userFoods={includedFoods} setUserFoods={setIncludedFoods} updateFeedbackData={updateFeedbackData} />
       </section >
-    </ >
+    </>
     
   );
 }

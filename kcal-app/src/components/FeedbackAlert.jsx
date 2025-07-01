@@ -10,7 +10,7 @@ function FeedbackAlert(props) {
     if (props.alertType === 'success' && dismissable){
       setTimeout(() => {
         setAnimationClass('animate-collapse');
-      }, 400);
+      }, 4000);
     }
   }, [props.alertType, dismissable]);
 

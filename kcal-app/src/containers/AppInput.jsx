@@ -22,14 +22,14 @@ function AppInput(props) {
 
   // Assign optional attributes where they have been given
   const optionals = {
-    ...(value && { value }),
-    ...(name && { name }),
-    ...(id && { id }),
-    ...(placeholder && { placeholder }),
-    ...(min && { min }),
-    ...(max && { max }),
-    ...(step && { step }),
-    ...(disabled && { disabled }),
+    ...(value !== undefined ? { value } : {}),
+    ...(name !== undefined ? { name } : {}),
+    ...(id !== undefined ? { id } : {}),
+    ...(placeholder !== undefined ? { placeholder } : {}),
+    ...(min !== undefined ? { min } : {}),
+    ...(max !== undefined ? { max } : {}),
+    ...(step !== undefined ? { step } : {}),
+    ...(disabled !== undefined ? { disabled } : {}),
   }
 
   const [ isFocussed, setIsFocussed ] = useState(false);
@@ -54,6 +54,10 @@ function AppInput(props) {
     }
   }, [isFocussed, type]);
 
+  function onChangeDefault(event) {
+    setValue(event.target.value)
+  }
+
   function handleFocus(){
     setIsFocussed(true)
   }
@@ -68,7 +72,7 @@ function AppInput(props) {
         onFocus={handleFocus}
         onBlur={handleFocusOut}
         type={inputType} 
-        onChange={onChange}
+        onChange={onChange ?? value !== undefined ? onChangeDefault : () => {}}
         className={`form-control border-pink p-0 mb-0 rounded-0 ${className}`}
         ref={thisInput}
         {...optionals}

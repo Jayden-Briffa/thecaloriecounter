@@ -13,13 +13,13 @@ export default async function deleteFood({foodId}){
         });
         
         if (!response.ok){
-            return new Error(response.message);
+            return new Error(response.status);
         }
     
         return response
 
     } catch (error){
-        console.error("Error getting Foods data: ", error)
+        console.error("Error deleting Foods data: ", error)
 
         return error
     }

@@ -7,20 +7,8 @@
     position: relative;
 }
 
-#login-card,
-#signup-card {
-    max-width: 500px;
-}
-
-#login-card{
-    position: absolute;
-    width: 100%;
-}
-
 #signup-card{
-    position: absolute;
     transform: translate(var(--SLIDE-MOVE-AMOUNT));
-    width: 100%;
 }
 
 .moving-out{

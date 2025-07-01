@@ -17,7 +17,7 @@ function TodaysFoodsTableRow(props) {
       <div className="col-2 cell-content">
         {props.food.kcal}
       </div>
-      <div className="col-2 cell-content d-flex justify-content-center gap-3 position-relative">
+      <div className="col-2 cell-content d-flex flex-column flex-md-row justify-content-center gap-md-3 position-relative options-container">
         <div className="border-0">
           <button type="submit" className="btn p-0" onClick={props.clickUpdateHandler} data-food={JSON.stringify(props.food)} data-bs-toggle="modal" data-bs-target="#updateConsumedFoodModal">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">

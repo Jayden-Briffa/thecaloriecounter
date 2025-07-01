@@ -154,6 +154,8 @@ function TodaysFoodsTable(props) {
   const isUsingMobile = usingMobile();
   const headersQuantityLabel = isUsingMobile ? "Qty": "Quantity";
   const headersOptionsLabel = isUsingMobile ? "": "Options";
+  const headersUnitsLabel = isUsingMobile ? "Unit": "Units";
+  const headersFontClass = isUsingMobile ? "fs-5": "fs-4";
 
   // Display feedback if the process was related to consumed foods
   // Show form loader if a new consumed food is being added
@@ -167,7 +169,7 @@ function TodaysFoodsTable(props) {
       {displayCenterLoading ? (<Loading centered={true} />) : (null)}
 
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
-        <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} />
+        <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} headersUnitsLabel={headersUnitsLabel} headersFontClass={headersFontClass} />
         <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setQuantityVal={setQuantityVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>

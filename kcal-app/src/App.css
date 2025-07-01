@@ -75,8 +75,21 @@
   overflow: hidden;
 }
 
+.cell-content {
+  align-content: center;
+  word-wrap: break-word;
+}
+
 .cell-border-pink .cell-content{
   border: 1px solid var(--PINK);
+}
+
+.options-container{
+  background-color: rgba(255, 0, 0, 0.441);
+}
+
+.owned-by-user .options-container{
+  background-color: transparent;
 }
 
 .hover-underline:hover {

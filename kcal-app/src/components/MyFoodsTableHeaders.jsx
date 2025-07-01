@@ -5,7 +5,7 @@ function MyFoodTableHeaders(props) {
   const lastCellClass = 'col-2 py-2 cell-content';
 
   return (
-    <div className="row g-0 fs-4">
+    <div className={`row g-0 ${props.headersFontClass}`}>
       <div className={firstCellClass}>
         Name
       </div>
@@ -13,7 +13,7 @@ function MyFoodTableHeaders(props) {
         {props.headersQuantityLabel}
       </div>
       <div className="col-2 py-2 cell-content">
-        Units
+        {props.headersUnitsLabel}
       </div>
       <div className="col-2 py-2 cell-content">
         Kcal

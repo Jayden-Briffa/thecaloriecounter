@@ -1,16 +1,16 @@
 # Overview
 
-This is my first real project made with React. It was bootstrapped using CRA to solidify my React knowledge and make it easier for me to track my calories. 
+This is my first real project made with React. It was originally bootstrapped using CRA to solidify my React knowledge and make it easier for me to track my calories. 
 
-## Commands
-+ npm build
-+ npm start
+I have since moved to Vite for benefits like improved startup time.
+
+Wrangler is used to support SPA performance, largely in allowing users to reload on paths other than '/' and the worker file is therefore very minimalistic.
 
 # Pages
 
 ## Dashboard
-+ View calories over time in the past 10 days
-+ See average calories in the past 10 days
++ View calories over time in the past selected number of days
++ See average calories in the past selected number of days
 + Change how many days before the present are considered and shown
 
 ## My Foods
@@ -31,10 +31,17 @@ This is my first real project made with React. It was bootstrapped using CRA to 
 + Allows the addition, creation, and updating of newly-eaten foods
 + Allows the viewing and logging of total calories so far 
 
+# Package commands
+| Command | Description | Example |
+| ---- | ---- | ---- |
+| start | Start dev server with HMR | npm start |
+| dev | Start dev server with HMR | npm run dev |
+| build | Build project with Vite | npm run build |
+| preview | View the project in a production-like environment | npm run preview |
+| preview:worker | Build project and view in a production-like environment with wrangler active | npm run preview:worker |
+| deploy:worker | Build project and deploy to cloudflare | npm run deploy:worker |
 
 # Future developments
 | Title | Description |
 | ---- | ---- |
-| Host the app online | I would like to get the app hosted online (likely through cloudflare) so that I can access the service remotely rather than just at home |
 | Implement recipes | Allow for users to calculate the calories in a specific recipe and submit that food to MyFoods for longer-term storage |
-| Implement users | Allow multiple users to be registered to the app rather than just me |

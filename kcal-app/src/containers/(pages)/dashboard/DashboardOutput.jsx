@@ -14,10 +14,12 @@ import { usingMobile } from '../../../utils/checkScreenSize';
 
 function DashboardOutput() {
 
+  const userDashboardDays = localStorage.getItem('dashboardDays') ?? 10
+
   const [avgKcal, setAvgKcal] = useState(0);
   const [kcalVals, setKcalVals] = useState([]);
-  const [selectedDays, setSelectedDays] = useState(10);
-  const [shownDays, setShownDays] = useState(10);
+  const [selectedDays, setSelectedDays] = useState(userDashboardDays);
+  const [shownDays, setShownDays] = useState(userDashboardDays);
   const [isLoading, setIsLoading] = useState(true)
   const { feedbackData, updateFeedbackData, shouldShowFeedback } = useFeedback();
   const { addProcess, removeProcess } = useProcesses();
@@ -52,7 +54,6 @@ function DashboardOutput() {
 
     // Exclude today's date to ensure that the data isn't skewed
     const {startDate, endDate} = calcEndDate(new Date().getTime() - (8.64e+7), -selectedDays + 1)
-    
     // Reverse the start and end dates because end will be before start
     const res = await getKcalAvg({start: endDate, end: startDate});
 
@@ -94,14 +95,11 @@ function DashboardOutput() {
   async function handleSubmit(event){
     event.preventDefault()
 
+    localStorage.setItem("dashboardDays", selectedDays)
     setShownDays(selectedDays)
     setIsLoading(true);
 
     await loadData();
-  }
-
-  function changeHandler(event){
-    setSelectedDays(event.target.value)
   }
 
   const isUsingMobile = usingMobile();
@@ -132,7 +130,7 @@ function DashboardOutput() {
 
       <>
         <Feedback key={feedbackData.feedbackKey} message={feedbackData.message} alertType={feedbackData.type} />
-        <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
+        <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} />
       </>
       
       :
@@ -140,7 +138,7 @@ function DashboardOutput() {
       <>
         <div className={graphClasses}>
           <DashboardKcalGraph kcalVals={kcalVals} />
-          <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} changeHandler={changeHandler} />
+          <DashboardDaysForm selectedDays={selectedDays} setSelectedDays={setSelectedDays} handleSubmit={handleSubmit} />
         </div>
 
         <div className={avgClasses}>

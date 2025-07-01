@@ -80,7 +80,10 @@ function TodaysFoodsTableOutput() {
     return <Loading />
   }
 
-  return <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods} setFoodData={setFoodData} />
-}
+  return (
+    <div className='data-table-container'>
+      <TodaysFoodsTable allFoods={allFoods} consumedFoods={consumedFoods} foodData={foodData} setConsumedFoods={setConsumedFoods} setFoodData={setFoodData} />
+    </div>
+  )}
 
 export default TodaysFoodsTableOutput;

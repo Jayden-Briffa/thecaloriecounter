@@ -3,7 +3,7 @@ import Loading from './Loading';
 
 function MyFoodsTableRow(props) {
   return (
-    <div className="row g-0">
+    <div className={`row g-0 ${props.ownedByUser ? 'owned-by-user' : ''}`}>
       <div className="col-4 position-relative cell-content">
         {props.foodName}
       </div>
@@ -16,7 +16,7 @@ function MyFoodsTableRow(props) {
       <div className="col-2 cell-content">
         {props.foodKcal}
       </div>
-      <div className="col-2 position-relative cell-content">
+      <div className="col-2 position-relative cell-content options-container">
         <form onSubmit={props.submitHandler} data-foodname={props.foodName} data-foodid={props.foodId}>
           <input type="hidden" />
           <button type="submit" className="btn p-0">

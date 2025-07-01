@@ -9,7 +9,49 @@ A 'public' folder is included to test the API's basic functionality with simple 
 + Calculate calories consumed in a day based on items consumed
 + Allow user to enter new items to facilitate automatic calorie calculation
 
+# Using the login system
+After creating an account with the POST /api/auth/signup path (see below), an access token will be generated and returned. This is your key to the API.
+
+Your token should be sent alongside all future requests, otherwise the request will fail because you aren't logged in. Below is an example of a valid request using the token stored in localstorage:
+
+~~~
+const response = await fetch(`apidomain.com/api/foods`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+});
+~~~
+
 # Endpoints --- /api
+## Users --- /auth
+### GET /user
+Returns the email of the logged-in user, or null if they are not logged in {user: {email: ...}} OR {user: null}
+
+Use this to verify if the user is logged in
+
+### POST /signup
+Creates a new user account and returns an access token
+
+The following values should be provided in the request body:
+| Value name | Description | Example | Requirement |
+| ---- | ---- | ---- | ---- |
+| email | User's email used to login | 'example@email.com' | required |
+| password | User's password used to login | 'example123' | required |
+
+### POST /login
+Finds a user and returns an access token
+
+The following values should be provided in the request body:
+| Value name | Description | Example | Requirement |
+| ---- | ---- | ---- | ---- |
+| email | User's email used to login | 'example@email.com' | required |
+| password | User's password used to login | 'example123' | required |
+
+### DELETE /user
+Deletes all data associated with the logged-in user
+
 ## Foods --- /foods
 ### GET /
 
@@ -105,8 +147,8 @@ Creates a new calorie log and returns it {Log: ...}
 The following values should be provided in the request body:
 | Value name | Description | Example | Requirement |
 | ---- | ---- | ---- | ---- |
-| kcal | '1980' | required |
-| date | '2025-03-15' | required |
+| kcal | Number of kcal consumed that day | '1980' | required |
+| date | Date of the kcal log | '2025-03-15' | required |
 
 ### PUT /:logId
 Updates the calorie log with the given ID and returns it {Log: ...}
@@ -119,12 +161,10 @@ The following values should be provided in the request body:
 ### DELETE /:logId
 Deletes the consumed food log with the given ID
 
-# NPM commands
-## start
-Start the server
-
-## resetdb
-Reset the database based on migration.js and seed.js
-
-## restart
-Reset the database and restart the server
+# Package commands
+| Command | Description | Example |
+| ---- | ---- | ---- |
+| start | Start the server | npm start |
+| dev | Start the server with HMR | npm run dev |
+| resetdb | Replace the database with contents of db_current.sql | npm run resetdb |
+| restart | Reset database with restart server with HMR | npm run restart |
