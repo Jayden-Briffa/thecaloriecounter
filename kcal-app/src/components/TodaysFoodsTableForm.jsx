@@ -5,13 +5,12 @@ import { useState } from 'react';
 import AppOption from '../containers/AppOption';
 
 function TodaysFoodsTableForm(props) {
-  const [searchedName, setSearchedName] = useState(null);
  
   return (
-    <form className="row g-0" method="post" onSubmit={props.submitHandler}>
+    <form className="row g-0" method="post" onSubmit={props.submitHandler} autoComplete='off'>
       <div className="col-4 border-top-0">
-        <AppSelect className="form-select text-center cell-content border-pink p-0 mb-0" id="InputConsumedFoodId" aria-label="Default select example" value={searchedName} setValue={setSearchedName} searchable>
-          {props.allFoods.map((food, index) => {
+        <AppSelect className="form-select text-center cell-content border-pink p-0 mb-0" id="InputConsumedFoodId" aria-label="Default select example" value={props.selectedFoodId} setValue={props.setSelectedFoodId} searchable>
+          {props.allFoods.map((food) => {
             return (<AppOption value={food.id} optionKey={food.id} >{food.name}</AppOption>)
           })}
         </AppSelect>

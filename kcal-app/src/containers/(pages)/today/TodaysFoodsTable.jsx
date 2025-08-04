@@ -58,11 +58,6 @@ function TodaysFoodsTable(props) {
 
   }, [props.consumedFoods])
 
-  // Control the selected food input
-  function foodIdChangeHandler(event){
-    setSelectedFoodId(event.target.value)
-  }
-
   // Control the quantity input
   function quantityChangeHandler(event){
     setQuantityVal(event.target.value)
@@ -86,7 +81,7 @@ function TodaysFoodsTable(props) {
 
     // Store all entered data to pass as request body
     const bodyData = {
-      foodId: document.getElementById("InputConsumedFoodId").value,
+      foodId: selectedFoodId,
       quantity: document.getElementById("InputConsumedFoodQuantity").value,
       kcal: kcalVal,
       dateConsumed: currDate
@@ -170,7 +165,7 @@ function TodaysFoodsTable(props) {
 
       <section className="d-flex flex-column text-center border-pink data-table cell-border-pink rounded rounded-5 lh-sm" id="todays-foods-table">
         <TodaysFoodsTableHeaders headersQuantityLabel={headersQuantityLabel} headersOptionsLabel={headersOptionsLabel} headersUnitsLabel={headersUnitsLabel} headersFontClass={headersFontClass} />
-        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} quantityVal={quantityVal} kcalVal={kcalVal} setQuantityVal={setQuantityVal} quantityChangeHandler={quantityChangeHandler} foodIdChangeHandler={foodIdChangeHandler} displayFormLoading={displayFormLoading} />
+        <TodaysFoodsTableForm submitHandler={submitFoodHandler} allFoods={props.allFoods} selectedFoodData={selectedFoodData} selectedFoodId={selectedFoodId} quantityVal={quantityVal} kcalVal={kcalVal} setSelectedFoodId={setSelectedFoodId} setQuantityVal={setQuantityVal} quantityChangeHandler={quantityChangeHandler} displayFormLoading={displayFormLoading} />
         <TodaysFoodsTableRows consumedFoods={props.consumedFoods} setConsumedFoods={props.setConsumedFoods} foodData={props.foodData} allFoods={props.allFoods} setTotalKcal={setTotalKcal} />
       </section>
 

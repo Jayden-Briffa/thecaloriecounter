@@ -54,11 +54,11 @@ function AppSelect(props) {
   }
   
   return (
-    <div className="app-select" data-value={selectValue} id={"select-".concat(props.id)} onClick={toggleShowOptions} onBlur={handleBlur} >
-      {props.searchable ? <AppInput value={searchValue} setValue={setSearchValue} className={props.className} id={"search-".concat(props.id)} autocomplete="off" expand /> : <AppInput value={searchValue} className={props.className} id={"search-".concat(props.id)} expand readOnly />}
-      <input type="hidden" value={selectValue} id={props.id} />
+    <div className="app-select" data-value={props.value} id={"select-".concat(props.id)} onClick={toggleShowOptions} onBlur={handleBlur} >
+      {props.searchable ? <AppInput value={searchValue} setValue={setSearchValue} className={props.className} id={"search-".concat(props.id)} expand /> : <AppInput value={searchValue} className={props.className} id={"search-".concat(props.id)} expand readOnly />}
+      <input type="hidden" value={props.value} id={props.id} />
       <div className="options hidden" ref={optionsElem} >
-        {validOptions.map((option) => <AppOption {...option.props} key={option.props.optionKey} selectId={props.id} setSelectValue={setSelectValue} setSearchValue={setSearchValue} />) }
+        {validOptions.map((option) => <AppOption {...option.props} key={option.props.optionKey} selectId={props.id} setSelectValue={props.setValue} setSearchValue={setSearchValue} />) }
       </div>
     </div>
   );

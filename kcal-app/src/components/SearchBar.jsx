@@ -14,11 +14,6 @@ function SearchBar(props) {
     }
   }, [props.searchData, searchTerm])
 
-  /* useEffect(() => {
-    props.alteredData.map(item => console.log(item.name));
-    console.log("------")
-  }, [props.alteredData]) */
-
   return <AppInput {...props} value={searchTerm} setValue={setSearchTerm} />;
 }
 

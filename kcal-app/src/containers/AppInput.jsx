@@ -62,7 +62,6 @@ function AppInput(props) {
     if (!readOnly){
       setValue(event.target.value)
     };
-    console.log(readOnly)
   }
 
   function handleFocus(){
