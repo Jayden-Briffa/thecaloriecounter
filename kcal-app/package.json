@@ -20,7 +20,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "preview:worker": "npm run build && wrangler dev",
-    "deploy:worker": "npm run build && wrangler deploy"
+    "deploy:worker": "npm run build && wrangler deploy",
+    "serve": "serve -s dist -l 3001"
     },
   "eslintConfig": {
     "extends": [

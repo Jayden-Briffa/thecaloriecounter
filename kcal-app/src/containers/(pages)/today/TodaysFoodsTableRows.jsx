@@ -48,7 +48,7 @@ function TodaysFoodsTableRows(props) {
   // Return an instance of TodaysFoodsTableRow for each food in consumedFoods
   return (
     <>
-      <UpdateConsumedFoodModal food={foodToUpdate} setConsumedFoods={props.setConsumedFoods} consumedFoods={props.consumedFoods} />
+      {props.foodData.length ? <UpdateConsumedFoodModal food={foodToUpdate} setConsumedFoods={props.setConsumedFoods} consumedFoods={props.consumedFoods} /> : ""}
 
       {props.foodData.map((food, index) => {
  
@@ -56,7 +56,7 @@ function TodaysFoodsTableRows(props) {
         const displayRowLoading = processes.includes(`deleteConsumedFood:${food.id}`)
 
         return (
-      <TodaysFoodsTableRow key={index} food={food} submitHandler={deleteSubmitHandler} clickUpdateHandler={clickUpdateHandler} displayLoading={displayRowLoading}/>
+      <TodaysFoodsTableRow key={index} food={food} submitHandler={deleteSubmitHandler} clickUpdateHandler={clickUpdateHandler} displayLoading={displayRowLoading} />
       )})}
     </>
   );

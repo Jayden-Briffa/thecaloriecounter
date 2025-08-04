@@ -32,6 +32,5 @@ kcal-api/migration.js
 
 # Other
 todo.txt
-runServer.bat
-runApp.bat
-runKcalCounter.bat
+run.bat
+run.sh

@@ -4,7 +4,7 @@ import Loading from './Loading';
 function TodaysFoodsTableRow(props) {
   
   return (
-    <div className="row g-0">
+    <div className="row g-0 owned-by-user">
       <div className="col-4 cell-content">
         {props.food.name}
       </div>

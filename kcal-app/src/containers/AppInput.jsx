@@ -17,7 +17,9 @@ function AppInput(props) {
     max,
     step,
     disabled,
-    expand
+    expand,
+    readOnly,
+    autoComplete
   } = props;
 
   // Assign optional attributes where they have been given
@@ -30,6 +32,8 @@ function AppInput(props) {
     ...(max !== undefined ? { max } : {}),
     ...(step !== undefined ? { step } : {}),
     ...(disabled !== undefined ? { disabled } : {}),
+    ...(readOnly !== undefined ? { readOnly } : {}),
+    ...(autoComplete !== undefined ? { autoComplete } : {}),
   }
 
   const [ isFocussed, setIsFocussed ] = useState(false);
@@ -55,7 +59,10 @@ function AppInput(props) {
   }, [isFocussed, type]);
 
   function onChangeDefault(event) {
-    setValue(event.target.value)
+    if (!readOnly){
+      setValue(event.target.value)
+    };
+    console.log(readOnly)
   }
 
   function handleFocus(){

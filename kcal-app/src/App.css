@@ -10,6 +10,7 @@
   --COLOR-HEADER-FOOTER: var(--PINK);
 
   /* Text */
+  --FONT-SIZE: 1rem;
   --COLOR-TEXT-HIGHLIGHT: var(--BRIGHT-BLUE);
   --COLOR-TEXT-LIGHT: whitesmoke;
   --COLOR-TEXT-DARK: black;
@@ -47,6 +48,10 @@
     }
 }
 
+body{
+  font-size: var(--FONT-SIZE);
+}
+
 /* UTILITY CLASSES */
 .bg-pink{
   background-color: var(--PINK);
@@ -71,8 +76,21 @@
   border: 4px solid black;
 }
 
-.data-table{
-  overflow: hidden;
+.data-table > :first-child > :first-child {
+  border-top-left-radius: 1.5rem;
+}
+
+.data-table > :first-child > :last-child {
+  border-top-right-radius: 1.5rem;
+}
+
+.data-table > :last-child > :first-child,
+.data-table > :last-child > :first-child input {
+ border-bottom-left-radius: 1.5rem !important;
+}
+
+.data-table > :last-child > :last-child {
+  border-bottom-right-radius: 1.5rem;
 }
 
 .cell-content {

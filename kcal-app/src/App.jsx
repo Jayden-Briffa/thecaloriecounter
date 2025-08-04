@@ -1,6 +1,6 @@
-import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './App.css';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { FeedbackProvider } from './context/FeedbackContext';

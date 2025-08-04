@@ -11,3 +11,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+
+::selection {
+  background-color: var(--PINK);
+  color: white;
+}

@@ -91,7 +91,7 @@ function TodaysFoodsTable(props) {
       kcal: kcalVal,
       dateConsumed: currDate
     };
-
+    
     // Create new consumed food record
     const newConsumedFood = await postConsumed({body: bodyData});
 

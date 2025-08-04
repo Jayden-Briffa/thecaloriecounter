@@ -1,0 +1,35 @@
+.app-select{
+    position: relative;
+    overflow: visible;
+}
+
+.app-select input{
+    cursor: pointer;
+}
+
+.app-select .options {
+    position: absolute;
+    max-height: 50vh;
+    overflow-y: scroll;
+    left: 0;
+
+    border: 1px solid var(--PINK);
+    background-color: var(--BLUE);
+    border-radius: 5px;
+}
+
+.app-select .options.hidden {
+    height: 0;
+    opacity: 0;
+}
+
+.app-select .options > div{
+    border: 1px solid var(--PINK);
+    padding: 1px 0;
+}
+
+.app-option:hover{
+    background-color: var(--PINK);
+    color: white;
+    cursor: pointer; 
+}
