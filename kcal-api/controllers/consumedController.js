@@ -72,18 +72,13 @@ export const putConsumedConsumedId = async (req, res, next) => {
 export const deleteConsumed = async (req, res, next) => {
     
     try{
-        
-        let consumedIdsArr;
 
-        // If a consumedIds value wasn't given, give an error
-        if (req.query.consumedIds === undefined){
-            return next(new Error('You must provide a foodIds argument'));
+        // If the ids to delete weren't given, give an error
+        if (req.locals.ids === undefined){
+            return next(new Error('You must provide an ids argument'));
         }  
 
-        // Parse foodIds into an array
-        consumedIdsArr = req.query.consumedIds.split(",").map(Number);
-
-        await model.deleteConsumed({id: consumedIdsArr});
+        await model.deleteConsumed({id: req.locals.ids})
         res.status(204).send();
 
     } catch (err){

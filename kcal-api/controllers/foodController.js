@@ -14,10 +14,8 @@ export const getFood = async (req, res, next) => {
 
     try{
         let rows;
-        if (req.query.foodIds){
-            // Parse foodIds into an array
-            const foodIdsArr = req.query.foodIds.split(",");
-            rows = await model.selectFood({id: foodIdsArr, orderedBy: orderedBy});
+        if (req.locals.ids){
+            rows = await model.selectFood({id: req.locals.ids, orderedBy: orderedBy});
             
         } else {
             rows = await model.selectFood({userId: res.locals.user.id, orderedBy: orderedBy});

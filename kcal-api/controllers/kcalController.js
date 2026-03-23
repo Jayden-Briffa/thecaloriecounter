@@ -10,7 +10,7 @@ export const paramLogId = async (req, res, next, id) => {
 
         req.kcalLog = row;
         
-        if (req.kcalLog.user_id !== res.locals.user.id){
+        if (req.kcalLog.user_id !== req.locals.user.id){
             return res.status(403).json({errors: {forbidden: "You cannot affect kcal logs that aren't yours"}})
         }
 
@@ -24,7 +24,7 @@ export const getKcal = async (req, res, next) => {
     try {
 
         // Get all kcal logs
-        const rows = await model.selectKcal({userId: res.locals.user.id, ...req.query});
+        const rows = await model.selectKcal({userId: req.locals.user.id, ...req.query});
 
         if (req.query.getAvg){
             return res.status(200).json({Kcal: rows.average_kcal});
@@ -43,7 +43,7 @@ export const getKcalLogId = (req, res, next) => {
 
 export const postKcal = async (req, res, next) => {
     const log = req.body;
-    log.userId = res.locals.user.id;
+    log.userId = req.locals.user.id;
 
     try {
         const result = await model.insertKcal(log);
