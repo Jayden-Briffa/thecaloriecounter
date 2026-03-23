@@ -9,7 +9,8 @@
         "dev": "nodemon server.js",
         "serve": "node server.js",
         "resetdb": "cmd /c \"mysql -u root -p calorie_counter_data < db_current.sql\"",
-        "restart": "npm run resetdb && nodenon server.js"
+        "restart": "npm run resetdb && nodenon server.js",
+        "test": "set NODE_ENV=test && set NODE_OPTIONS=--experimental-vm-modules && jest"
     },
     "dependencies": {
         "@google-cloud/cloud-sql-connector": "^1.7.0",
@@ -24,6 +25,11 @@
         "validator": "^13.15.0"
     },
     "devDependencies": {
-        "nodemon": "^3.1.10"
+        "nodemon": "^3.1.10",
+        "jest": "", 
+        "supertest": ""
+    },
+    "jest": {
+        "testEnvironment": "node"
     }
 }
