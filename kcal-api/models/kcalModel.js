@@ -1,4 +1,4 @@
-import { pool } from "../db/db.js";
+import { pool } from "../db/index.js";
 
 export const selectKcal = async ({ userId = null, id = null, date = null, start = null, end = null, getAvg = false} = {}) => {
 

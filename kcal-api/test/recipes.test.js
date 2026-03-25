@@ -1,7 +1,6 @@
 import app from "../app.js";
-import {pool} from "../db/index.js"
+import { pool } from "../db/index.js"
 import supertest from "supertest";
-import executeSqlFile from "../executeSqlFile.js";
 import postPutExpects from "./utils/postPutExpects.js";
 import checkForErrorInFields from "./checkForErrorInFields.js";
 import createDummyRecipes from "./createDummyRecipes.js";
@@ -15,6 +14,11 @@ const MAXVAL_UINT = 2147483647
 let token;
 let userId;
 let otherUserId;
+
+afterAll(async () => {
+    await pool.end()
+})
+
 beforeEach(async () => {
     await pool.query("DELETE FROM recipes")
     await pool.query("DELETE FROM users")

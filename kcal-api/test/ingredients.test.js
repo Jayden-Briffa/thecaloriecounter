@@ -1,7 +1,7 @@
 import app from "../app.js";
-import {pool} from "../db/index.js"
+import "path";
+import { pool } from "../db/index.js"
 import supertest from "supertest";
-import executeSqlFile from "../executeSqlFile.js";
 import postPutExpects from "./utils/postPutExpects.js";
 import checkForErrorInFields from "./utils/checkForErrorInFields.js";
 import createDummyIngredients from "./utils/createDummyIngredients.js";
@@ -15,6 +15,9 @@ const MAXVAL_UINT = 2147483647
 
 // NOTE: No recipe id existence or ownership checks are necessary as that is checked by recipes.test.js. It will be validated on every route with :recipeId 
 
+// NEXT: Fix ingredients tests
+// NEXT: Use different connections for test files
+// NEXT: Use error codes instead of exact strings
 let token;
 let userId;
 let otherUserId;
@@ -22,9 +25,13 @@ let recipeId;
 let secondRecipeId;
 let otherRecipeId;
 
+afterAll(async () => {
+    await pool.end()
+})
+
 beforeEach(async () => {
-    await pool.query("DELETE FROM recipes")
     await pool.query("DELETE FROM ingredients")
+    await pool.query("DELETE FROM recipes")
     await pool.query("DELETE FROM foods")
     await pool.query("DELETE FROM users")
 
@@ -43,17 +50,20 @@ beforeEach(async () => {
     [result] = await pool.query("INSERT INTO users (email, password) VALUES ('example@email.com', 'password123')")
     otherUserId = result.insertId
 
-    recipeId = await createDummyRecipes(pool, {
+    result = await createDummyRecipes(pool, {
         [userId]: 1
-    })[0].insertId
+    })
+    recipeId = result[0].insertId
 
-    secondRecipeId = await createDummyRecipes(pool, {
+    result = await createDummyRecipes(pool, {
         [userId]: 1
-    })[0].insertId
+    })
+    secondRecipeId = result[0].insertId
 
-    otherRecipeId = await createDummyRecipes(pool, {
+    result = await createDummyRecipes(pool, {
         [otherUserId]: 1
-    })[0].insertId
+    })
+    otherRecipeId = result[0].insertId
 })
 
 describe("POST /api/recipes/:recipeId/ingredients", () => {
@@ -203,7 +213,7 @@ describe("GET /api/recipes/:recipeId/ingredients", () => {
             [otherRecipeId]: 1,
         })
         
-        const response = await supertest(app).get(`/api/recipes/:${recipeId}/ingredients/${ingredientIds[recipeId][1]}`)
+        const response = await supertest(app).get(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][1]}`)
         .auth(token, { type: 'bearer' })
         .send()
         
@@ -211,7 +221,7 @@ describe("GET /api/recipes/:recipeId/ingredients", () => {
         
         const resBody = response.body
         expect(resBody).toHaveProperty("Ingredient")
-        expect(resBody.Ingredients[0].id).toEqual(ingredientIds[recipeId][1])
+        expect(resBody.Ingredient.id).toEqual(ingredientIds[recipeId][1])
     })
     
 
@@ -296,9 +306,9 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
 
     test("Replace all attributes and return ingredient (lower boundaries)", async () => {
         const reqBody = {
-            "name": a.replace(3),
+            "name": "a".repeat(3),
             "quantity": 0,
-            "ingredientGroup": a.replace(3)
+            "ingredientGroup": "a".repeat(3)
         }
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)

@@ -1,4 +1,4 @@
-import { pool } from "../db/db.js";
+import { pool } from "../db/index.js";
 import bcrypt from 'bcrypt';
 
 export async function selectUserById(id) {

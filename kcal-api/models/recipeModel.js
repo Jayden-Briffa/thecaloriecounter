@@ -1,4 +1,4 @@
-import { pool } from "../db/db.js";
+import { pool } from "../db/index.js";
 
 export const selectRecipe = async ({ userId = null, id = null, orderedBy = null } = {}) => {
     const orderClause = orderedBy ? ` ORDER BY ${orderedBy}` : "";
