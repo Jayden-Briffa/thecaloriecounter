@@ -2,8 +2,8 @@ import app from "../app.js";
 import { pool } from "../db/index.js"
 import supertest from "supertest";
 import postPutExpects from "./utils/postPutExpects.js";
-import checkForErrorInFields from "./checkForErrorInFields.js";
-import createDummyRecipes from "./createDummyRecipes.js";
+import checkForErrorInFields from "./utils/checkForErrorInFields.js";
+import createDummyRecipes from "./utils/createDummyRecipes.js";
 
 const MAXLEN_TEXT = 65535
 const MAXLEN_TINYTEXT = 255 
