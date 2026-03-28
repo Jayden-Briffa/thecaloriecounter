@@ -431,7 +431,6 @@ describe("DELETE /api/recipes", () => {
     })
 
     test("Reject if the recipe id does not belong to the user", async () => {
-        console.log(`/api/recipes/${recipeIds[otherUserId][0]}`)
         const response = await supertest(app).delete(`/api/recipes/${recipeIds[otherUserId][0]}`)
         .auth(token, { type: 'bearer' })
 

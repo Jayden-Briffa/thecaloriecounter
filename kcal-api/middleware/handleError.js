@@ -37,10 +37,12 @@ export function handleError(err, req, res, next){
     returnObj["status"] = status;
     returnObj["instance"] = req.originalUrl
 
-    if (status >= 400 && process.env.NODE_ENV == "test" || process.env.NODE_ENV == "dev"){
+    if (status >= 400 && process.env.NODE_ENV == "test" && process.env.NODE_NOLOG !== "true" || process.env.NODE_ENV == "dev"){
         const banner = "=".repeat(5) + ` REQUEST (${status}): ${req.method} ${req.originalUrl} ` + "=".repeat(5)
         console.log(banner)
         console.log(returnObj)
+
+        console.log(req.locals)
         console.log("=".repeat(banner.length))
     }
 

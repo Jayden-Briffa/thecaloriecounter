@@ -10,7 +10,8 @@
         "serve": "node server.js",
         "resetdb": "cmd /c \"mysql -u root -p calorie_counter_data < db_current.sql\"",
         "restart": "npm run resetdb && nodenon server.js",
-        "test": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && jest --runInBand"
+        "test": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && jest --runInBand",
+        "testnolog": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && set NODE_NOLOG=true&& jest --runInBand"
     },
     "dependencies": {
         "@google-cloud/cloud-sql-connector": "^1.7.0",

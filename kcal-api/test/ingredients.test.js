@@ -6,6 +6,7 @@ import postPutExpects from "./utils/postPutExpects.js";
 import checkForErrorInFields from "./utils/checkForErrorInFields.js";
 import createDummyIngredients from "./utils/createDummyIngredients.js";
 import createDummyRecipes from "./utils/createDummyRecipes.js";
+import createDummyFoods from "./utils/createDummyFoods.js";
 
 const MAXLEN_TEXT = 65535
 const MAXLEN_TINYTEXT = 255 
@@ -50,20 +51,20 @@ beforeEach(async () => {
     [result] = await pool.query("INSERT INTO users (email, password) VALUES ('example@email.com', 'password123')")
     otherUserId = result.insertId
 
-    result = await createDummyRecipes(pool, {
+    let recipeIds;
+    recipeIds = await createDummyRecipes(pool, {
         [userId]: 1
     })
-    recipeId = result[0].insertId
+    recipeId = recipeIds[userId][0]
 
-    result = await createDummyRecipes(pool, {
+    recipeIds = await createDummyRecipes(pool, {
         [userId]: 1
     })
-    secondRecipeId = result[0].insertId
-
-    result = await createDummyRecipes(pool, {
+    secondRecipeId = recipeIds[userId][0]
+    recipeIds = await createDummyRecipes(pool, {
         [otherUserId]: 1
     })
-    otherRecipeId = result[0].insertId
+    otherRecipeId = recipeIds[otherUserId][0]
 })
 
 describe("POST /api/recipes/:recipeId/ingredients", () => {
@@ -71,7 +72,7 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "Ingredient #1",
             "quantity": 100,
-            "ingredientGroup": "filling"
+            "ingredient_group": "filling"
         }
 
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
@@ -85,7 +86,7 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT),
             "quantity": MAXVAL_UINT,
-            "ingredientGroup": "a".repeat(MAXLEN_TINYTEXT)
+            "ingredient_group": "a".repeat(MAXLEN_TINYTEXT)
         }
         
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
@@ -99,7 +100,7 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(4),
             "quantity": 0,
-            "ingredientGroup": "a".repeat(4)
+            "ingredient_group": "a".repeat(4)
         }
 
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
@@ -113,11 +114,11 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "",
             "quantity": "",
-            "ingredientGroup": "",
+            "ingredient_group": "",
             "units": "",
         }
         
-        const requiredFields = ["name"]
+        const requiredFields = ["name", "quantity"]
         
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
         .auth(token, { type: 'bearer' })
@@ -127,11 +128,16 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
     })
 
     test("Reject when given non-int values in int fields", async () => {
+        const foodIds = await createDummyFoods(pool, {
+            [userId]: 2
+        }) 
+        
         const reqBody = {
             "name": "apples",
             "quantity": "apples",
             "ingredientId": "apples",
-            "units": "apples"
+            "units": "apples",
+            "food_id": foodIds[userId][1]
         }
         
         const intFields = ["quantity"]
@@ -143,15 +149,30 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         checkForErrorInFields(reqBody, response, intFields, "must be an integer")
     })
     
+    test("Reject when given invalid food id", async () => {
+        const reqBody = {
+            "name": "Ingredient #1",
+            "quantity": 100,
+            "ingredient_group": "filling",
+            "food_id": 9999
+        }
+
+        const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
+        .auth(token, { type: 'bearer' })
+        .send(reqBody)
+        
+        checkForErrorInFields(reqBody, response, ["food_id"], `must be the id of a food in your account`)
+    })
+    
     test("Reject when given invalid fields (lower boundaries)", async () => {
         const reqBody = {
             "name": "a".repeat(3),
             "quantity": -1,
-            "ingredientGroup": "a".repeat(3)
+            "ingredient_group": "a".repeat(3)
         }
         
         const min0Fields = ["quantity"]
-        const shortTextFields = ["name", "ingredientGroup"]
+        const shortTextFields = ["name", "ingredient_group"]
         
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
         .auth(token, { type: 'bearer' })
@@ -165,12 +186,12 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT + 1),
             "quantity": MAXVAL_UINT + 1,
-            "ingredientGroup": "a".repeat(MAXLEN_TINYTEXT + 1),
+            "ingredient_group": "a".repeat(MAXLEN_TINYTEXT + 1),
             "units": "a".repeat(MAXLEN_TINYTEXT + 1)
         }
         
         const standardUintFields = ["quantity"]
-        const tinyTextFields = ["name", "units"]
+        const tinyTextFields = ["name", "units", , "ingredient_group"]
         
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
         .auth(token, { type: 'bearer' })
@@ -279,7 +300,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "NEW INGREDIENT",
             "quantity": 50,
-            "ingredientGroup": "topping"
+            "ingredient_group": "topping"
         }
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
@@ -293,7 +314,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT),
             "quantity": MAXVAL_UINT,
-            "ingredientGroup": "a".repeat(MAXLEN_TINYTEXT),
+            "ingredient_group": "a".repeat(MAXLEN_TINYTEXT),
             "units": "a".repeat(MAXLEN_TINYTEXT)
         }
 
@@ -308,7 +329,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(4),
             "quantity": 0,
-            "ingredientGroup": "a".repeat(4)
+            "ingredient_group": "a".repeat(4)
         }
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
@@ -322,11 +343,11 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "",
             "quantity": "",
-            "ingredientGroup": "",
+            "ingredient_group": "",
             "units": ""
         }
 
-        const requiredFields = ["name"]
+        const requiredFields = ["name", "quantity"]
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         .auth(token, { type: 'bearer' })
@@ -339,7 +360,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "apples",
             "quantity": "apples",
-            "ingredientGroup": "apples",
+            "ingredient_group": "apples",
             "units": ""
         }
 
@@ -356,11 +377,11 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(3),
             "quantity": -1,
-            "ingredientGroup": "a".repeat(3)
+            "ingredient_group": "a".repeat(3)
         }
 
         const min0Fields = ["quantity"]
-        const shortTextFields = ["name", "ingredientGroup"]
+        const shortTextFields = ["name", "ingredient_group"]
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         .auth(token, { type: 'bearer' })
@@ -374,12 +395,12 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT + 1),
             "quantity": MAXVAL_UINT + 1,
-            "ingredientGroup": "a".repeat(MAXLEN_TINYTEXT + 1),
+            "ingredient_group": "a".repeat(MAXLEN_TINYTEXT + 1),
             "units": "a".repeat(MAXLEN_TINYTEXT + 1)
         }
 
         const standardUintFields = ["quantity"]
-        const tinyTextFields = ["name", "units"]
+        const tinyTextFields = ["name", "units", "ingredient_group"]
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         .auth(token, { type: 'bearer' })
@@ -393,7 +414,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "NEW INGREDIENT",
             "quantity": 50,
-            "ingredientGroup": "topping"
+            "ingredient_group": "topping"
         }
 
         const response = await supertest(app).put(`/api/recipes/${otherRecipeId}/ingredients/${ingredientIds[otherRecipeId][0]}`)
@@ -411,7 +432,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         const reqBody = {
             "name": "NEW INGREDIENT",
             "quantity": 50,
-            "ingredientGroup": "topping"
+            "ingredient_group": "topping"
         }
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/9999`)
@@ -436,11 +457,21 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
     })
 
     test("Delete ingredient", async () => {
+        console.log(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         const response = await supertest(app).delete(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         .auth(token, { type: 'bearer' })
         expect(response.statusCode).toEqual(204)
 
         const [rows] = await pool.query(`SELECT * FROM ingredients WHERE id=${ingredientIds[recipeId][0]}`)
+        expect(rows.length).toEqual(0)
+    })
+
+    test("Delete all ingredients in recipe", async () => {
+        const response = await supertest(app).delete(`/api/recipes/${recipeId}/ingredients`)
+        .auth(token, { type: 'bearer' })
+        expect(response.statusCode).toEqual(204)
+
+        const [rows] = await pool.query(`SELECT * FROM ingredients WHERE recipe_id=${recipeId}`)
         expect(rows.length).toEqual(0)
     })
 
@@ -455,7 +486,7 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
         expect(resBody.detail).toEqual(`There is no recipe with the id: '${otherRecipeId}' in your account`)
     })
     
-    test("Reject if the ingredient id does not exist", async () => {
+    test("Reject if the ingredient id does not exist in the user's account", async () => {
         const response = await supertest(app).delete(`/api/recipes/${recipeId}/ingredients/9999`)
         .auth(token, { type: 'bearer' })
 
@@ -464,5 +495,21 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
         expect(resBody.detail).toEqual(`There is no ingredient with the id: '9999' in your account`)
+    })
+})
+
+describe("DELETE /api/recipe/:recipeId", () => {
+    test("Delete all ingredients associated with a recipe upon deletion", async () => {
+        ingredientIds = await createDummyIngredients(pool, {
+            [recipeId]: 2,
+            [otherRecipeId]: 1
+        })
+
+        const response = await supertest(app).delete(`/api/recipes/${recipeId}`)
+        .auth(token, { type: 'bearer' })
+        expect(response.statusCode).toEqual(204)
+
+        const [rows] = await pool.query(`SELECT * FROM ingredients WHERE recipe_id=${recipeId}`)
+        expect(rows.length).toEqual(0)
     })
 })

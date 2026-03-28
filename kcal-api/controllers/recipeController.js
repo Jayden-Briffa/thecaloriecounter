@@ -37,7 +37,7 @@ export const paramRecipeRecipeId = async (req, res, next, id) => {
             }));
         }
         
-        req.recipe = row;
+        req.locals.recipe = row;
         next();
     } catch (err) {
         next(err);
@@ -45,7 +45,7 @@ export const paramRecipeRecipeId = async (req, res, next, id) => {
 }
 
 export const getRecipeRecipeId = (req, res, next) => {
-    return res.status(200).json({Recipe: req.recipe});
+    return res.status(200).json({Recipe: req.locals.recipe});
 }
 
 export const postRecipe = async (req, res, next) => {
