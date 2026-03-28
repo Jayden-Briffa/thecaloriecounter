@@ -97,9 +97,9 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
     
     test("Create and return a new ingredient (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(3),
+            "name": "a".repeat(4),
             "quantity": 0,
-            "ingredientGroup": "a".repeat(3)
+            "ingredientGroup": "a".repeat(4)
         }
 
         const response = await supertest(app).post(`/api/recipes/${recipeId}/ingredients`)
@@ -145,9 +145,9 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
     
     test("Reject when given invalid fields (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(2),
+            "name": "a".repeat(3),
             "quantity": -1,
-            "ingredientGroup": "a".repeat(2)
+            "ingredientGroup": "a".repeat(3)
         }
         
         const min0Fields = ["quantity"]
@@ -158,7 +158,7 @@ describe("POST /api/recipes/:recipeId/ingredients", () => {
         .send(reqBody)
         
         checkForErrorInFields(reqBody, response, min0Fields, "must be greater than or equal to 0")
-        checkForErrorInFields(reqBody, response, shortTextFields, `must be at least 3 characters long`)
+        checkForErrorInFields(reqBody, response, shortTextFields, `must be at least 4 characters long`)
     })
 
     test("Reject when given invalid fields (upper boundaries)", async () => {
@@ -236,7 +236,7 @@ describe("GET /api/recipes/:recipeId/ingredients", () => {
         expect(resBody.Ingredients.length).toEqual(0)
     })
     
-    test("Reject if the ingredient id does not belong to the user", async () => {
+    test("Reject if the recipe id does not exist in the user's account", async () => {
         const ingredientIds = await createDummyIngredients(pool, {
             [recipeId]: 2,
             [secondRecipeId]: 1,
@@ -246,11 +246,11 @@ describe("GET /api/recipes/:recipeId/ingredients", () => {
         const response = await supertest(app).get(`/api/recipes/${otherRecipeId}/ingredients/${ingredientIds[otherRecipeId][0]}`)
         .auth(token, { type: 'bearer' })
 
-        expect(response.statusCode).toEqual(403)
+        expect(response.statusCode).toEqual(404)
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${otherRecipeId}' in your account`)
     })
     
     test("Reject if the ingredient id does not exist", async () => {
@@ -261,7 +261,7 @@ describe("GET /api/recipes/:recipeId/ingredients", () => {
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no ingredient with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no ingredient with the id: '9999' in your account`)
     })
 })
 
@@ -306,9 +306,9 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
 
     test("Replace all attributes and return ingredient (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(3),
+            "name": "a".repeat(4),
             "quantity": 0,
-            "ingredientGroup": "a".repeat(3)
+            "ingredientGroup": "a".repeat(4)
         }
 
         const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
@@ -354,9 +354,9 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
 
     test("Reject when given invalid fields (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(2),
+            "name": "a".repeat(3),
             "quantity": -1,
-            "ingredientGroup": "a".repeat(2)
+            "ingredientGroup": "a".repeat(3)
         }
 
         const min0Fields = ["quantity"]
@@ -367,7 +367,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         .send(reqBody)
         
         checkForErrorInFields(reqBody, response, min0Fields, "must be greater than or equal to 0")
-        checkForErrorInFields(reqBody, response, shortTextFields, `must be at least ${3} characters long`)
+        checkForErrorInFields(reqBody, response, shortTextFields, `must be at least 4 characters long`)
     })
 
     test("Reject when given invalid fields (upper boundaries)", async () => {
@@ -389,22 +389,22 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
         checkForErrorInFields(reqBody, response, tinyTextFields, `must not be longer than ${MAXLEN_TINYTEXT} characters long`)
     })
 
-    test("Reject if the ingredient id does not belong to the user", async () => {
+    test("Reject if the recipe id does not exist in the user's account", async () => {
         const reqBody = {
             "name": "NEW INGREDIENT",
             "quantity": 50,
             "ingredientGroup": "topping"
         }
 
-        const response = await supertest(app).put(`/api/recipes/${recipeId}/ingredients/${ingredientIds[otherRecipeId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${otherRecipeId}/ingredients/${ingredientIds[otherRecipeId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
 
-        expect(response.statusCode).toEqual(403)
+        expect(response.statusCode).toEqual(404)
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${otherRecipeId}' in your account`)
     })
     
     test("Reject if the ingredient id does not exist", async () => {
@@ -422,7 +422,7 @@ describe("PUT /api/recipes/:recipeId/ingredients", () => {
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no ingredient with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no ingredient with the id: '9999' in your account`)
     })
 })
 
@@ -448,11 +448,11 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
         const response = await supertest(app).delete(`/api/recipes/${otherRecipeId}/ingredients/${ingredientIds[otherRecipeId][0]}`)
         .auth(token, { type: 'bearer' })
 
-        expect(response.statusCode).toEqual(403)
+        expect(response.statusCode).toEqual(404)
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${otherRecipeId}' in your account`)
     })
     
     test("Reject if the ingredient id does not exist", async () => {
@@ -463,6 +463,6 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no ingredient with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no ingredient with the id: '9999' in your account`)
     })
 })

@@ -6,11 +6,11 @@
     "author": "Jayden Briffa",
     "scripts": {
         "start": "nodemon server.js",
-        "dev": "nodemon server.js",
+        "dev": "set NODE_ENV=dev&& nodemon server.js",
         "serve": "node server.js",
         "resetdb": "cmd /c \"mysql -u root -p calorie_counter_data < db_current.sql\"",
         "restart": "npm run resetdb && nodenon server.js",
-        "test": "set NODE_ENV=test && set NODE_OPTIONS=--experimental-vm-modules && jest --runInBand"
+        "test": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && jest --runInBand"
     },
     "dependencies": {
         "@google-cloud/cloud-sql-connector": "^1.7.0",
@@ -28,8 +28,5 @@
         "nodemon": "^3.1.10",
         "jest": "", 
         "supertest": ""
-    },
-    "jest": {
-        "testEnvironment": "node"
     }
 }

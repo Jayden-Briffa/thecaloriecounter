@@ -38,14 +38,14 @@ beforeEach(async () => {
     otherUserId = result.insertId
 })
 
-describe("POST /api/recipe", () => {
+describe("POST /api/recipes", () => {
     test("Create and return a new recipe", async () => {
         const reqBody = {
             "name": "Crumble",
             "instructions": "My Instructs",
-            "measureQuantity": "1",
+            "measure_quantity": "1",
             "units": "servings",
-            "makesQuantity": "8",
+            "makes_quantity": "8",
         }
 
         const response = await supertest(app).post("/api/recipes")
@@ -59,9 +59,9 @@ describe("POST /api/recipe", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT),
             "instructions": "a".repeat(MAXLEN_TEXT),
-            "measureQuantity": MAXVAL_UINT,
+            "measure_quantity": MAXVAL_UINT,
             "units": "a".repeat(MAXLEN_TINYTEXT),
-            "makesQuantity": MAXVAL_UINT,
+            "makes_quantity": MAXVAL_UINT,
         }
 
         const response = await supertest(app).post("/api/recipes")
@@ -73,11 +73,11 @@ describe("POST /api/recipe", () => {
 
     test("Create and return a new recipe (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(3),
+            "name": "a".repeat(4),
             "instructions": "",
-            "measureQuantity": 0,
+            "measure_quantity": 0,
             "units": "",
-            "makesQuantity": 0,
+            "makes_quantity": 0,
         }
 
         const response = await supertest(app).post("/api/recipes")
@@ -91,9 +91,9 @@ describe("POST /api/recipe", () => {
         const reqBody = {
             "name": "",
             "instructions": "",
-            "measureQuantity": "",
+            "measure_quantity": "",
             "units": "",
-            "makesQuantity": "",
+            "makes_quantity": "",
         }
 
         const requiredFields = ["name"]
@@ -109,12 +109,12 @@ describe("POST /api/recipe", () => {
         const reqBody = {
             "name": "apples1",
             "instructions": "apples2",
-            "measureQuantity": "apples3",
+            "measure_quantity": "apples3",
             "units": "apples4",
-            "makesQuantity": "apples5",
+            "makes_quantity": "apples5",
         }
 
-        const intFields = ["measureQuantity", "makesQuantity"]
+        const intFields = ["measure_quantity", "makes_quantity"]
 
         const response = await supertest(app).post("/api/recipes")
         .auth(token, { type: 'bearer' })
@@ -125,14 +125,14 @@ describe("POST /api/recipe", () => {
 
     test("Reject when given invalid fields (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(2),
+            "name": "a".repeat(3),
             "instructions": "",
-            "measureQuantity": -1,
+            "measure_quantity": -1,
             "units": "",
-            "makesQuantity": -1,
+            "makes_quantity": -1,
         }
 
-        const min0Fields = ["measureQuantity", "makesQuantity"]
+        const min0Fields = ["measure_quantity", "makes_quantity"]
         const nameField = ["name"]
 
         const response = await supertest(app).post("/api/recipes")
@@ -140,19 +140,19 @@ describe("POST /api/recipe", () => {
         .send(reqBody)
         
         checkForErrorInFields(reqBody, response, min0Fields, "must be greater than or equal to 0")
-        checkForErrorInFields(reqBody, response, nameField, `must be at least 2 characters long`)
+        checkForErrorInFields(reqBody, response, nameField, `must be at least 4 characters long`)
     })
 
     test("Reject when given invalid fields (upper boundaries)", async () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT + 1),
             "instructions": "a".repeat(MAXLEN_TEXT + 1),
-            "measureQuantity": MAXVAL_UINT + 1,
+            "measure_quantity": MAXVAL_UINT + 1,
             "units": "a".repeat(MAXLEN_TINYTEXT + 1),
-            "makesQuantity": MAXVAL_UINT + 1,
+            "makes_quantity": MAXVAL_UINT + 1,
         }
 
-        const standardUintFields = ["measureQuantity", "makesQuantity"]
+        const standardUintFields = ["measure_quantity", "makes_quantity"]
         const tinyTextFields = ["name", "units"]
         const standardTextFields = ["instructions"]
 
@@ -166,14 +166,14 @@ describe("POST /api/recipe", () => {
     })
 })
 
-describe("GET /api/recipe", () => {
+describe("GET /api/recipes", () => {
     test("Return all recipes associated with the user", async () => {
         const recipeIds = await createDummyRecipes(pool, {
             [userId]: 2,
             [otherUserId]: 1
         })
 
-        const response = await supertest(app).get("/api/recipe")
+        const response = await supertest(app).get("/api/recipes")
         .auth(token, { type: 'bearer' })
         .send()
 
@@ -195,7 +195,7 @@ describe("GET /api/recipe", () => {
             [otherUserId]: 1
         })
         
-        const response = await supertest(app).get(`/api/recipe/${recipeIds[userId][1]}`)
+        const response = await supertest(app).get(`/api/recipes/${recipeIds[userId][1]}`)
         .auth(token, { type: 'bearer' })
         .send()
         
@@ -203,11 +203,11 @@ describe("GET /api/recipe", () => {
         
         const resBody = response.body
         expect(resBody).toHaveProperty("Recipe")
-        expect(resBody.Recipes[0].id).toEqual(recipeIds[userId][1])
+        expect(resBody.Recipe.id).toEqual(recipeIds[userId][1])
     })
 
     test("Return [] if the user has no recipes", async () => {
-        const response = await supertest(app).get("/api/recipe")
+        const response = await supertest(app).get("/api/recipes")
         .auth(token, { type: 'bearer' })
 
         expect(response.statusCode).toEqual(200)
@@ -218,36 +218,24 @@ describe("GET /api/recipe", () => {
     })
     
     
-    test("Reject if the recipe id does not belong to the user", async () => {
+    test("Reject if the recipe id does not exist in the user's account", async () => {
         const recipeIds = await createDummyRecipes(pool, {
             [userId]: 2,
             [otherUserId]: 1
         })
-        const response = await supertest(app).get(`/api/recipe/${recipeIds[otherUserId][0]}`)
-        .auth(token, { type: 'bearer' })
-
-        expect(response.statusCode).toEqual(403)
-
-        const resBody = response.body
-        expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
-    })
-    
-    test("Reject if the recipe id does not exist", async () => {
-        const response = await supertest(app).get(`/api/recipe/9999`)
+        const response = await supertest(app).get(`/api/recipes/${recipeIds[otherUserId][0]}`)
         .auth(token, { type: 'bearer' })
 
         expect(response.statusCode).toEqual(404)
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no recipe with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${recipeIds[otherUserId][0]}' in your account`)
     })
-
     // No pagination for now at least
 })
 
-describe("PUT /api/recipe", () => {
+describe("PUT /api/recipes", () => {
 
     let recipeIds;
     beforeEach(async () => {
@@ -261,12 +249,12 @@ describe("PUT /api/recipe", () => {
         const reqBody = {
             "name": "Apple Crumble",
             "instructions": "New Instructs",
-            "measureQuantity": "100",
+            "measure_quantity": "100",
             "units": "grams",
-            "makesQuantity": "800",
+            "makes_quantity": "800",
         }
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -277,12 +265,12 @@ describe("PUT /api/recipe", () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT),
             "instructions": "a".repeat(MAXLEN_TEXT),
-            "measureQuantity": MAXVAL_UINT,
+            "measure_quantity": MAXVAL_UINT,
             "units": "a".repeat(MAXLEN_TINYTEXT),
-            "makesQuantity": MAXVAL_UINT,
+            "makes_quantity": MAXVAL_UINT,
         }
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -291,14 +279,14 @@ describe("PUT /api/recipe", () => {
 
     test("Replace all attributes and return recipe (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(3),
+            "name": "a".repeat(4),
             "instructions": "",
-            "measureQuantity": 0,
+            "measure_quantity": 0,
             "units": "",
-            "makesQuantity": 0,
+            "makes_quantity": 0,
         }
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -309,14 +297,14 @@ describe("PUT /api/recipe", () => {
         const reqBody = {
             "name": "",
             "instructions": "",
-            "measureQuantity": "",
+            "measure_quantity": "",
             "units": "",
-            "makesQuantity": "",
+            "makes_quantity": "",
         }
 
         const requiredFields = ["name"]
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -327,14 +315,14 @@ describe("PUT /api/recipe", () => {
         const reqBody = {
             "name": "apples1",
             "instructions": "apples2",
-            "measureQuantity": "apples3",
+            "measure_quantity": "apples3",
             "units": "apples4",
-            "makesQuantity": "apples5",
+            "makes_quantity": "apples5",
         }
 
-        const intFields = ["measureQuantity", "makesQuantity"]
+        const intFields = ["measure_quantity", "makes_quantity"]
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -343,38 +331,38 @@ describe("PUT /api/recipe", () => {
 
     test("Reject when given invalid fields (lower boundaries)", async () => {
         const reqBody = {
-            "name": "a".repeat(2),
+            "name": "a".repeat(3),
             "instructions": "",
-            "measureQuantity": -1,
+            "measure_quantity": -1,
             "units": "",
-            "makesQuantity": -1,
+            "makes_quantity": -1,
         }
 
-        const min0Fields = ["measureQuantity", "makesQuantity"]
+        const min0Fields = ["measure_quantity", "makes_quantity"]
         const nameField = ["name"]
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
         checkForErrorInFields(reqBody, response, min0Fields, "must be greater than or equal to 0")
-        checkForErrorInFields(reqBody, response, nameField, `must be at least 3 characters long`)
+        checkForErrorInFields(reqBody, response, nameField, `must be at least 4 characters long`)
     })
 
     test("Reject when given invalid fields (upper boundaries)", async () => {
         const reqBody = {
             "name": "a".repeat(MAXLEN_TINYTEXT + 1),
             "instructions": "a".repeat(MAXLEN_TEXT + 1),
-            "measureQuantity": MAXVAL_UINT + 1,
+            "measure_quantity": MAXVAL_UINT + 1,
             "units": "a".repeat(MAXLEN_TINYTEXT + 1),
-            "makesQuantity": MAXVAL_UINT + 1,
+            "makes_quantity": MAXVAL_UINT + 1,
         }
 
-        const standardUintFields = ["measureQuantity", "makesQuantity"]
+        const standardUintFields = ["measure_quantity", "makes_quantity"]
         const tinyTextFields = ["name", "units"]
         const standardTextFields = ["instructions"]
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
         
@@ -383,36 +371,16 @@ describe("PUT /api/recipe", () => {
         checkForErrorInFields(reqBody, response, standardTextFields, `must not be longer than ${MAXLEN_TEXT} characters long`)
     })
 
-    test("Reject if the recipe id does not belong to the user", async () => {
+    test("Reject if the recipe id does not exist in the user's account", async () => {
         const reqBody = {
             "name": "Apple Crumble",
             "instructions": "New Instructs",
-            "measureQuantity": "100",
+            "measure_quantity": "100",
             "units": "grams",
-            "makesQuantity": "800",
+            "makes_quantity": "800",
         }
 
-        const response = await supertest(app).put(`/api/recipe/${recipeIds[otherUserId][0]}`)
-        .auth(token, { type: 'bearer' })
-        .send(reqBody)
-
-        expect(response.statusCode).toEqual(403)
-
-        const resBody = response.body
-        expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
-    })
-    
-    test("Reject if the recipe id does not exist", async () => {
-        const reqBody = {
-            "name": "Apple Crumble",
-            "instructions": "New Instructs",
-            "measureQuantity": "100",
-            "units": "grams",
-            "makesQuantity": "800",
-        }
-
-        const response = await supertest(app).put(`/api/recipe/9999`)
+        const response = await supertest(app).put(`/api/recipes/${recipeIds[otherUserId][0]}`)
         .auth(token, { type: 'bearer' })
         .send(reqBody)
 
@@ -420,11 +388,31 @@ describe("PUT /api/recipe", () => {
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no recipe with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${recipeIds[otherUserId][0]}' in your account`)
+    })
+    
+    test("Reject if the recipe id does not exist", async () => {
+        const reqBody = {
+            "name": "Apple Crumble",
+            "instructions": "New Instructs",
+            "measure_quantity": "100",
+            "units": "grams",
+            "makes_quantity": "800",
+        }
+
+        const response = await supertest(app).put(`/api/recipes/9999`)
+        .auth(token, { type: 'bearer' })
+        .send(reqBody)
+
+        expect(response.statusCode).toEqual(404)
+
+        const resBody = response.body
+        expect(resBody).toHaveProperty("detail")
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '9999' in your account`)
     })
 })
 
-describe("DELETE /api/recipe", () => { 
+describe("DELETE /api/recipes", () => { 
     let recipeIds;
     beforeEach(async () => {
         recipeIds = await createDummyRecipes(pool, {
@@ -434,7 +422,7 @@ describe("DELETE /api/recipe", () => {
     })
 
     test("Delete recipe", async () => {
-        const response = await supertest(app).delete(`/api/recipe/${recipeIds[userId][0]}`)
+        const response = await supertest(app).delete(`/api/recipes/${recipeIds[userId][0]}`)
         .auth(token, { type: 'bearer' })
         expect(response.statusCode).toEqual(204)
 
@@ -443,24 +431,14 @@ describe("DELETE /api/recipe", () => {
     })
 
     test("Reject if the recipe id does not belong to the user", async () => {
-        const response = await supertest(app).delete(`/api/recipe/${recipeIds[otherUserId][0]}`)
-        .auth(token, { type: 'bearer' })
-
-        expect(response.statusCode).toEqual(403)
-
-        const resBody = response.body
-        expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual("You cannot access resources you did not create")
-    })
-    
-    test("Reject if the recipe id does not exist", async () => {
-        const response = await supertest(app).delete(`/api/recipe/9999`)
+        console.log(`/api/recipes/${recipeIds[otherUserId][0]}`)
+        const response = await supertest(app).delete(`/api/recipes/${recipeIds[otherUserId][0]}`)
         .auth(token, { type: 'bearer' })
 
         expect(response.statusCode).toEqual(404)
 
         const resBody = response.body
         expect(resBody).toHaveProperty("detail")
-        expect(resBody.detail).toEqual(`There is no recipe with the id '9999'`)
+        expect(resBody.detail).toEqual(`There is no recipe with the id: '${recipeIds[otherUserId][0]}' in your account`)
     })
 })

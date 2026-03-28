@@ -3,11 +3,21 @@ export default function postPutExpects(reqBody, response, objectKeyName, expectR
     
     const resBody = response.body
     expect(resBody).toHaveProperty(objectKeyName)
-    for (const [key, val] of Object.entries(reqBody)){
+    for (let [key, val] of Object.entries(reqBody)){
         let resVal =  resBody[objectKeyName][key]
         if (key == "date"){
             resVal = val.split("T")[0]
         }
-        expect(val).toEqual(resVal)
+        
+        if (val === ""){
+            val = null
+        }
+
+        const numberVal = Number(val)
+        if (!Number.isNaN(numberVal) && val !== null){
+            val = Number(val)
+        }
+
+        expect([key, resVal]).toEqual([key, val])
     }
 }

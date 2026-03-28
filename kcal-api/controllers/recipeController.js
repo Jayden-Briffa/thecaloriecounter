@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 import * as model from '../models/recipeModel.js';
 import { validateQueryOrderedBy } from '../utils/validateQueryOrderedBy.js';
 
@@ -13,9 +14,9 @@ export const getRecipe = async (req, res, next) => {
         } // else continue as normal
 
         if (req.locals.ids){
-            rows = await model.selectRecipe({userId: req.locals.user.id, id: req.locals.ids});
+            rows = await model.selectRecipe({user_id: req.locals.user.id, id: req.locals.ids});
         } else {
-            rows = await model.selectRecipe({userId: req.locals.user.id, orderedBy: req.query.orderedBy});
+            rows = await model.selectRecipe({user_id: req.locals.user.id, orderedBy: req.query.orderedBy});
         }
         
         res.status(200).json({Recipes: rows});
@@ -27,18 +28,16 @@ export const getRecipe = async (req, res, next) => {
 
 export const paramRecipeRecipeId = async (req, res, next, id) => {
     try {
-        const row = await model.selectRecipe({id});
+        const row = await model.selectRecipe({id, user_id: req.locals.user.id});
 
-        if (!row) {
-            return res.status(404).send(`Recipe not found with id: ${id}`);
-        } 
-
-        req.foodItem = row;
-
-        if (req.foodItem.user_id !== req.locals.user.id){
-            return res.status(403).json({errors: {forbidden: "You cannot do anything to a food item you didn't add"}})
+        if (row == undefined) {
+            return next(new ResourceNotFoundError({
+                resourceType: "recipe", 
+                resourceId: id
+            }));
         }
-
+        
+        req.recipe = row;
         next();
     } catch (err) {
         next(err);
@@ -46,17 +45,18 @@ export const paramRecipeRecipeId = async (req, res, next, id) => {
 }
 
 export const getRecipeRecipeId = (req, res, next) => {
-    res.status(200).json({Recipe: req.foodItem});
+    return res.status(200).json({Recipe: req.recipe});
 }
 
 export const postRecipe = async (req, res, next) => {
     const recipe = req.body;
-    recipe.userId = req.locals.user.id
+    recipe.user_id = req.locals.user.id
+
     try {
         const result = await model.insertRecipe(recipe);
 
-        const row = await model.selectRecipe({id: result.insertId});
-        res.status(201).json({Recipe: row});
+        const row = await model.selectRecipe({id: result.insertId, user_id: req.locals.user.id});
+        return res.status(201).json({Recipe: row});
     } catch (err) {
         next(err);
     }
@@ -69,7 +69,7 @@ export const putRecipeRecipeId = async (req, res, next) => {
     try {
         await model.updateRecipe(recipe, id);
 
-        const row = await model.selectRecipe(id);
+        const row = await model.selectRecipe({id, user_id: req.locals.user.id});
         res.status(200).json({Recipe: row});
     } catch (err) {
         next(err);

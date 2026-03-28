@@ -5,19 +5,11 @@ async function executeSqlFile(filePath, pool, defaultDbName=null, testDbName=nul
 
     let cleaned = sql
     if (defaultDbName && testDbName){
-        cleaned = cleaned.replace(defaultDbName, testDbName)
+        console.log("Replacing:", defaultDbName, testDbName)
+        cleaned = cleaned.replaceAll(defaultDbName, testDbName)
     }
     
-    // Split by semicolon, trim, and filter empty
-    const statements = cleaned
-    .split(';')
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
-    
-    for (const statement of statements) {
-        await pool.query(statement);
-    }
-    console.log(`✓ Executed ${statements.length} statements`);
+    await pool.query(cleaned);
 }
 
 export default executeSqlFile

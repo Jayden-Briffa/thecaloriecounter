@@ -1,4 +1,4 @@
-import { RfcError } from "./RfcError";
+import { RfcError } from "./RfcError.js";
 
 export class ErrorTemplate extends RfcError{
     constructor(

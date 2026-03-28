@@ -10,11 +10,11 @@ recipeRouter.param('recipeId', controller.paramRecipeRecipeId)
 recipeRouter.use('/:recipeId/ingredients', ingredientRouter)
 
 recipeRouter.get('/', controller.getRecipe)
-recipeRouter.get('/:recipeId', controller.getRecipe)
+recipeRouter.get('/:recipeId', controller.getRecipeRecipeId)
 
 recipeRouter.post('/', validateRecipe, controller.postRecipe);
 
-recipeRouter.put('/:recipeId', controller.putRecipeRecipeId)
+recipeRouter.put('/:recipeId', validateRecipe, controller.putRecipeRecipeId)
 
 recipeRouter.delete('/:recipeId', controller.deleteRecipeRecipeId)
 

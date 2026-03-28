@@ -9,7 +9,7 @@ export class InvalidFieldsError extends RfcError{
         }) {
             
         super(`Invalid field values were given`, { 
-            title: "Invalid fields", 
+            title: "invalid_fields", 
             status: 400,
             cause
         });

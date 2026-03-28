@@ -7,6 +7,8 @@ const MAXVAL_UTINYINT = 255
 const MAXVAL_USMALLINT = 32767
 const MAXVAL_UINT = 2147483647
 
+const isNotProvided = field => field === undefined || field === "" || field === null
+
 const msgMustProvide = field => {return `${field} must be provided`}
 const msgMinLength = (field, numChars) => {return `${field} must be at least ${numChars} characters long`}
 const msgMaxLength = (field, numChars) => {return `${field} must not be longer than ${numChars} characters long`}
@@ -23,29 +25,29 @@ export function validateRecipe(req, res, next){
 
     // name
     currentField = "name"
-    if (recipe[currentField] === undefined){
+    if (isNotProvided(recipe[currentField])){
         appendOrCreate(invalidFields, currentField, msgMustProvide(currentField))
     } else {
         if (recipe[currentField].length < 4){
             appendOrCreate(invalidFields, currentField, msgMinLength(currentField, 4))
         }
-
+        
         if (recipe[currentField].length > MAXLEN_TINYTEXT){
-            appendOrCreate(invalidFields, currentField, msgMinLength(currentField, 4))
+            appendOrCreate(invalidFields, currentField, msgMaxLength(currentField, MAXLEN_TINYTEXT))
         }
     }
-
+    
     // instructions
     currentField = "instructions"
-    if (recipe[currentField] !== undefined){
+    if (!isNotProvided(recipe[currentField])){
         if (recipe[currentField].length > MAXLEN_TEXT){
             appendOrCreate(invalidFields, currentField, msgMaxLength(currentField, MAXLEN_TEXT))
         }
     }
 
-    // makesQuantity
-    currentField = "makesQuantity";
-    if (recipe[currentField] !== undefined) {
+    // makes_quantity
+    currentField = "makes_quantity";
+    if (!isNotProvided(recipe[currentField])) {
         if (!isInt(recipe[currentField].toString())){
             appendOrCreate(invalidFields, currentField, msgMustBeInt(currentField))
         } 
@@ -59,9 +61,9 @@ export function validateRecipe(req, res, next){
         }
     }
 
-    // measureQuantity
-    currentField = "measureQuantity"
-    if (recipe[currentField] !== undefined) {
+    // measure_quantity
+    currentField = "measure_quantity"
+    if (!isNotProvided(recipe[currentField])) {
         if (!isInt(recipe[currentField].toString())){
             appendOrCreate(invalidFields, currentField, msgMustBeInt(currentField))
         } 
@@ -77,7 +79,7 @@ export function validateRecipe(req, res, next){
 
     // units
     currentField = "units";
-    if (recipe[currentField] !== undefined) {
+    if (!isNotProvided(recipe[currentField])) {
         if (recipe[currentField].length > MAXLEN_TINYTEXT) {
             appendOrCreate(invalidFields, currentField, msgMaxLength(currentField, MAXLEN_TINYTEXT))
         }

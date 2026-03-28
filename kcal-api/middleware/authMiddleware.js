@@ -15,7 +15,7 @@ export async function checkuser(req, res, next){
 
             user = await model.selectUserById(result.id);
 
-            if (user !== undefined){
+            if (user !== undefined && Object.keys(user).length !== 0){
                 req.locals.user = user;
             } else {
                 req.locals.user = null;

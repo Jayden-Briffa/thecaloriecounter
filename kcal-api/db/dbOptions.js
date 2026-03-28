@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 const clientOpts = {
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT
@@ -8,4 +11,4 @@ const mySqlOpts = {
     password: process.env.MYSQL_PASSWORD,
 }
 
-export default { clientOpts, mySqlOpts }
+export { clientOpts, mySqlOpts }

@@ -1,29 +1,28 @@
 import { pool } from "../db/index.js";
 
-export const selectRecipe = async ({ userId = null, id = null, orderedBy = null } = {}) => {
+export const selectRecipe = async ({ user_id = null, id = null, orderedBy = null } = {}) => {
     const orderClause = orderedBy ? ` ORDER BY ${orderedBy}` : "";
-    const usersCondition = "(user_id = ? OR user_id = -1)"
+    const usersCondition = "(user_id = ?)"
 
     let result;
     if (Array.isArray(id)) {
         const placeholders = id.map(() => "?").join(", ");
-
         [result] = await pool.query(
             `SELECT * FROM Recipes WHERE ${usersCondition} AND id IN (${placeholders})${orderClause}`,
-            [userId, ...id]
+            [user_id, ...id]
         );
     } else if (id !== null) {
         [[result]] = await pool.query(
             `SELECT * FROM Recipes WHERE ${usersCondition} AND id = ?`,
-            [userId, id]
+            [user_id, id]
         );
-    } else if (userId !== null) {
+    } else if (user_id !== null) {
         [result] = await pool.query(
             `SELECT * FROM Recipes WHERE ${usersCondition}${orderClause}`,
-            [userId]
+            [user_id]
         );
     } else {
-        throw Error("Cannot complete query: No userId or id provided");
+        throw Error("Cannot complete query: No user_id or id provided");
     }
 
     return result;
@@ -40,11 +39,11 @@ export const insertRecipe = async (recipe) => {
             units
         ) VALUES (?, ?, ?, ?, ?, ?)`,
         [
-            recipe.userId,
+            recipe.user_id,
             recipe.name,
             recipe.instructions,
-            recipe.makesQuantity,
-            recipe.measureQuantity,
+            recipe.makes_quantity,
+            recipe.measure_quantity,
             recipe.units
         ]
     );
@@ -65,8 +64,8 @@ export const updateRecipe = async (recipe, id) => {
         [
             recipe.name,
             recipe.instructions,
-            recipe.makesQuantity,
-            recipe.measureQuantity,
+            recipe.makes_quantity,
+            recipe.measure_quantity,
             recipe.units,
             id
         ]
@@ -75,7 +74,7 @@ export const updateRecipe = async (recipe, id) => {
     return result;
 };
 
-export const deleteRecipe = async ({ id = null, userId = null }) => {
+export const deleteRecipe = async ({ id = null, user_id = null }) => {
     let result;
 
     if (id !== null) {
@@ -83,13 +82,13 @@ export const deleteRecipe = async ({ id = null, userId = null }) => {
             `DELETE FROM Recipes WHERE id = ?`,
             [id]
         );
-    } else if (userId !== null) {
+    } else if (user_id !== null) {
         [result] = await pool.query(
             `DELETE FROM Recipes WHERE user_id = ?`,
-            [userId]
+            [user_id]
         );
     } else {
-        throw new Error("No id or userId provided");
+        throw new Error("No id or user_id provided");
     }
 
     return result;
