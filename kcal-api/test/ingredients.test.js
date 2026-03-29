@@ -457,7 +457,6 @@ describe("DELETE /api/recipes/:recipeId/ingredients", () => {
     })
 
     test("Delete ingredient", async () => {
-        console.log(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         const response = await supertest(app).delete(`/api/recipes/${recipeId}/ingredients/${ingredientIds[recipeId][0]}`)
         .auth(token, { type: 'bearer' })
         expect(response.statusCode).toEqual(204)

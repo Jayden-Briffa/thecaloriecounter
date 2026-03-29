@@ -1,6 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `calorie_counter_data` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `calorie_counter_data`;
-
 -- MySQL dump 10.13  Distrib 8.0.45, for Linux (x86_64)
 --
 -- Host: localhost    Database: calorie_counter_data
@@ -95,7 +92,7 @@ CREATE TABLE `Users` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE versions (
+CREATE TABLE Versions (
   id INT NOT NULL,
   description TINYTEXT,
   checksum VARCHAR(32),

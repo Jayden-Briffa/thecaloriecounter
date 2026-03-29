@@ -1,9 +1,11 @@
-import executeSqlFile from "../executeSqlFile.js";
 import { clientOpts, mySqlOpts } from "../db/dbOptions.js";
-import mysql from 'mysql2/promise';
+import { migrate } from "../migration-tool/migrate.js";
 
 export default async function globalSetup() {
-    const pool = await mysql.createPool({...clientOpts, ...mySqlOpts, multipleStatements: true});
-    await executeSqlFile("./dbSchema.sql", pool, process.env.MYSQL_DATABASE, process.env.MYSQL_TEST_DATABASE);
-    await pool.end()
+    await migrate({
+        dbName: `\`${process.env.MYSQL_TEST_DATABASE}\``,
+        poolOptions: {...mySqlOpts, ...clientOpts},
+        nukeDb: true,
+        noLog: true
+    })
 }
