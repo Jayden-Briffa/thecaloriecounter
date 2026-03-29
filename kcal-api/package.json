@@ -10,6 +10,7 @@
         "serve": "node server.js",
         "resetdb": "cmd /c \"mysql -u root -p calorie_counter_data < db_current.sql\"",
         "restart": "npm run resetdb && nodenon server.js",
+        "migrate": "node migration-tool/migrate.js",
         "test": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && jest --runInBand",
         "testnolog": "set NODE_ENV=test&& set NODE_OPTIONS=--experimental-vm-modules && set NODE_NOLOG=true&& jest --runInBand"
     },
